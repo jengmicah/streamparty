@@ -1,0 +1,52 @@
+.form {
+  display: flex;
+  /* border-top: 2px solid #d3d3d3; */
+}
+
+.input {
+  border: none;
+  border-radius: 30px;
+  padding: 0 5%;
+  margin: 10px;
+  width: 80%;
+  font-size: 1.2em;
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0,0,0,0.7);
+}
+
+.input::placeholder {
+  color: rgba(0,0,0,0.3);
+}
+.input::-webkit-input-placeholder,
+.input::-moz-placeholder,
+.input::-ms-input-placeholder,
+.input:-ms-input-placeholder,
+.input:-moz-placeholder {
+  color: orange;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+#sendButton {
+  color: #fff !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  /* background: #43A3F0; */
+  background: #fff;
+  padding: 15px;
+  display: inline-block;
+  border: none;
+  /* width: 20%; */
+}
+#sendIcon {
+  color: #bfbfbf;
+  transition: 0.1s;
+}
+.readyToSend {
+  color: #43A3F0 !important;
+  cursor: pointer;
+  transition: 0.1s;
+}

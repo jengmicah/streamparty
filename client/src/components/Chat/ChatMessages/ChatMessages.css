@@ -1,0 +1,11 @@
+.messages {
+  /* padding: 5% 0; */
+  overflow: auto;
+  flex: auto;
+}
+.messageOuterContainer:last-child {
+  margin-bottom: 20px;
+}
+.messageOuterContainer:first-child {
+  margin-top: 20px;
+}
