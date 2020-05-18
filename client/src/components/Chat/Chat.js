@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import queryString from 'query-string';
-// import io from "socket.io-client";
 
 import ChatInfo from './ChatInfo/ChatInfo';
 import ChatMessages from './ChatMessages/ChatMessages';
@@ -28,8 +26,9 @@ const Chat = ({ name, room }) => {
 
     const sendMessage = (event) => {
         event.preventDefault();
-        if (message.trim().length > 0) {
-            sckt.socket.emit('sendMessage', message, () => setMessage(''));
+        let trimmedMessage = message.trim();
+        if (trimmedMessage.length > 0) {
+            sckt.socket.emit('sendMessage', trimmedMessage, () => setMessage(''));
         }
     }
 

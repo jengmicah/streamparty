@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import './Join.css';
 
-const JoinRoom = () => {
-    const [name, setName] = useState('');
+const JoinRoom = ({ history }) => {
     const [room, setRoom] = useState('');
 
-    const handleLinkClick = (event) => {
-        if (!room) {
-            event.preventDefault();
+    const joinRoom = () => {
+        let trimmedRoom = room.trim();
+        if (trimmedRoom.length > 0) {
+            history.push(`/room/${trimmedRoom}`);
         }
-    }
+    };
 
     return (
         <div className='joinOuterContainer'>
             <div className='joinInnerContainer'>
                 <h1 className='heading'>Join a Room</h1>
-                {/* <div><input placeholder='Name' className='joinInput' type='text' onChange={(event) => setName(event.target.value)} /></div> */}
-                {/* <div><input placeholder='Room' className='joinInput mt-20' type='text' onChange={(event) => setRoom(event.target.value)} /></div> */}
-                <div><input placeholder='Room Name' className='joinInput' type='text' onChange={(event) => setRoom(event.target.value)} /></div>
-                {/* <Link onClick={event => handleLinkClick(event)} to={`/room?name=${name}&room=${room}`}> */}
-                <Link onClick={event => handleLinkClick(event)} to={{pathname: `/room/${room}`, room: room, name: name}}>
-                    <button className='button mt-20' type='submit'>Join Room</button>
-                </Link>
+                <div>
+                    <input
+                        autoFocus
+                        placeholder='Room Name'
+                        className='joinInput'
+                        type='text'
+                        onChange={(event) => setRoom(event.target.value)}
+                        onKeyPress={(event) => event.key === 'Enter' ? joinRoom() : null}
+                    />
+                </div>
+                <button className='button mt-20' onClick={() => joinRoom()}>Join</button>
             </div>
         </div>
     )
