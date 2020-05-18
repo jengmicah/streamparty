@@ -35,7 +35,7 @@ const Room = ({ location }) => {
                     <Chat name={name} room={room} />
                 </div>
             ) : (
-                <JoinUser joinRoomAsUser={joinRoomAsUser} />
+                <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
             )
     );
 }

@@ -4,11 +4,5 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: #F0F0F0;
-}
-
-@media (min-width: 320px) and (max-width: 480px) {
-  .outerContainer {
-    height: 100%;
-  }
+  background-color: #f0f0f0;
 }

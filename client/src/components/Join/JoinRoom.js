@@ -26,7 +26,12 @@ const JoinRoom = ({ history }) => {
                         onKeyPress={(event) => event.key === 'Enter' ? joinRoom() : null}
                     />
                 </div>
-                <button className='button mt-20' onClick={() => joinRoom()}>Join</button>
+                <button
+                    className='button mt-20'
+                    onClick={() => joinRoom()}
+                >
+                    Join
+                </button>
             </div>
         </div>
     )

@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 
 import '../Join/Join.css';
 
-const JoinUser = ({ joinRoomAsUser }) => {
+const JoinUser = ({ room, joinRoomAsUser }) => {
     const [name, setName] = useState('');
 
     return (
         <div className='joinOuterContainer'>
             <div className='joinInnerContainer'>
                 <h1 className='heading'>Make a Username</h1>
+                <p><strong>Room:</strong> {room}</p>
                 <div>
                     <input
                         autoFocus
