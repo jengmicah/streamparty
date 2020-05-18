@@ -1,7 +1,7 @@
 import React from "react";
 import './Video.css';
 
-const Video = ({ location, ENDPOINT }) => {
+const Video = ({ location }) => {
 
     return (
         <div className="videoContainer">

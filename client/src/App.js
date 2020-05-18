@@ -2,8 +2,8 @@ import React from 'react';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Join from './components/Join/Join';
-import Watch from './components/Watch/Watch';
+import JoinRoom from './components/Join/JoinRoom';
+import Room from './components/Room/Room';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPaperPlane, faUsers, faTimes, faCircle } from '@fortawesome/free-solid-svg-icons'
@@ -12,8 +12,8 @@ library.add(faPaperPlane, faUsers, faTimes, faCircle);
 
 const App = () => (
     <Router>
-        <Route path="/" exact component={Join} />
-        <Route path="/watch" component={Watch} />
+        <Route path="/" exact component={JoinRoom} />
+        <Route path="/room" component={Room} />
     </Router>
 );
 
