@@ -6,9 +6,9 @@ import Join from './components/Join/Join';
 import Watch from './components/Watch/Watch';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPaperPlane, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faUsers, faTimes, faCircle } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faPaperPlane, faUsers);
+library.add(faPaperPlane, faUsers, faTimes, faCircle);
 
 const App = () => (
     <Router>

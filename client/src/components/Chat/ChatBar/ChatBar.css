@@ -2,14 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #43A3F0;
+  background: #43a3f0;
   border-radius: 4px 4px 0 0;
   height: 60px;
   width: 100%;
 }
 
 .leftInnerContainer {
-  flex: 0.5;
+  flex: 0.8;
   display: flex;
   align-items: center;
   margin-left: 5%;
@@ -18,11 +18,23 @@
 
 .rightInnerContainer {
   display: flex;
-  flex: 0.5;
+  flex: 0.2;
   justify-content: flex-end;
   margin-right: 5%;
 }
-
 .onlineIcon {
-  margin-right: 5%;
+  color: #69F0AE;
+  margin: 0 5%;
+}
+.closeIcon, .usersIcon {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 5%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.closeIcon:hover, .usersIcon:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+.closeIcon:active, .usersIcon:active {
+  color: rgba(255, 255, 255);
 }

@@ -43,10 +43,9 @@ select:focus {
 }
 #sendIcon {
   color: #bfbfbf;
-  transition: 0.1s;
+  transition: all 0.1s;
 }
 .readyToSend {
   color: #43A3F0 !important;
   cursor: pointer;
-  transition: 0.1s;
 }

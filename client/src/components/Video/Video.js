@@ -5,7 +5,7 @@ const Video = ({ location, ENDPOINT }) => {
 
     return (
         <div className="videoContainer">
-
+            <div id="videoPlayer"></div>
         </div>
     );
 }

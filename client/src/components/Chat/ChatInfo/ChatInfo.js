@@ -1,25 +1,25 @@
 import React from 'react';
 
-import onlineIcon from '../../../icons/onlineIcon.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './ChatInfo.css';
 
 const ChatInfo = ({ users }) => (
-  <div className="textContainer">
+  <div className="infoContainer" id="infoContainer">
     {
       users
         ? (
           <div>
-            {/* <h1>People currently watching:</h1> */}
+            <h2>Currently watching:</h2>
             <div className="activeContainer">
-              <h2>
+              <h3>
                 {users.map(({ name }) => (
                   <div key={name} className="activeItem">
                     {name}
-                    <img alt="Online Icon" src={onlineIcon} />
+                    <FontAwesomeIcon className="onlineIcon" size='xs' icon="circle" />
                   </div>
                 ))}
-              </h2>
+              </h3>
             </div>
           </div>
         )

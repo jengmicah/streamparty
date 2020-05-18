@@ -1,27 +1,24 @@
 import React from 'react';
 
-import closeIcon from '../../../icons/closeIcon.png';
-import onlineIcon from '../../../icons/onlineIcon.png';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './ChatBar.css';
 
 const ChatBar = ({ room, users }) => {
-    let send = document.getElementById('sendIcon');
+    let activeUsers = document.getElementById('infoContainer');
     const handleShowUsers = () => {
-        send.classList.toggle('showUsers');
+        activeUsers.classList.toggle('displayInfo');
     };
 
     return (
         <div className='infoBar'>
             <div className='leftInnerContainer'>
-                <img className='onlineIcon' src={onlineIcon} alt='online' />
+                <FontAwesomeIcon className="onlineIcon" size='xs' icon="circle" />
                 <h3>{room}</h3>
+                <FontAwesomeIcon className="usersIcon" onClick={(event) => handleShowUsers(event)} icon="users" />
             </div>
             <div className='rightInnerContainer'>
-                <FontAwesomeIcon onClick={(event) => handleShowUsers(event)} icon="users" />
-                <a href='/'><img src={closeIcon} alt='close' /></a>
+                <a href='/'><FontAwesomeIcon className="closeIcon" size='sm' icon="times" /></a>
             </div>
         </div>
     )
