@@ -5,7 +5,22 @@ import VideoPlayer from './VideoPlayer/VideoPlayer';
 import { sckt } from '../Socket';
 
 const Video = ({ name, room }) => {
-    const [player, setPlayer] = useState();
+    const [videoProps, setVideoProps] = useState({
+        url: "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+        // url: "https://vimeo.com/81633670"
+        playing: true,
+        playbackRate: 1.0,
+        seekTime: 23,
+        // loop: false,
+        // pip: false,
+        // controls: true,
+        // light: false,
+        // volume: 0.8,
+        // muted: false,
+        // played: 0,
+        // loaded: 0,
+        // duration: 0,
+    });
 
     const sendVideoState = ({ eventName, eventParams }) => {
         let params = {
@@ -19,17 +34,43 @@ const Video = ({ name, room }) => {
 
     useEffect(() => {
         sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams }) => {
-            // console.log(player);
-            // player.playVideo();
+            console.log(name, room, eventName, eventParams);
+            switch (eventName) {
+                case 'videoPlay':
+                    setVideoProps((prev) => ({ ...prev, playing: true }));
+                    break;
+                case 'videoPause':
+                    setVideoProps((prev) => ({ ...prev, playing: false }));
+                    break;
+                case 'videoSeek':
+                    // setVideoProps((prev) => ({ ...prev, seekTime: eventParams.currTime }));
+                    break;
+                case 'videoPlaybackRate':
+                    break;
+                default:
+                    break;
+            }
         });
     }, []);
+
+    const update = (paramsToChange) => {
+        setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
+    }
+    const changeStuff = () => {
+        setVideoProps((prev) => ({ ...prev, playing: !videoProps.playing }));
+    }
+
+    useEffect(() => {
+        console.log(videoProps.seekTime);
+    }, [videoProps.seekTime]);
 
     return (
         <div className="videoContainer">
             <VideoPlayer
-                videoId="A_kdC7m8Prs"
+                videoProps={videoProps}
                 sendVideoState={sendVideoState}
-                setPlayer={setPlayer}
+                update={update}
+                changeStuff={changeStuff}
             />
         </div>
     );

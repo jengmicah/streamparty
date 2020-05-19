@@ -49,20 +49,21 @@ io.on('connection', (socket) => {
     /** VIDEO STATE CHANGES */
     socket.on('sendVideoState', (params, callback) => {
         const { name, room, eventName, eventParams } = params;
-        io.to(room).emit('receiveVideoState', params);
+        socket.to(room).emit('receiveVideoState', params);
         let admin_msg;
         switch (eventName) {
             case 'videoPlay':
-                admin_msg = `${name} played the video.`; break; 
+                admin_msg = `${name} played the video.`; break;
             case 'videoPause':
-                admin_msg = `${name} paused the video.`; break; 
+                admin_msg = `${name} paused the video.`; break;
             case 'videoSeek':
-                admin_msg = `${name} seeked the video.`; break; 
+                admin_msg = `${name} seeked the video.`; break;
             case 'videoPlaybackRate':
                 admin_msg = `${name} changed the playback rate to ${eventParams.playbackRate}.`; break;
             default:
-                admin_msg = ''; break; 
+                admin_msg = ''; break;
         }
+        console.log(admin_msg);
         io.in(room).emit('message', { user: 'admin', text: admin_msg });
         callback();
     });
