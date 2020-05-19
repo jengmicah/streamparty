@@ -22,19 +22,29 @@
   justify-content: flex-end;
   margin-right: 5%;
 }
+.usersIconContainer {
+  display: flex;
+  align-items: center;
+}
 .onlineIcon {
-  color: #69F0AE;
+  color: #69f0ae;
   margin: 0 5%;
 }
-.closeIcon, .usersIcon {
+.closeIcon,
+.usersIconContainer {
   color: rgba(255, 255, 255, 0.7);
   margin: 0 5%;
   cursor: pointer;
   transition: all 0.2s;
 }
-.closeIcon:hover, .usersIcon:hover {
+.closeIcon:hover,
+.usersIconContainer:hover {
   color: rgba(255, 255, 255, 0.8);
 }
-.closeIcon:active, .usersIcon:active {
+.closeIcon:active,
+.usersIconContainer:active {
   color: rgba(255, 255, 255);
+}
+.usersIconContainer * {
+  margin: 0 3px;
 }

@@ -10,6 +10,7 @@ const JoinUser = ({ room, joinRoomAsUser }) => {
             <div className='joinInnerContainer'>
                 <h1 className='heading'>Make a Username</h1>
                 <p><strong>Room:</strong> {room}</p>
+                {/* <p><strong>Number of People:</strong> {users.length}</p> */}
                 <div>
                     <input
                         autoFocus

@@ -18,7 +18,6 @@ const Chat = ({ name, room }) => {
         sckt.socket.on('message', message => {
             setMessages(messages => [...messages, message]);
         });
-
         sckt.socket.on("roomData", ({ users }) => {
             setUsers(users);
         });
@@ -34,7 +33,7 @@ const Chat = ({ name, room }) => {
 
     return (
         <div className="chatContainer">
-            <ChatBar room={room} />
+            <ChatBar room={room} users={users} />
             <ChatMessages messages={messages} name={name} />
             <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage} />
             <ChatInfo users={users} />

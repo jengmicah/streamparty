@@ -15,7 +15,10 @@ const ChatBar = ({ room, users }) => {
             <div className='leftInnerContainer'>
                 <FontAwesomeIcon className="onlineIcon" size='xs' icon="circle" />
                 <h3>{room}</h3>
-                <FontAwesomeIcon className="usersIcon" onClick={(event) => handleShowUsers(event)} icon="users" />
+                <div className="usersIconContainer" onClick={(event) => handleShowUsers(event)}>
+                    <FontAwesomeIcon className="usersIcon" icon="users" />
+                    <h3 className="usersIcon" >{users.length}</h3>
+                </div>
             </div>
             <div className='rightInnerContainer'>
                 <a href='/'><FontAwesomeIcon className="closeIcon" size='sm' icon="times" /></a>

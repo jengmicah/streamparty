@@ -15,14 +15,18 @@ const Room = ({ location }) => {
     useEffect(() => {
         const room = location.pathname.split('/').pop();
         setRoom(room);
+        // sckt.socket.emit('createRoom', { room }, () => {});
+        // sckt.socket.on("roomData", ({ users }) => {
+        //     setUsers(users);
+        // });
     }, [location.pathname]);
-    
+
     // From JoinUser.js
     const joinRoomAsUser = (name) => {
         setName(name);
         sckt.socket.emit('join', { name, room }, (error) => {
-            if (error) {
-                alert(error);
+            if (error === 'DUPLICATE_USER') {
+                setName('');
             }
         });
     }
