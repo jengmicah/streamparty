@@ -6,11 +6,14 @@ import { sckt } from '../Socket';
 
 const Video = ({ name, room }) => {
     const [videoProps, setVideoProps] = useState({
-        url: "https://www.youtube.com/watch?v=ysz5S6PUM-U",
-        // url: "https://vimeo.com/81633670"
+        // url: "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+
+        url: "ysz5S6PUM-U",
+        // url: "https://vimeo.com/81633670",
         playing: true,
         playbackRate: 1.0,
-        seekTime: 23,
+        seekTime: 0,
+        receiving: false,
         // loop: false,
         // pip: false,
         // controls: true,
@@ -33,19 +36,19 @@ const Video = ({ name, room }) => {
     };
 
     useEffect(() => {
-        sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams }) => {
-            console.log(name, room, eventName, eventParams);
+        sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams = {} }) => {
+            console.log(name, eventName, eventParams);
+            const { seekTime, playbackRate } = eventParams;
+            updateState({ receiving: true });
             switch (eventName) {
                 case 'videoPlay':
-                    setVideoProps((prev) => ({ ...prev, playing: true }));
+                    updateState({ playing: true, seekTime });
                     break;
                 case 'videoPause':
-                    setVideoProps((prev) => ({ ...prev, playing: false }));
-                    break;
-                case 'videoSeek':
-                    // setVideoProps((prev) => ({ ...prev, seekTime: eventParams.currTime }));
+                    updateState({ playing: false });
                     break;
                 case 'videoPlaybackRate':
+                    updateState({ playbackRate });
                     break;
                 default:
                     break;
@@ -53,24 +56,19 @@ const Video = ({ name, room }) => {
         });
     }, []);
 
-    const update = (paramsToChange) => {
+    const updateState = (paramsToChange) => {
         setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
     }
-    const changeStuff = () => {
-        setVideoProps((prev) => ({ ...prev, playing: !videoProps.playing }));
-    }
-
-    useEffect(() => {
-        console.log(videoProps.seekTime);
-    }, [videoProps.seekTime]);
+    // useEffect(() => {
+    //     console.log(videoProps.seekTime);
+    // }, [videoProps.seekTime]);
 
     return (
         <div className="videoContainer">
             <VideoPlayer
                 videoProps={videoProps}
                 sendVideoState={sendVideoState}
-                update={update}
-                changeStuff={changeStuff}
+                updateState={updateState}
             />
         </div>
     );
