@@ -7,3 +7,6 @@
   top: 0;
   left: 0;
 }
+.ytp-expand-pause-overlay .ytp-pause-overlay {
+  display: none !important;
+}

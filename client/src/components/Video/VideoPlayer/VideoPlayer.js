@@ -6,52 +6,54 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './VideoPlayer.css';
 
-const VideoPlayer = ({ videoProps, sendVideoState, updateState }) => {
-    const player = useRef(null);
-
-    useEffect(() => {
-        if (videoProps.receiving) {
-            let internalPlayer = player.current.internalPlayer;
-            // Play Video
-            if (videoProps.playing) {
-                internalPlayer.seekTo(videoProps.seekTime);
-                internalPlayer.playVideo()
-                // Pause Video
-            } else {
-                internalPlayer.pauseVideo()
-            }
-        }
-        // if (typeof player.current.getInternalPlayer() !== undefined && typeof player.current.getInternalPlayer().playVideo == 'function')
-        //     player.current.getInternalPlayer().playVideo();
-    }, [videoProps.playing]);
-
-    useEffect(() => {
-        if (videoProps.receiving) {
-            let internalPlayer = player.current.internalPlayer;
-            // Change Playback Rate
-            internalPlayer.setPlaybackRate(videoProps.playbackRate);
-        }
-    }, [videoProps.playbackRate]);
+const VideoPlayer = ({ videoProps, sendVideoState, updateState, player }) => {
 
     const onPlay = (seekTime) => {
+        console.log(videoProps);
+        updateState({ last_YT_state: 1 });
+        // if (videoProps.others_buffering) {
+        //     let internalPlayer = player.current.internalPlayer;
+        //     internalPlayer.pauseVideo();
+        // } else {
         if (!videoProps.receiving) {
-            console.log("PLAY");
-            updateState({ playing: true });
-            let eventParams = { seekTime };
-            sendVideoState({ eventName: 'videoPlay', eventParams });
+            console.log("SENDING PLAY");
+            sendVideoState({
+                eventName: 'videoPlay',
+                eventParams: { seekTime }
+            });
         } else {
+            // console.log("RECEIVING PLAY");
+            updateState({ receiving: false });
+        }
+        // }
+    }
+    const onPause = (seekTime) => {
+        updateState({ last_YT_state: 2 });
+        if (!videoProps.receiving) {
+            console.log("SENDING PAUSE");
+            sendVideoState({
+                eventName: 'videoPause',
+                // eventParams: { seekTime }
+            });
+        } else {
+            // console.log("RECEIVING PAUSE");
             updateState({ receiving: false });
         }
     }
-    const onPause = () => {
-        if (!videoProps.receiving) {
-            console.log("PAUSE");
-            updateState({ playing: false });
-            sendVideoState({ eventName: 'videoPause' });
-        } else {
-            updateState({ receiving: false });
-        }
+    const onBuffer = (seekTime) => {
+        updateState({ last_YT_state: 3 });
+        // if (!videoProps.receiving) {
+        //     console.log("START BUFFER");
+        //     sendVideoState({
+        //         eventName: 'videoStartBuffer',
+        //         eventParams: { seekTime }
+        //     });
+        // } else {
+        //     console.log("FORCED BUFFER");
+        //     updateState({ receiving: false });
+        // }
     }
+
     const onYTPlaybackRateChange = (event) => {
         if (!videoProps.receiving) {
             console.log("PLAYBACK RATE CHANGE");
@@ -69,9 +71,6 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState }) => {
     const onEnded = () => {
         // console.log("END");
     }
-    const onBuffer = () => {
-        // console.log("BUFFER");
-    }
 
 
     /** Youtube */
@@ -83,25 +82,11 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState }) => {
         BUFFERING: 3,
         VIDEO_CUED: 5
     };
-    // let prevTime = 0;
-    // let player;
-    // const isSeek = (event) => {
-    //     const currTime = event.target.getCurrentTime();
-    //     // console.log(Math.abs(prevTime - currTime));
-    //     let timeDelta = Math.abs(prevTime - currTime);
-    //     prevTime = currTime;
-    //     if (timeDelta > 1) {
-    //         onSeek(currTime);
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
     const onYTStateChange = (event) => {
         // console.log("STATE CHANGE");
         let playerState = event.data;
         // console.log(event);
-        // let seek = isSeek(event);
+        const currTime = event.target.getCurrentTime();
         switch (playerState) {
             case YTPlayerState.UNSTARTED:
                 break;
@@ -109,23 +94,24 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState }) => {
                 onEnded();
                 break;
             case YTPlayerState.PLAYING:
-                onPlay(event.target.getCurrentTime());
+                onPlay(currTime);
                 break;
             case YTPlayerState.PAUSED:
                 onPause();
                 break;
             case YTPlayerState.BUFFERING:
-                onBuffer();
+                onBuffer(currTime);
                 break;
             case YTPlayerState.VIDEO_CUED:
                 break;
         }
-        console.log("==================================")
+        // console.log("==================================")
     }
     const onYTReady = (event) => {
         // event.target.pauseVideo();
         console.log("READY");
-        // setPlayer(event.target);
+        // let videoPlayers = document.querySelector('.react-player');
+        // console.log(videoPlayers);
     }
 
     const opts = {

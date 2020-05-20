@@ -56,8 +56,10 @@ io.on('connection', (socket) => {
                 admin_msg = `${name} played the video.`; break;
             case 'videoPause':
                 admin_msg = `${name} paused the video.`; break;
-            case 'videoSeek':
-                admin_msg = `${name} seeked the video.`; break;
+            case 'videoStartBuffer':
+                admin_msg = `${name} is buffering.`; break;
+            case 'videoFinishBuffer':
+                admin_msg = `${name} finished buffering.`; break;
             case 'videoPlaybackRate':
                 admin_msg = `${name} changed the playback rate to ${eventParams.playbackRate}.`; break;
             default:
