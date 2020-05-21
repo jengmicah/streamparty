@@ -8,8 +8,8 @@ import './VideoPlayer.css';
 
 const VideoPlayer = ({ videoProps, sendVideoState, updateState, player }) => {
 
-    const onPlay = (seekTime) => {
-        console.log(videoProps);
+    const onYTPlay = (seekTime) => {
+        // console.log(videoProps);
         updateState({ last_YT_state: 1 });
         // if (videoProps.others_buffering) {
         //     let internalPlayer = player.current.internalPlayer;
@@ -22,12 +22,12 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState, player }) => {
                 eventParams: { seekTime }
             });
         } else {
-            // console.log("RECEIVING PLAY");
+            console.log("RECEIVING PLAY");
             updateState({ receiving: false });
         }
         // }
     }
-    const onPause = (seekTime) => {
+    const onYTPause = (seekTime) => {
         updateState({ last_YT_state: 2 });
         if (!videoProps.receiving) {
             console.log("SENDING PAUSE");
@@ -36,11 +36,11 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState, player }) => {
                 // eventParams: { seekTime }
             });
         } else {
-            // console.log("RECEIVING PAUSE");
+            console.log("RECEIVING PAUSE");
             updateState({ receiving: false });
         }
     }
-    const onBuffer = (seekTime) => {
+    const onYTBuffer = (seekTime) => {
         updateState({ last_YT_state: 3 });
         // if (!videoProps.receiving) {
         //     console.log("START BUFFER");
@@ -68,10 +68,12 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState, player }) => {
             updateState({ receiving: false });
         }
     }
-    const onEnded = () => {
-        // console.log("END");
+    const onYTLoadVideo = () => {
+        
     }
-
+    const onYTEnded = () => {
+        console.log("END");
+    }
 
     /** Youtube */
     const YTPlayerState = {
@@ -83,35 +85,31 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState, player }) => {
         VIDEO_CUED: 5
     };
     const onYTStateChange = (event) => {
-        // console.log("STATE CHANGE");
         let playerState = event.data;
-        // console.log(event);
         const currTime = event.target.getCurrentTime();
+        console.log(event.data);
         switch (playerState) {
             case YTPlayerState.UNSTARTED:
+                onYTLoadVideo();
                 break;
             case YTPlayerState.ENDED:
-                onEnded();
+                onYTEnded();
                 break;
             case YTPlayerState.PLAYING:
-                onPlay(currTime);
+                onYTPlay(currTime);
                 break;
             case YTPlayerState.PAUSED:
-                onPause();
+                onYTPause();
                 break;
             case YTPlayerState.BUFFERING:
-                onBuffer(currTime);
+                onYTBuffer(currTime);
                 break;
             case YTPlayerState.VIDEO_CUED:
                 break;
         }
-        // console.log("==================================")
     }
     const onYTReady = (event) => {
-        // event.target.pauseVideo();
-        console.log("READY");
-        // let videoPlayers = document.querySelector('.react-player');
-        // console.log(videoPlayers);
+        event.target.playVideo();
     }
 
     const opts = {
@@ -127,7 +125,7 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState, player }) => {
             <YouTube
                 ref={player}
                 className='react-player'
-                videoId={videoProps.url}
+                videoId={videoProps.currVideoId}
                 opts={opts}
                 // onPlay={onPlay}
                 // onPause={onPause}
@@ -137,44 +135,6 @@ const VideoPlayer = ({ videoProps, sendVideoState, updateState, player }) => {
                 onStateChange={onYTStateChange}
                 onPlaybackRateChange={onYTPlaybackRateChange}
             />
-            {/* <ReactPlayer
-                // ref={p => { player = p }}
-                ref={player}
-                className='react-player'
-                width='100%'
-                height='100%'
-
-                url={videoProps.url}
-                playing={videoProps.playing}
-                // playbackRate={videoProps.playbackRate}
-                // volume={0.8}
-                // loop={false}
-                controls={true}
-                // light={false}
-                // muted={false}
-                // pip={false}
-
-                onPlay={onPlay}
-                onPause={onPause}
-                onSeek={onSeek}
-                // onReady={onReady}
-                onEnded={onEnded}
-                onBuffer={onBuffer}
-                config={{
-                    youtube: {
-                        // playerVars: {
-                        //     controls: 1
-                        // },
-                        embedOptions: {
-                            events: {
-                                'onReady': onYTReady,
-                                'onPlaybackRateChange': onYTPlaybackRateChange,
-                                'onStateChange': onYTStateChange,
-                            }
-                        }
-                    }
-                }}
-            /> */}
         </div>
     );
 };
