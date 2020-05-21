@@ -10,6 +10,34 @@ import './Room.css';
 const Room = ({ location }) => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
+    const log = (msg, type) => {
+        let baseStyles = [
+            "color: #fff",
+            "background-color: #444",
+            "padding: 2px 4px",
+            "border-radius: 2px"
+        ].join(';');
+        let serverStyles = [
+            "background-color: gray"
+        ].join(';');
+        let otherStyles = [
+            "color: #eee",
+            "background-color: red"
+        ].join(';');
+        let meStyles = [
+            "background-color: green"
+        ].join(';');
+        // Set style based on input type
+        let style = baseStyles + ';';
+        switch(type) {
+            case "server": style += serverStyles; break;
+            case "other": style += otherStyles; break;
+            case "me": style += meStyles; break;
+            case "none": style = ''; break;
+            default: break;
+        }
+        console.log(`%c${msg}`, style);
+    }
 
     // From JoinRoom.js 
     useEffect(() => {
@@ -35,8 +63,8 @@ const Room = ({ location }) => {
         name && room
             ? (
                 <div className="outerContainer">
-                    <Video name={name} room={room} />
-                    <Chat name={name} room={room} />
+                    <Video log={log} name={name} room={room} />
+                    <Chat log={log} name={name} room={room} />
                 </div>
             ) : (
                 <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />

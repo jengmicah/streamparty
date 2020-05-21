@@ -2,3 +2,23 @@
     /* background:red; */
     padding:15px
 }
+
+#sendUrlButton {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    /* background: #43A3F0; */
+    background: #fff;
+    padding: 15px;
+    display: inline-block;
+    border: none;
+    /* width: 20%; */
+  }
+  #sendIcon {
+    color: #bfbfbf;
+    transition: all 0.1s;
+  }
+  .readyToSend {
+    color: #43A3F0 !important;
+    cursor: pointer;
+  }

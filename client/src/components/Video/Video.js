@@ -5,16 +5,26 @@ import VideoSelect from './VideoSelect/VideoSelect';
 
 import { sckt } from '../Socket';
 
-const Video = ({ name, room }) => {
-    const player = useRef(null);
-    const [videoProps, setVideoProps] = useState({
+const Video = ({ log, name, room }) => {
+    const playerRef = useRef(null);
+    // const [videoProps, setVideoProps] = useState({
+    //     currVideoId: "ffyKY3Dj5ZE",
+    //     queueVideoIds: [],
+    //     playing: true,
+    //     seekTime: 0,
+    //     last_YT_state: -1,
+    //     receiving: false,
+    // });
+
+    let videoProps = {
         currVideoId: "ffyKY3Dj5ZE",
         queueVideoIds: [],
         playing: true,
-        receiving: false,
-        others_buffering: false,
+        seekTime: 0,
         last_YT_state: -1,
-    });
+        receiving: false,
+        sending: true
+    }
 
     const sendVideoState = ({ eventName, eventParams }) => {
         let params = {
@@ -27,30 +37,44 @@ const Video = ({ name, room }) => {
     };
 
     useEffect(() => {
+        sckt.socket.on("getSync", ({ id }) => {
+            log("New user needs videoProps to sync.", 'server');
+            let player = playerRef.current.internalPlayer;
+            player.getCurrentTime().then((currTime) => {
+                let params = {
+                    id: id,
+                    ...videoProps,
+                    seekTime: currTime,
+                    receiving: true
+                }
+                sckt.socket.emit('sendSync', params, (error) => { });
+            });
+        });
+        sckt.socket.on("startSync", (videoProps) => {
+            log("I'm syncing.", 'server');
+            console.log(videoProps);
+            updateState({ ...videoProps });
+            initVideoState({ ...videoProps });
+        });
         sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams = {} }) => {
             // console.log(name, eventName, eventParams);
-            const { seekTime, playbackRate } = eventParams;
+            const { seekTime, playbackRate, videoId } = eventParams;
             updateState({ receiving: true });
             switch (eventName) {
                 case 'videoPlay':
-                    // updateState({ playing: true, seekTime });
+                    updateState({ playing: true, seekTime });
                     modifyVideoState({ playing: true, seekTime });
                     break;
                 case 'videoPause':
-                    // updateState({ playing: false });
-                    modifyVideoState({ playing: false });
+                    updateState({ playing: false, seekTime });
+                    modifyVideoState({ playing: false, seekTime });
                     break;
                 case 'videoPlaybackRate':
-                    // updateState({ playbackRate });
+                    updateState({ playbackRate });
                     modifyVideoState({ playbackRate });
                     break;
-                case 'videoStartBuffer':
-                    // updateState({ others_buffering: true, seekTime });                    console.log("ME FINISH BUFFER");
-                    modifyVideoState({ others_buffering: true, seekTime });
-                // console.log("ME FINISH BUFFER");
-                case 'videoFinishBuffer':
-                    updateState({ others_buffering: false })
-                // modifyVideoState({ others_buffering: false })
+                case 'videoLoad':
+                    updateState({ currVideoId: videoId });
                 default:
                     break;
             }
@@ -58,46 +82,61 @@ const Video = ({ name, room }) => {
     }, []);
 
     const updateState = (paramsToChange) => {
-        setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
-        // videoProps = Object.assign(videoProps, paramsToChange);
+        // setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
+        videoProps = Object.assign(videoProps, paramsToChange);
     }
+
     const modifyVideoState = (paramsToChange) => {
-        if (player.current != null) {
-            const { playing, seekTime, playbackRate, others_buffering } = paramsToChange;
-            let internalPlayer = player.current.internalPlayer;
+        if (playerRef.current != null) {
+            const { playing, seekTime, playbackRate, init } = paramsToChange;
+            let player = playerRef.current.internalPlayer;
             if (playing !== undefined) {
                 if (playing) {
-                    internalPlayer.seekTo(seekTime);
+                    player.seekTo(seekTime);
                     if (videoProps.last_YT_state != 1)
-                        internalPlayer.playVideo();
+                        player.playVideo();
                 } else {
-                    internalPlayer.pauseVideo();
+                    player.pauseVideo();
                 }
             } else if (playbackRate !== undefined) {
-                internalPlayer.setPlaybackRate(playbackRate);
+                player.setPlaybackRate(playbackRate);
             }
         }
     }
-    // https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
-    const youtube_parser = (url) => {
-        let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        let match = url.match(regExp);
-        return (match&&match[7].length==11)? match[7] : false;
+    // Same as modifyVideoState() but handles when existing user video is paused
+    const initVideoState = (paramsToChange) => {
+        if (playerRef.current != null) {
+            const { playing, seekTime, playbackRate, init } = paramsToChange;
+            let player = playerRef.current.internalPlayer;
+            if (playing !== undefined) {
+                if (playing) {
+                    player.seekTo(seekTime);
+                    if (videoProps.last_YT_state != 1)
+                        player.playVideo();
+                } else {
+                    updateState({ receiving: false })
+                    player.seekTo(seekTime);
+                    player.pauseVideo();
+                }
+            }
+        }
     }
 
-    const playYTVideoURL = (url) => {
-        updateState({currVideoId: youtube_parser(url)})
-    }
+
 
     return (
         <div className="videoContainer">
             <VideoPlayer
+                log={log}
                 videoProps={videoProps}
                 sendVideoState={sendVideoState}
                 updateState={updateState}
-                player={player}
+                playerRef={playerRef}
             />
-            <VideoSelect playYTVideoURL={playYTVideoURL} />
+            <VideoSelect
+                updateState={updateState}
+                sendVideoState={sendVideoState}
+            />
         </div>
     );
 }
