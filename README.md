@@ -15,9 +15,9 @@ Finished:
 Todo:
 - Search YT videos
 - Add videos to queue
+- Play next/prev
 
 Issues:
 - Spamming Play/Pause causes inconsistent `receiving` values
-- useState() does not work for `receiving` flag
 - Always a couple seconds lag when joining a video that is currently playing
 - Does not handle waiting for others to buffer

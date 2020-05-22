@@ -72,7 +72,11 @@ io.on('connection', (socket) => {
             case 'videoPlaybackRate':
                 admin_msg = `${name} changed the playback rate to ${eventParams.playbackRate}.`; break;
             case 'videoLoad':
-                admin_msg = `${name} changed URL.`; break;
+                admin_msg = `${name} changed the video.`; break;
+            case 'videoAddToQueue':
+                admin_msg = `${name} added a video to the queue.`; break;
+            case 'videoLoadNextInQueue':
+                admin_msg = `${name} loaded next video on the queue.`; break;
             default:
                 admin_msg = ''; break;
         }

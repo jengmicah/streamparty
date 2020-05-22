@@ -7,24 +7,24 @@ import { sckt } from '../Socket';
 
 const Video = ({ log, name, room }) => {
     const playerRef = useRef(null);
-    // const [videoProps, setVideoProps] = useState({
-    //     currVideoId: "ffyKY3Dj5ZE",
-    //     queueVideoIds: [],
-    //     playing: true,
-    //     seekTime: 0,
-    //     last_YT_state: -1,
-    //     receiving: false,
-    // });
-
-    let videoProps = {
+    const [videoProps, setVideoProps] = useState({
         currVideoId: "ffyKY3Dj5ZE",
         queueVideoIds: [],
         playing: true,
         seekTime: 0,
         last_YT_state: -1,
         receiving: false,
-        sending: true
-    }
+    });
+
+    // let videoProps = {
+    //     currVideoId: "ffyKY3Dj5ZE",
+    //     queueVideoIds: [],
+    //     playing: true,
+    //     seekTime: 0,
+    //     last_YT_state: -1,
+    //     receiving: false,
+    //     sending: true
+    // }
 
     const sendVideoState = ({ eventName, eventParams }) => {
         let params = {
@@ -35,7 +35,6 @@ const Video = ({ log, name, room }) => {
         };
         sckt.socket.emit('sendVideoState', params, (error) => { });
     };
-
     useEffect(() => {
         sckt.socket.on("getSync", ({ id }) => {
             log("New user needs videoProps to sync.", 'server');
@@ -47,18 +46,22 @@ const Video = ({ log, name, room }) => {
                     seekTime: currTime,
                     receiving: true
                 }
+                // if (!params.playing) {
+                //     params.receiving = false;
+                // }
                 sckt.socket.emit('sendSync', params, (error) => { });
             });
         });
+    });
+    useEffect(() => {
         sckt.socket.on("startSync", (videoProps) => {
             log("I'm syncing.", 'server');
-            console.log(videoProps);
             updateState({ ...videoProps });
-            initVideoState({ ...videoProps });
+            modifyVideoState({ ...videoProps });
         });
         sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams = {} }) => {
             // console.log(name, eventName, eventParams);
-            const { seekTime, playbackRate, videoId } = eventParams;
+            const { seekTime, playbackRate, videoId, queueVideoIds } = eventParams;
             updateState({ receiving: true });
             switch (eventName) {
                 case 'videoPlay':
@@ -74,18 +77,67 @@ const Video = ({ log, name, room }) => {
                     modifyVideoState({ playbackRate });
                     break;
                 case 'videoLoad':
-                    updateState({ currVideoId: videoId });
+                    loadVideoById(videoId, false);
+                    break;
+                case 'videoAddToQueue':
+                    updateState({ queueVideoIds });
+                    break;
+                case 'videoLoadNextInQueue':
+                    loadVideoById(videoId, false);
+                    // updateState({
+                    //     queueVideoIds: queueVideoIds,
+                    //     currVideoId: videoId
+                    // });
+                    break;
                 default:
                     break;
             }
         });
     }, []);
 
-    const updateState = (paramsToChange) => {
-        // setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
-        videoProps = Object.assign(videoProps, paramsToChange);
+    const loadVideoById = (videoId, sync) => {
+        let player = playerRef.current.internalPlayer;
+        if (sync) {
+            if (videoProps.playing) {
+                player.loadVideoById({
+                    videoId: videoId,
+                    startSeconds: videoProps.seekTime
+                });
+            } else {
+                player.loadVideoById({
+                    videoId: videoId,
+                    startSeconds: videoProps.seekTime
+                });
+                player.pauseVideo();
+                updateState({ receiving: false });
+            }
+        } else {
+            player.loadVideoById({ videoId });
+        }
+        updateState({ currVideoId: videoId });
     }
-
+    const loadNextVideo = (queueVideoIds) => {
+        console.log(queueVideoIds);
+        let nextVideoId = queueVideoIds[0];
+        if (nextVideoId !== undefined) {
+            loadVideoById(nextVideoId, false);
+            updateState({
+                queueVideoIds: queueVideoIds.slice(1),
+                currVideoId: nextVideoId
+            });
+            sendVideoState({
+                eventName: 'videoLoadNextInQueue',
+                evenParams: {
+                    queueVideoIds: queueVideoIds,
+                    videoId: nextVideoId
+                }
+            });
+        }
+    }
+    const updateState = (paramsToChange) => {
+        setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
+        // videoProps = Object.assign(videoProps, paramsToChange);
+    }
     const modifyVideoState = (paramsToChange) => {
         if (playerRef.current != null) {
             const { playing, seekTime, playbackRate, init } = paramsToChange;
@@ -93,36 +145,21 @@ const Video = ({ log, name, room }) => {
             if (playing !== undefined) {
                 if (playing) {
                     player.seekTo(seekTime);
-                    if (videoProps.last_YT_state != 1)
+                    if (videoProps.last_YT_state != 1 || videoProps.last_YT_state != 3) // If not already playing
                         player.playVideo();
                 } else {
-                    player.pauseVideo();
+                    if (videoProps.last_YT_state != 2) // If not already paused
+                        player.pauseVideo();
                 }
             } else if (playbackRate !== undefined) {
                 player.setPlaybackRate(playbackRate);
             }
         }
     }
-    // Same as modifyVideoState() but handles when existing user video is paused
-    const initVideoState = (paramsToChange) => {
-        if (playerRef.current != null) {
-            const { playing, seekTime, playbackRate, init } = paramsToChange;
-            let player = playerRef.current.internalPlayer;
-            if (playing !== undefined) {
-                if (playing) {
-                    player.seekTo(seekTime);
-                    if (videoProps.last_YT_state != 1)
-                        player.playVideo();
-                } else {
-                    updateState({ receiving: false })
-                    player.seekTo(seekTime);
-                    player.pauseVideo();
-                }
-            }
-        }
-    }
 
-
+    useEffect(() => {
+        console.log(videoProps.queueVideoIds);
+    }, [videoProps.queueVideoIds])
 
     return (
         <div className="videoContainer">
@@ -132,10 +169,15 @@ const Video = ({ log, name, room }) => {
                 sendVideoState={sendVideoState}
                 updateState={updateState}
                 playerRef={playerRef}
+                loadNextVideo={loadNextVideo}
+                loadVideoById={loadVideoById}
             />
             <VideoSelect
                 updateState={updateState}
                 sendVideoState={sendVideoState}
+                videoProps={videoProps}
+                loadVideoById={loadVideoById}
+                loadNextVideo={loadNextVideo}
             />
         </div>
     );

@@ -45,7 +45,7 @@ select:focus {
   color: #bfbfbf;
   transition: all 0.1s;
 }
-.readyToSend {
+.readyToPress {
   color: #43A3F0 !important;
   cursor: pointer;
 }

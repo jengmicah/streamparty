@@ -11,16 +11,16 @@ const ChatInput = ({ message, setMessage, sendMessage }) => {
         setMessage(msg);
         let send = document.getElementById('sendIcon');
         if (msg.trim().length > 0) {
-            send.classList.add('readyToSend');
+            send.classList.add('readyToPress');
         } else {
-            send.classList.remove('readyToSend');
+            send.classList.remove('readyToPress');
         }
     }
 
     const handleInputSend = (event) => {
         sendMessage(event);
         let send = document.getElementById('sendIcon');
-        send.classList.remove('readyToSend');
+        send.classList.remove('readyToPress');
     }
 
     return (

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './VideoPlayer.css';
 
-const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef }) => {
+const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, loadVideoById, loadNextVideo }) => {
 
     const onYTPlay = (seekTime) => {
         updateState({
@@ -14,15 +14,15 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef }
             playing: true,
             seekTime
         });
-        if (!videoProps.receiving) {
+        if (videoProps.receiving) {
+            log("Got PLAY", 'others');
+            updateState({ receiving: false });
+        } else {
             log("Sending PLAY", 'me');
             sendVideoState({
                 eventName: 'videoPlay',
                 eventParams: { seekTime }
             });
-        } else {
-            log("Got PLAY", 'others');
-            updateState({ receiving: false });
         }
     }
     const onYTPause = (seekTime) => {
@@ -31,15 +31,15 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef }
             playing: false,
             seekTime
         });
-        if (!videoProps.receiving) {
+        if (videoProps.receiving) {
+            log("Got PAUSE", 'others');
+            updateState({ receiving: false });
+        } else {
             log("Sending PAUSE", 'me');
             sendVideoState({
                 eventName: 'videoPause',
                 eventParams: { seekTime }
             });
-        } else {
-            log("Got PAUSE", 'others');
-            updateState({ receiving: false });
         }
     }
     const onYTBuffer = (seekTime) => {
@@ -47,7 +47,10 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef }
     }
 
     const onYTPlaybackRateChange = (event) => {
-        if (!videoProps.receiving) {
+        if (videoProps.receiving) {
+            log("Got PLAYBACK RATE change", 'others');
+            updateState({ receiving: false });
+        } else {
             log("Sending PLAYBACK RATE change", 'me');
             let eventParams = {
                 playbackRate: event.target.getPlaybackRate()
@@ -57,16 +60,23 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef }
                 eventName: 'videoPlaybackRate',
                 eventParams: eventParams
             });
-        } else {
-            log("Got PLAYBACK RATE change", 'others');
-            updateState({ receiving: false });
         }
     }
-    const onYTLoadVideo = () => {
 
-    }
     const onYTEnded = () => {
-        console.log("END");
+        if (videoProps.receiving) {
+            updateState({ receiving: false });
+        } else {
+            log("ENDING", 'me');
+            let queue = videoProps.queueVideoIds;
+            if (queue !== undefined && queue.length !== 0) {
+                loadNextVideo(queue);
+            }
+        }
+    }
+
+    const onYTCue = () => {
+        log("CUED", 'me');
     }
 
     /** Youtube */
@@ -83,7 +93,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef }
         const currTime = event.target.getCurrentTime();
         switch (playerState) {
             case YTPlayerState.UNSTARTED:
-                onYTLoadVideo();
+                // onYTLoadVideo();
                 break;
             case YTPlayerState.ENDED:
                 onYTEnded();
@@ -98,11 +108,17 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef }
                 onYTBuffer(currTime);
                 break;
             case YTPlayerState.VIDEO_CUED:
+                onYTCue();
                 break;
         }
     }
     const onYTReady = (event) => {
-        
+        log("STARTING", 'me');
+        if (videoProps.receiving) {
+            loadVideoById(videoProps.currVideoId, true);
+        } else {
+            loadVideoById(videoProps.currVideoId, false);
+        }
     }
 
     const opts = {
@@ -118,7 +134,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef }
             <YouTube
                 ref={playerRef}
                 className='react-player'
-                videoId={videoProps.currVideoId}
+                // videoId={videoProps.currVideoId}
                 opts={opts}
                 // onPlay={onPlay}
                 // onPause={onPause}
