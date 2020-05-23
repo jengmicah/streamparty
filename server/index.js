@@ -61,21 +61,21 @@ io.on('connection', (socket) => {
         socket.to(room).emit('receiveVideoState', params);
         let admin_msg;
         switch (eventName) {
-            case 'videoPlay':
+            case 'syncPlay':
                 admin_msg = `${name} played the video.`; break;
-            case 'videoPause':
+            case 'syncPause':
                 admin_msg = `${name} paused the video.`; break;
             case 'videoStartBuffer':
                 admin_msg = `${name} is buffering.`; break;
             case 'videoFinishBuffer':
                 admin_msg = `${name} finished buffering.`; break;
-            case 'videoPlaybackRate':
+            case 'syncRateChange':
                 admin_msg = `${name} changed the playback rate to ${eventParams.playbackRate}.`; break;
-            case 'videoLoad':
+            case 'syncLoad':
                 admin_msg = `${name} changed the video.`; break;
-            case 'videoAddToQueue':
+            case 'syncAddToQueue':
                 admin_msg = `${name} added a video to the queue.`; break;
-            case 'videoLoadNextInQueue':
+            case 'syncLoadFromQueue':
                 admin_msg = `${name} loaded next video on the queue.`; break;
             default:
                 admin_msg = ''; break;

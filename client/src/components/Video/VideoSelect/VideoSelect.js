@@ -5,15 +5,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './VideoSelect.css';
 import { youtube_parser, validateYouTubeUrl } from '../VideoHelper';
 
-const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, loadNewVideo, addVideoToQueue }) => {
+const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideo, loadFromQueue, addVideoToQueue }) => {
     const [url, setUrl] = useState('');
 
-    const handleInputChange = (event) => {
-        let currUrlInput = event.target.value.trim();
-        setUrl(currUrlInput);
+    useEffect(() => {
+        let next = document.getElementById('nextVidIcon');
+        let prev = document.getElementById('prevVidIcon');
+        let { queue, queueIndex } = videoProps;
+        if (queue !== undefined) {
+            // Update next button color
+            if (queueIndex + 1 <= queue.length - 1) next.classList.add('readyToPress');
+            else next.classList.remove('readyToPress');
+            // Update prev button color
+            if (queueIndex - 1 >= 0) prev.classList.add('readyToPress');
+            else prev.classList.remove('readyToPress');
+        }
+    }, [videoProps.queue, videoProps.queueIndex]);
+
+    useEffect(() => {
+        let trimUrl = url.trim();
         let sendButtons = Array.from(document.getElementsByClassName('sendUrlIcon'));
-        if (event.target.value !== '') {
-            if (validateYouTubeUrl(currUrlInput)) {
+        // Update play/add to queue button color
+        if (trimUrl !== '') {
+            if (validateYouTubeUrl(trimUrl)) {
                 sendButtons.map(button => {
                     button.classList.add('readyToPress');
                     button.classList.remove('notReadyToPress');
@@ -30,78 +44,80 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
                 button.classList.remove('notReadyToPress');
             });
         }
-    }
+    }, [url]);
 
-    useEffect(() => {
-        let next = document.getElementById('nextVidIcon');
-        let prev = document.getElementById('prevVidIcon');
-        let { queueVideoIds, currVideoIndex } = videoProps;
-        if (queueVideoIds !== undefined) {
-            if (currVideoIndex + 1 <= queueVideoIds.length - 1) next.classList.add('readyToPress');
-            else next.classList.remove('readyToPress');
-            if (currVideoIndex - 1 >= 0) prev.classList.add('readyToPress');
-            else prev.classList.remove('readyToPress');
-        }
-    }, [videoProps.queueVideoIds, videoProps.currVideoIndex])
-
-    const handleSubmit = (event, type) => {
-        const { queueVideoIds, currVideoIndex } = videoProps;
+    const handlePlay = (event) => {
+        let trimUrl = url.trim();
+        const { queue, queueIndex } = videoProps;
         event.preventDefault();
-        if (validateYouTubeUrl(url)) {
+        if (validateYouTubeUrl(trimUrl)) {
+            // Reset the color after playing
             let sendButtons = Array.from(document.getElementsByClassName('sendUrlIcon'));
             sendButtons.map(button => {
                 button.classList.remove('readyToPress');
                 button.classList.remove('notReadyToPress');
             });
             setUrl('')
-            let videoId = youtube_parser(url);
+            let videoId = youtube_parser(trimUrl);
 
-            if (type === 1) {
-                addVideoToQueue(videoId, queueVideoIds, currVideoIndex);
-                sendVideoState({
-                    eventName: "videoAddToQueue",
-                    eventParams: {
-                        videoId: videoId,
-                        queueVideoIds: queueVideoIds,
-                        insertIndex: currVideoIndex + 1,
-                        currVideoIndex: currVideoIndex + 1
-                    }
-                });
-                // updateState({ currVideoId: videoId });
-                loadVideoById(videoId, false);
-                // addVideoToQueue(videoId);
-                sendVideoState({
-                    eventName: "videoLoad",
-                    eventParams: { videoId }
-                });
-                updateState({ currVideoIndex: currVideoIndex + 1 });
-            } else if (type === 2) {
-                addVideoToQueue(videoId, queueVideoIds, queueVideoIds.length - 1);
-                sendVideoState({
-                    eventName: "videoAddToQueue",
-                    eventParams: {
-                        videoId: videoId,
-                        queueVideoIds: queueVideoIds,
-                        insertIndex: queueVideoIds.length - 1,
-                        currVideoIndex: currVideoIndex
-                    }
-                });
-            }
+            // Handle playing video immediately
+            addVideoToQueue(videoId, queue, queueIndex + 1);
+            sendVideoState({
+                eventName: "syncAddToQueue",
+                eventParams: {
+                    videoId: videoId,
+                    queue: queue,
+                    insertIndex: queueIndex + 1,
+                    queueIndex: queueIndex + 1
+                }
+            });
+            updateState({ queueIndex: queueIndex + 1 });
+            loadVideo(videoId, false);
+            sendVideoState({
+                eventName: "syncLoad",
+                eventParams: { videoId }
+            });
         }
     };
-
+    const handleAddToQueue = (event) => {
+        let trimUrl = url.trim();
+        const { queue, queueIndex } = videoProps;
+        event.preventDefault();
+        if (validateYouTubeUrl(trimUrl)) {
+            // Reset the color after playing
+            let sendButtons = Array.from(document.getElementsByClassName('sendUrlIcon'));
+            sendButtons.map(button => {
+                button.classList.remove('readyToPress');
+                button.classList.remove('notReadyToPress');
+            });
+            setUrl('')
+            let videoId = youtube_parser(trimUrl);
+            
+            // Handle adding to queue
+            addVideoToQueue(videoId, queue, queue.length);
+            sendVideoState({
+                eventName: "syncAddToQueue",
+                eventParams: {
+                    videoId: videoId,
+                    queue: queue,
+                    insertIndex: queue.length,
+                    queueIndex: queueIndex
+                }
+            });
+        }
+    }
     const handleNextVideo = (event) => {
         event.preventDefault();
-        const { queueVideoIds, currVideoIndex } = videoProps;
-        if (queueVideoIds !== undefined) {
-            if (currVideoIndex + 1 <= queueVideoIds.length - 1) {
-                loadNewVideo(queueVideoIds, currVideoIndex + 1);
-                updateState({ currVideoIndex: currVideoIndex + 1 });
+        const { queue, queueIndex } = videoProps;
+        if (queue !== undefined) {
+            if (queueIndex + 1 <= queue.length - 1) {
+                loadFromQueue(queue, queueIndex + 1);
+                updateState({ queueIndex: queueIndex + 1 });
                 sendVideoState({
-                    eventName: 'videoLoadNextInQueue',
+                    eventName: 'syncLoadFromQueue',
                     eventParams: {
-                        queueVideoIds: queueVideoIds,
-                        currVideoIndex: currVideoIndex + 1
+                        queue: queue,
+                        queueIndex: queueIndex + 1
                     }
                 });
             }
@@ -109,16 +125,16 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
     }
     const handlePrevVideo = (event) => {
         event.preventDefault();
-        const { queueVideoIds, currVideoIndex } = videoProps;
-        if (queueVideoIds !== undefined) {
-            if (currVideoIndex - 1 >= 0) {
-                loadNewVideo(queueVideoIds, currVideoIndex - 1);
-                updateState({ currVideoIndex: currVideoIndex - 1 });
+        const { queue, queueIndex } = videoProps;
+        if (queue !== undefined) {
+            if (queueIndex - 1 >= 0) {
+                loadFromQueue(queue, queueIndex - 1);
+                updateState({ queueIndex: queueIndex - 1 });
                 sendVideoState({
-                    eventName: 'videoLoadNextInQueue',
+                    eventName: 'syncLoadFromQueue',
                     eventParams: {
-                        queueVideoIds: queueVideoIds,
-                        currVideoIndex: currVideoIndex - 1
+                        queue: queue,
+                        queueIndex: queueIndex - 1
                     }
                 });
             }
@@ -135,13 +151,13 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
                     type='text'
                     value={url}
                     placeholder="Paste a video URL..."
-                    onChange={event => handleInputChange(event)}
-                    onKeyPress={event => event.key === 'Enter' ? handleSubmit(event, 1) : null}
+                    onChange={event => setUrl(event.target.value)}
+                    onKeyPress={event => event.key === 'Enter' ? handlePlay(event) : null}
                 />
-                <button className='sendUrlButton' onClick={(event) => handleSubmit(event, 1)}>
-                    <FontAwesomeIcon className='sendUrlIcon' icon="paper-plane" size="2x" />
+                <button className='sendUrlButton' onClick={(event) => handlePlay(event)}>
+                    <FontAwesomeIcon className='sendUrlIcon' icon="play" size="2x" />
                 </button>
-                <button className='sendUrlButton' onClick={(event) => handleSubmit(event, 2)}>
+                <button className='sendUrlButton' onClick={(event) => handleAddToQueue(event)}>
                     <FontAwesomeIcon className='sendUrlIcon' icon="plus" size="2x" />
                 </button>
                 <button className='sendUrlButton' onClick={(event) => handleNextVideo(event)}>

@@ -6,9 +6,9 @@ import JoinRoom from './components/Join/JoinRoom';
 import Room from './components/Room/Room';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPaperPlane, faUsers, faTimes, faCircle, faPlus, faCaretRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faUsers, faTimes, faCircle, faPlus, faPlay, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faPaperPlane, faUsers, faTimes, faCircle, faPlus, faCaretRight, faAngleDoubleLeft, faAngleDoubleRight);
+library.add(faPaperPlane, faUsers, faTimes, faCircle, faPlus, faPlay, faAngleDoubleLeft, faAngleDoubleRight);
 
 const App = () => (
     <Router>

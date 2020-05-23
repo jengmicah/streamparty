@@ -4,12 +4,12 @@ import ReactPlayer from 'react-player';
 
 import './VideoPlayer.css';
 
-const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, loadVideoById, loadNewVideo }) => {
+const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, loadVideo, loadFromQueue }) => {
 
     const onYTPlay = (seekTime) => {
         const { receiving } = videoProps;
         updateState({
-            last_YT_state: 1,
+            lastStateYT: 1,
             playing: true,
             seekTime
         });
@@ -19,7 +19,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         } else {
             log("Sending PLAY", 'me');
             sendVideoState({
-                eventName: 'videoPlay',
+                eventName: 'syncPlay',
                 eventParams: { seekTime }
             });
         }
@@ -27,7 +27,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     const onYTPause = (seekTime) => {
         const { receiving } = videoProps;
         updateState({
-            last_YT_state: 2,
+            lastStateYT: 2,
             playing: false,
             seekTime
         });
@@ -37,15 +37,14 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         } else {
             log("Sending PAUSE", 'me');
             sendVideoState({
-                eventName: 'videoPause',
+                eventName: 'syncPause',
                 eventParams: { seekTime }
             });
         }
     }
     const onYTBuffer = (seekTime) => {
-        updateState({ last_YT_state: 3 });
+        updateState({ lastStateYT: 3 });
     }
-
     const onYTPlaybackRateChange = (event) => {
         const { receiving } = videoProps;
         if (receiving) {
@@ -58,37 +57,33 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             };
             updateState({ ...eventParams, receiving: false });
             sendVideoState({
-                eventName: 'videoPlaybackRate',
+                eventName: 'syncRateChange',
                 eventParams: eventParams
             });
         }
     }
-
     const onYTEnded = () => {
-        const { receiving, queueVideoIds, currVideoIndex } = videoProps;
+        const { receiving, queue, queueIndex } = videoProps;
         if (receiving) {
             updateState({ receiving: false });
         } else {
             log("ENDING", 'me');
-            if (currVideoIndex + 1 <= queueVideoIds.length - 1) {
-                loadNewVideo(queueVideoIds, currVideoIndex + 1);
-                updateState({ currVideoIndex: currVideoIndex + 1 });
+            if (queueIndex + 1 <= queue.length - 1) {
+                loadFromQueue(queue, queueIndex + 1);
+                updateState({ queueIndex: queueIndex + 1 });
                 sendVideoState({
-                    eventName: 'videoLoadNextInQueue',
+                    eventName: 'syncLoadFromQueue',
                     eventParams: {
-                        queueVideoIds: queueVideoIds,
-                        currVideoIndex: currVideoIndex + 1
+                        queue: queue,
+                        queueIndex: queueIndex + 1
                     }
                 });
             }
         }
     }
-
     const onYTCue = () => {
         log("CUED", 'me');
     }
-
-    /** Youtube */
     const YTPlayerState = {
         UNSTARTED: -1,
         ENDED: 0,
@@ -123,11 +118,11 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     }
     const onYTReady = (event) => {
         log("STARTING", 'me');
-        const { queueVideoIds, currVideoIndex, receiving } = videoProps;
+        const { queue, queueIndex, receiving } = videoProps;
         if (receiving) {
-            loadVideoById(queueVideoIds[currVideoIndex], true);
+            loadVideo(queue[queueIndex], true);
         } else {
-            loadVideoById(queueVideoIds[currVideoIndex], false);
+            loadVideo(queue[queueIndex], false);
         }
     }
 
