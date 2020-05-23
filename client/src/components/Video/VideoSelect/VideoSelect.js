@@ -1,28 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './VideoSelect.css';
-import { useState } from 'react';
+import { youtube_parser, validateYouTubeUrl } from '../VideoHelper';
 
-const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, loadNextVideo }) => {
+const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, loadNextVideo, addVideoToQueue }) => {
     const [url, setUrl] = useState('');
-
-    // https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
-    const youtube_parser = (url) => {
-        let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        let match = url.match(regExp);
-        return (match && match[7].length == 11) ? match[7] : false;
-    }
-    // https://stackoverflow.com/questions/28735459 how-to-validate-youtube-url-in-client-side-in-text-box
-    const validateYouTubeUrl = (url) => {
-        var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-        var matches = url.match(p);
-        if (matches) {
-            return matches[1];
-        }
-        return false;
-    }
 
     const handleInputChange = (event) => {
         let currUrlInput = event.target.value.trim();
@@ -50,17 +34,18 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
 
     useEffect(() => {
         let nextVidIcon = document.getElementById('nextVidIcon');
-        let queue = videoProps.queueVideoIds;
-        if (queue !== undefined) {
-            if (queue.length === 0) {
-                nextVidIcon.classList.remove('readyToPress');
-            } else {
+        let { queueVideoIds, currVideoIndex } = videoProps;
+        if (queueVideoIds !== undefined) {
+            if (currVideoIndex + 1 <= queueVideoIds.length - 1) {
                 nextVidIcon.classList.add('readyToPress');
+            } else {
+                nextVidIcon.classList.remove('readyToPress');
             }
         }
-    }, [videoProps.queueVideoIds])
+    }, [videoProps.queueVideoIds, videoProps.currVideoIndex])
 
     const handleSubmit = (event, type) => {
+        const { queueVideoIds, currVideoIndex } = videoProps;
         event.preventDefault();
         if (validateYouTubeUrl(url)) {
             let sendButtons = Array.from(document.getElementsByClassName('sendUrlIcon'));
@@ -70,30 +55,56 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
             });
             setUrl('')
             let videoId = youtube_parser(url);
+
             if (type === 1) {
-                updateState({ currVideoId: videoId });
+                addVideoToQueue(videoId, queueVideoIds, currVideoIndex);
+                sendVideoState({
+                    eventName: "videoAddToQueue",
+                    eventParams: {
+                        videoId: videoId,
+                        queueVideoIds: queueVideoIds,
+                        insertIndex: currVideoIndex + 1,
+                        currVideoIndex: currVideoIndex + 1
+                    }
+                });
+                // updateState({ currVideoId: videoId });
                 loadVideoById(videoId, false);
+                // addVideoToQueue(videoId);
                 sendVideoState({
                     eventName: "videoLoad",
                     eventParams: { videoId }
                 });
+                updateState({ currVideoIndex: currVideoIndex + 1 });
             } else if (type === 2) {
-                let queueVideoIds = [...videoProps.queueVideoIds, videoId];
-                updateState({ queueVideoIds });
+                addVideoToQueue(videoId, queueVideoIds, queueVideoIds.length - 1);
                 sendVideoState({
                     eventName: "videoAddToQueue",
-                    eventParams: { queueVideoIds }
+                    eventParams: {
+                        videoId: videoId,
+                        queueVideoIds: queueVideoIds,
+                        insertIndex: queueVideoIds.length - 1,
+                        currVideoIndex: currVideoIndex
+                    }
                 });
-                // console.log(queueVideoIds);
             }
         }
     };
 
     const handleNextVideo = (event) => {
         event.preventDefault();
-        let queue = videoProps.queueVideoIds;
-        if (queue !== undefined && queue.length !== 0) {
-            loadNextVideo(queue);
+        const { queueVideoIds, currVideoIndex } = videoProps;
+        if (queueVideoIds !== undefined) {
+            if (currVideoIndex + 1 <= queueVideoIds.length - 1) {
+                loadNextVideo(queueVideoIds, currVideoIndex);
+                updateState({ currVideoIndex: currVideoIndex + 1 });
+                sendVideoState({
+                    eventName: 'videoLoadNextInQueue',
+                    eventParams: {
+                        queueVideoIds: queueVideoIds,
+                        currVideoIndex: currVideoIndex
+                    }
+                });
+            }
         }
     }
     return (

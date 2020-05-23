@@ -4,27 +4,19 @@ import VideoPlayer from './VideoPlayer/VideoPlayer';
 import VideoSelect from './VideoSelect/VideoSelect';
 
 import { sckt } from '../Socket';
+import { insert } from './VideoHelper';
 
 const Video = ({ log, name, room }) => {
     const playerRef = useRef(null);
     const [videoProps, setVideoProps] = useState({
-        currVideoId: "ffyKY3Dj5ZE",
-        queueVideoIds: [],
+        currVideoIndex: 0,
+        insertIndex: 0,
+        queueVideoIds: ["ffyKY3Dj5ZE"],
         playing: true,
         seekTime: 0,
         last_YT_state: -1,
         receiving: false,
     });
-
-    // let videoProps = {
-    //     currVideoId: "ffyKY3Dj5ZE",
-    //     queueVideoIds: [],
-    //     playing: true,
-    //     seekTime: 0,
-    //     last_YT_state: -1,
-    //     receiving: false,
-    //     sending: true
-    // }
 
     const sendVideoState = ({ eventName, eventParams }) => {
         let params = {
@@ -61,7 +53,7 @@ const Video = ({ log, name, room }) => {
         });
         sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams = {} }) => {
             // console.log(name, eventName, eventParams);
-            const { seekTime, playbackRate, videoId, queueVideoIds } = eventParams;
+            const { seekTime, playbackRate, videoId, queueVideoIds, currVideoIndex, insertIndex } = eventParams;
             updateState({ receiving: true });
             switch (eventName) {
                 case 'videoPlay':
@@ -80,14 +72,12 @@ const Video = ({ log, name, room }) => {
                     loadVideoById(videoId, false);
                     break;
                 case 'videoAddToQueue':
-                    updateState({ queueVideoIds });
+                    updateState({ currVideoIndex });
+                    addVideoToQueue(videoId, queueVideoIds, insertIndex);
                     break;
                 case 'videoLoadNextInQueue':
-                    loadVideoById(videoId, false);
-                    // updateState({
-                    //     queueVideoIds: queueVideoIds,
-                    //     currVideoId: videoId
-                    // });
+                    updateState({ currVideoIndex: currVideoIndex + 1 });
+                    loadNextVideo(queueVideoIds, currVideoIndex);
                     break;
                 default:
                     break;
@@ -96,17 +86,18 @@ const Video = ({ log, name, room }) => {
     }, []);
 
     const loadVideoById = (videoId, sync) => {
+        const { playing, seekTime } = videoProps;
         let player = playerRef.current.internalPlayer;
         if (sync) {
-            if (videoProps.playing) {
+            if (playing) {
                 player.loadVideoById({
                     videoId: videoId,
-                    startSeconds: videoProps.seekTime
+                    startSeconds: seekTime
                 });
             } else {
                 player.loadVideoById({
                     videoId: videoId,
-                    startSeconds: videoProps.seekTime
+                    startSeconds: seekTime
                 });
                 player.pauseVideo();
                 updateState({ receiving: false });
@@ -114,24 +105,11 @@ const Video = ({ log, name, room }) => {
         } else {
             player.loadVideoById({ videoId });
         }
-        updateState({ currVideoId: videoId });
     }
-    const loadNextVideo = (queueVideoIds) => {
-        console.log(queueVideoIds);
-        let nextVideoId = queueVideoIds[0];
+    const loadNextVideo = (queueVideoIds, currVideoIndex) => {
+        let nextVideoId = queueVideoIds[currVideoIndex + 1];
         if (nextVideoId !== undefined) {
             loadVideoById(nextVideoId, false);
-            updateState({
-                queueVideoIds: queueVideoIds.slice(1),
-                currVideoId: nextVideoId
-            });
-            sendVideoState({
-                eventName: 'videoLoadNextInQueue',
-                evenParams: {
-                    queueVideoIds: queueVideoIds,
-                    videoId: nextVideoId
-                }
-            });
         }
     }
     const updateState = (paramsToChange) => {
@@ -140,15 +118,16 @@ const Video = ({ log, name, room }) => {
     }
     const modifyVideoState = (paramsToChange) => {
         if (playerRef.current != null) {
+            const { last_YT_state } = videoProps;
             const { playing, seekTime, playbackRate, init } = paramsToChange;
             let player = playerRef.current.internalPlayer;
             if (playing !== undefined) {
                 if (playing) {
                     player.seekTo(seekTime);
-                    if (videoProps.last_YT_state != 1 || videoProps.last_YT_state != 3) // If not already playing
+                    if (last_YT_state != 1 || last_YT_state != 3) // If not already playing
                         player.playVideo();
                 } else {
-                    if (videoProps.last_YT_state != 2) // If not already paused
+                    if (last_YT_state != 2) // If not already paused
                         player.pauseVideo();
                 }
             } else if (playbackRate !== undefined) {
@@ -156,10 +135,16 @@ const Video = ({ log, name, room }) => {
             }
         }
     }
-
+    const addVideoToQueue = (videoId, queueVideoIds, currVideoIndex) => {
+        let updatedQueue = insert(queueVideoIds, currVideoIndex + 1, videoId)
+        updateState({ queueVideoIds: updatedQueue });
+    }
     useEffect(() => {
-        console.log(videoProps.queueVideoIds);
+        console.log(videoProps.currVideoIndex, videoProps.queueVideoIds);
     }, [videoProps.queueVideoIds])
+    useEffect(() => {
+        console.log(videoProps.currVideoIndex, videoProps.queueVideoIds);
+    }, [videoProps.currVideoIndex])
 
     return (
         <div className="videoContainer">
@@ -178,6 +163,7 @@ const Video = ({ log, name, room }) => {
                 videoProps={videoProps}
                 loadVideoById={loadVideoById}
                 loadNextVideo={loadNextVideo}
+                addVideoToQueue={addVideoToQueue}
             />
         </div>
     );

@@ -1,21 +1,21 @@
 # Sync video playback between browsers
 
 Supported:
-- Nothing
+- Youtube
 
 Soon to be supported:
-- Youtube
 - Vimeo
 - Daily Motion
 
 Finished:
 - Sync play/pause/playback rate change/seek
 - Sync new user on join
+- Add videos to queue
+- Play next video
 
 Todo:
 - Search YT videos
-- Add videos to queue
-- Play next/prev
+- Play prev video
 
 Issues:
 - Spamming Play/Pause causes inconsistent `receiving` values

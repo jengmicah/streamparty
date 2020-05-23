@@ -1,20 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import YouTube from 'react-youtube';
 import ReactPlayer from 'react-player';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './VideoPlayer.css';
 
 const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, loadVideoById, loadNextVideo }) => {
 
     const onYTPlay = (seekTime) => {
+        const { receiving } = videoProps;
         updateState({
             last_YT_state: 1,
             playing: true,
             seekTime
         });
-        if (videoProps.receiving) {
+        if (receiving) {
             log("Got PLAY", 'others');
             updateState({ receiving: false });
         } else {
@@ -26,12 +25,13 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         }
     }
     const onYTPause = (seekTime) => {
+        const { receiving } = videoProps;
         updateState({
             last_YT_state: 2,
             playing: false,
             seekTime
         });
-        if (videoProps.receiving) {
+        if (receiving) {
             log("Got PAUSE", 'others');
             updateState({ receiving: false });
         } else {
@@ -47,7 +47,8 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     }
 
     const onYTPlaybackRateChange = (event) => {
-        if (videoProps.receiving) {
+        const { receiving } = videoProps;
+        if (receiving) {
             log("Got PLAYBACK RATE change", 'others');
             updateState({ receiving: false });
         } else {
@@ -64,11 +65,12 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     }
 
     const onYTEnded = () => {
-        if (videoProps.receiving) {
+        const { receiving, queueVideoIds } = videoProps;
+        if (receiving) {
             updateState({ receiving: false });
         } else {
             log("ENDING", 'me');
-            let queue = videoProps.queueVideoIds;
+            let queue = queueVideoIds;
             if (queue !== undefined && queue.length !== 0) {
                 loadNextVideo(queue);
             }
@@ -114,10 +116,11 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     }
     const onYTReady = (event) => {
         log("STARTING", 'me');
-        if (videoProps.receiving) {
-            loadVideoById(videoProps.currVideoId, true);
+        const { queueVideoIds, currVideoIndex, receiving } = videoProps;
+        if (receiving) {
+            loadVideoById(queueVideoIds[currVideoIndex], true);
         } else {
-            loadVideoById(videoProps.currVideoId, false);
+            loadVideoById(queueVideoIds[currVideoIndex], false);
         }
     }
 
