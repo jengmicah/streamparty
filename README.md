@@ -16,6 +16,8 @@ Finished:
 Todo:
 - Search YT videos
 - Play prev video
+- Browse public rooms
+- Video/Audio chat
 
 Issues:
 - Spamming Play/Pause causes inconsistent `receiving` values
