@@ -65,14 +65,21 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     }
 
     const onYTEnded = () => {
-        const { receiving, queueVideoIds } = videoProps;
+        const { receiving, queueVideoIds, currVideoIndex } = videoProps;
         if (receiving) {
             updateState({ receiving: false });
         } else {
             log("ENDING", 'me');
-            let queue = queueVideoIds;
-            if (queue !== undefined && queue.length !== 0) {
-                loadNextVideo(queue);
+            if (currVideoIndex + 1 <= queueVideoIds.length - 1) {
+                loadNextVideo(queueVideoIds, currVideoIndex);
+                updateState({ currVideoIndex: currVideoIndex + 1 });
+                sendVideoState({
+                    eventName: 'videoLoadNextInQueue',
+                    eventParams: {
+                        queueVideoIds: queueVideoIds,
+                        currVideoIndex: currVideoIndex
+                    }
+                });
             }
         }
     }
