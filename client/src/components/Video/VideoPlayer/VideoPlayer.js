@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 
 import './VideoPlayer.css';
 
-const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, loadVideoById, loadNextVideo }) => {
+const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, loadVideoById, loadNewVideo }) => {
 
     const onYTPlay = (seekTime) => {
         const { receiving } = videoProps;
@@ -71,13 +71,13 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         } else {
             log("ENDING", 'me');
             if (currVideoIndex + 1 <= queueVideoIds.length - 1) {
-                loadNextVideo(queueVideoIds, currVideoIndex);
+                loadNewVideo(queueVideoIds, currVideoIndex + 1);
                 updateState({ currVideoIndex: currVideoIndex + 1 });
                 sendVideoState({
                     eventName: 'videoLoadNextInQueue',
                     eventParams: {
                         queueVideoIds: queueVideoIds,
-                        currVideoIndex: currVideoIndex
+                        currVideoIndex: currVideoIndex + 1
                     }
                 });
             }

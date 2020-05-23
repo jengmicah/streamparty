@@ -6,8 +6,9 @@ import JoinUser from './JoinUser';
 import { sckt } from '../Socket';
 
 import './Room.css';
+import { faRemoveFormat } from "@fortawesome/free-solid-svg-icons";
 
-const Room = ({ location }) => {
+const Room = ({ location, history }) => {
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
     const log = (msg, type) => {
@@ -41,8 +42,12 @@ const Room = ({ location }) => {
 
     // From JoinRoom.js 
     useEffect(() => {
-        const room = location.pathname.split('/').pop();
-        setRoom(room);
+        const room = location.pathname.split('/').pop().trim();
+        if(room.length > 0)
+            setRoom(room);
+        else {
+            history.push('/');
+        }
         // sckt.socket.emit('createRoom', { room }, () => {});
         // sckt.socket.on("roomData", ({ users }) => {
         //     setUsers(users);

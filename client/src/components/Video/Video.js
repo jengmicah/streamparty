@@ -74,8 +74,8 @@ const Video = ({ log, name, room }) => {
                     addVideoToQueue(videoId, queueVideoIds, insertIndex);
                     break;
                 case 'videoLoadNextInQueue':
-                    updateState({ currVideoIndex: currVideoIndex + 1 });
-                    loadNextVideo(queueVideoIds, currVideoIndex);
+                    updateState({ currVideoIndex: currVideoIndex });
+                    loadNewVideo(queueVideoIds, currVideoIndex);
                     break;
                 default:
                     break;
@@ -106,8 +106,8 @@ const Video = ({ log, name, room }) => {
             }
         }
     }
-    const loadNextVideo = (queueVideoIds, currVideoIndex) => {
-        let nextVideoId = queueVideoIds[currVideoIndex + 1];
+    const loadNewVideo = (queueVideoIds, nextVideoIndex) => {
+        let nextVideoId = queueVideoIds[nextVideoIndex];
         if (nextVideoId !== undefined) {
             loadVideoById(nextVideoId, false);
         }
@@ -141,9 +141,9 @@ const Video = ({ log, name, room }) => {
     // useEffect(() => {
     //     console.log(videoProps.currVideoIndex, videoProps.queueVideoIds);
     // }, [videoProps.queueVideoIds])
-    // useEffect(() => {
-    //     console.log(videoProps.currVideoIndex, videoProps.queueVideoIds);
-    // }, [videoProps.currVideoIndex])
+    useEffect(() => {
+        console.log(videoProps.currVideoIndex, videoProps.queueVideoIds);
+    }, [videoProps.currVideoIndex])
 
     return (
         <div className="videoContainer">
@@ -153,7 +153,7 @@ const Video = ({ log, name, room }) => {
                 sendVideoState={sendVideoState}
                 updateState={updateState}
                 playerRef={playerRef}
-                loadNextVideo={loadNextVideo}
+                loadNewVideo={loadNewVideo}
                 loadVideoById={loadVideoById}
             />
             <VideoSelect
@@ -161,7 +161,7 @@ const Video = ({ log, name, room }) => {
                 sendVideoState={sendVideoState}
                 videoProps={videoProps}
                 loadVideoById={loadVideoById}
-                loadNextVideo={loadNextVideo}
+                loadNewVideo={loadNewVideo}
                 addVideoToQueue={addVideoToQueue}
             />
         </div>

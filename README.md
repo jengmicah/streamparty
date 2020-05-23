@@ -11,11 +11,10 @@ Finished:
 - Sync play/pause/playback rate change/seek
 - Sync new user on join
 - Add videos to queue
-- Play next video
+- Play next/prev video
 
 Todo:
 - Search YT videos
-- Play prev video
 
 Issues:
 - Spamming Play/Pause causes inconsistent `receiving` values

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './VideoSelect.css';
 import { youtube_parser, validateYouTubeUrl } from '../VideoHelper';
 
-const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, loadNextVideo, addVideoToQueue }) => {
+const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, loadNewVideo, addVideoToQueue }) => {
     const [url, setUrl] = useState('');
 
     const handleInputChange = (event) => {
@@ -33,14 +33,14 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
     }
 
     useEffect(() => {
-        let nextVidIcon = document.getElementById('nextVidIcon');
+        let next = document.getElementById('nextVidIcon');
+        let prev = document.getElementById('prevVidIcon');
         let { queueVideoIds, currVideoIndex } = videoProps;
         if (queueVideoIds !== undefined) {
-            if (currVideoIndex + 1 <= queueVideoIds.length - 1) {
-                nextVidIcon.classList.add('readyToPress');
-            } else {
-                nextVidIcon.classList.remove('readyToPress');
-            }
+            if (currVideoIndex + 1 <= queueVideoIds.length - 1) next.classList.add('readyToPress');
+            else next.classList.remove('readyToPress');
+            if (currVideoIndex - 1 >= 0) prev.classList.add('readyToPress');
+            else prev.classList.remove('readyToPress');
         }
     }, [videoProps.queueVideoIds, videoProps.currVideoIndex])
 
@@ -95,13 +95,30 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
         const { queueVideoIds, currVideoIndex } = videoProps;
         if (queueVideoIds !== undefined) {
             if (currVideoIndex + 1 <= queueVideoIds.length - 1) {
-                loadNextVideo(queueVideoIds, currVideoIndex);
+                loadNewVideo(queueVideoIds, currVideoIndex + 1);
                 updateState({ currVideoIndex: currVideoIndex + 1 });
                 sendVideoState({
                     eventName: 'videoLoadNextInQueue',
                     eventParams: {
                         queueVideoIds: queueVideoIds,
-                        currVideoIndex: currVideoIndex
+                        currVideoIndex: currVideoIndex + 1
+                    }
+                });
+            }
+        }
+    }
+    const handlePrevVideo = (event) => {
+        event.preventDefault();
+        const { queueVideoIds, currVideoIndex } = videoProps;
+        if (queueVideoIds !== undefined) {
+            if (currVideoIndex - 1 >= 0) {
+                loadNewVideo(queueVideoIds, currVideoIndex - 1);
+                updateState({ currVideoIndex: currVideoIndex - 1 });
+                sendVideoState({
+                    eventName: 'videoLoadNextInQueue',
+                    eventParams: {
+                        queueVideoIds: queueVideoIds,
+                        currVideoIndex: currVideoIndex - 1
                     }
                 });
             }
@@ -110,6 +127,9 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
     return (
         <div className="videoSelectContainer">
             <form className='form'>
+                <button className='sendUrlButton' onClick={(event) => handlePrevVideo(event)}>
+                    <FontAwesomeIcon id='prevVidIcon' icon="angle-double-left" size="2x" />
+                </button>
                 <input
                     className='input'
                     type='text'
@@ -125,7 +145,7 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideoById, l
                     <FontAwesomeIcon className='sendUrlIcon' icon="plus" size="2x" />
                 </button>
                 <button className='sendUrlButton' onClick={(event) => handleNextVideo(event)}>
-                    <FontAwesomeIcon id='nextVidIcon' icon="caret-right" size="2x" />
+                    <FontAwesomeIcon id='nextVidIcon' icon="angle-double-right" size="2x" />
                 </button>
             </form>
         </div>
