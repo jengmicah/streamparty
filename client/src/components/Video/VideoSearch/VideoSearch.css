@@ -3,7 +3,7 @@
   padding: 15px;
 }
 
-.sendUrlButton {
+.videoNavButton {
   color: #fff !important;
   text-transform: uppercase;
   text-decoration: none;
@@ -14,7 +14,7 @@
   border: none;
   /* width: 20%; */
 }
-.sendUrlIcon {
+.videoNavIcon {
   color: #bfbfbf;
   transition: all 0.1s;
 }

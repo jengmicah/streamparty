@@ -12,11 +12,12 @@ Finished:
 - Sync new user on join
 - Add videos to queue
 - Play next/prev video
+- Search YT videos
 
 Todo:
-- Search YT videos
 - Browse public rooms
 - Video/Audio chat
+- Add tooltips for video handler icons
 
 Issues:
 - Spamming Play/Pause causes inconsistent `receiving` values

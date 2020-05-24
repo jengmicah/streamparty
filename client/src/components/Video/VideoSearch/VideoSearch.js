@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './VideoSelect.css';
+import './VideoSearch.css';
 import { youtube_parser, validateYouTubeUrl } from '../VideoHelper';
+import VideoSearchResults from './VideoSearchResults/VideoSearchResults';
+import axios from 'axios';
+import _ from 'lodash';
 
-const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideo, loadFromQueue, addVideoToQueue }) => {
-    const [url, setUrl] = useState('');
+const VideoSearch = ({ updateState, sendVideoState, videoProps, loadVideo, loadFromQueue, addVideoToQueue }) => {
+    const [searchInput, setSearchInput] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [page, setPage] = useState(0);
+    const baseURL = 'https://youtube-search-scraper.herokuapp.com';
 
     useEffect(() => {
         let next = document.getElementById('nextVidIcon');
@@ -21,43 +27,75 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideo, loadF
             else prev.classList.remove('readyToPress');
         }
     }, [videoProps.queue, videoProps.queueIndex]);
-
     useEffect(() => {
-        let trimUrl = url.trim();
-        let sendButtons = Array.from(document.getElementsByClassName('sendUrlIcon'));
+        let trimUrl = searchInput.trim();
+        let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
         // Update play/add to queue button color
         if (trimUrl !== '') {
             if (validateYouTubeUrl(trimUrl)) {
                 sendButtons.map(button => {
                     button.classList.add('readyToPress');
-                    button.classList.remove('notReadyToPress');
+                    // button.classList.remove('notReadyToPress');
                 });
             } else {
                 sendButtons.map(button => {
                     button.classList.remove('readyToPress');
-                    button.classList.add('notReadyToPress');
+                    // button.classList.add('notReadyToPress');
                 });
             }
         } else {
             sendButtons.map(button => {
                 button.classList.remove('readyToPress');
-                button.classList.remove('notReadyToPress');
+                // button.classList.remove('notReadyToPress');
             });
         }
-    }, [url]);
-
+    }, [searchInput]);
+    const addVideoFromSearch = (videoId) => {
+        let { queue, queueIndex } = videoProps;
+        // Handle adding to queue
+        addVideoToQueue(videoId, queue, queue.length);
+        sendVideoState({
+            eventName: "syncAddToQueue",
+            eventParams: {
+                videoId: videoId,
+                queue: queue,
+                insertIndex: queue.length,
+                queueIndex: queueIndex
+            }
+        });
+    }
+    const playVideoFromSearch = (videoId) => {
+        let { queue, queueIndex } = videoProps;
+        // Handle playing video immediately
+        addVideoToQueue(videoId, queue, queueIndex + 1);
+        sendVideoState({
+            eventName: "syncAddToQueue",
+            eventParams: {
+                videoId: videoId,
+                queue: queue,
+                insertIndex: queueIndex + 1,
+                queueIndex: queueIndex + 1
+            }
+        });
+        updateState({ queueIndex: queueIndex + 1 });
+        loadVideo(videoId, false);
+        sendVideoState({
+            eventName: "syncLoad",
+            eventParams: { videoId }
+        });
+    }
     const handlePlay = (event) => {
-        let trimUrl = url.trim();
+        let trimUrl = searchInput.trim();
         const { queue, queueIndex } = videoProps;
         event.preventDefault();
         if (validateYouTubeUrl(trimUrl)) {
             // Reset the color after playing
-            let sendButtons = Array.from(document.getElementsByClassName('sendUrlIcon'));
+            let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
             sendButtons.map(button => {
                 button.classList.remove('readyToPress');
-                button.classList.remove('notReadyToPress');
+                // button.classList.remove('notReadyToPress');
             });
-            setUrl('')
+            setSearchInput('')
             let videoId = youtube_parser(trimUrl);
 
             // Handle playing video immediately
@@ -77,22 +115,25 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideo, loadF
                 eventName: "syncLoad",
                 eventParams: { videoId }
             });
+        } else {
+            // Search phrase on Youtube
+            search(trimUrl, 0);
         }
     };
     const handleAddToQueue = (event) => {
-        let trimUrl = url.trim();
+        let trimUrl = searchInput.trim();
         const { queue, queueIndex } = videoProps;
         event.preventDefault();
         if (validateYouTubeUrl(trimUrl)) {
             // Reset the color after playing
-            let sendButtons = Array.from(document.getElementsByClassName('sendUrlIcon'));
+            let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
             sendButtons.map(button => {
                 button.classList.remove('readyToPress');
-                button.classList.remove('notReadyToPress');
+                // button.classList.remove('notReadyToPress');
             });
-            setUrl('')
+            setSearchInput('')
             let videoId = youtube_parser(trimUrl);
-            
+
             // Handle adding to queue
             addVideoToQueue(videoId, queue, queue.length);
             sendVideoState({
@@ -140,32 +181,55 @@ const VideoSelect = ({ updateState, sendVideoState, videoProps, loadVideo, loadF
             }
         }
     }
+    const videoSearch = async (term, page) => {
+        axios.get(`${baseURL}/search`, {
+            params: {
+                q: term,
+                page: page
+            }
+        }).then(response => {
+            setSearchResults(response.data.results);
+        });
+    }
+    const search = _.debounce((term, page) => {
+        videoSearch(term, page)
+    }, 500);
+
     return (
-        <div className="videoSelectContainer">
-            <form className='form'>
-                <button className='sendUrlButton' onClick={(event) => handlePrevVideo(event)}>
+        <div className="VideoSearchContainer">
+            <div className='form'>
+                <div className='videoNavButton' onClick={(event) => handlePrevVideo(event)}>
                     <FontAwesomeIcon id='prevVidIcon' icon="angle-double-left" size="2x" />
-                </button>
+                </div>
                 <input
                     className='input'
                     type='text'
-                    value={url}
-                    placeholder="Paste a video URL..."
-                    onChange={event => setUrl(event.target.value)}
+                    value={searchInput}
+                    placeholder="Search a video or paste a video link..."
+                    onChange={event => setSearchInput(event.target.value)}
                     onKeyPress={event => event.key === 'Enter' ? handlePlay(event) : null}
                 />
-                <button className='sendUrlButton' onClick={(event) => handlePlay(event)}>
-                    <FontAwesomeIcon className='sendUrlIcon' icon="play" size="2x" />
-                </button>
-                <button className='sendUrlButton' onClick={(event) => handleAddToQueue(event)}>
-                    <FontAwesomeIcon className='sendUrlIcon' icon="plus" size="2x" />
-                </button>
-                <button className='sendUrlButton' onClick={(event) => handleNextVideo(event)}>
+                <div className='videoNavButton' onClick={(event) => handlePlay(event)}>
+                    <FontAwesomeIcon className='videoNavIcon' icon="play" size="2x" />
+                </div>
+                <div className='videoNavButton' onClick={(event) => handleAddToQueue(event)}>
+                    <FontAwesomeIcon className='videoNavIcon' icon="plus" size="2x" />
+                </div>
+                <div className='videoNavButton' onClick={(event) => handleNextVideo(event)}>
                     <FontAwesomeIcon id='nextVidIcon' icon="angle-double-right" size="2x" />
-                </button>
-            </form>
+                </div>
+            </div>
+            <VideoSearchResults
+                searchResults={searchResults}
+                playVideoFromSearch={playVideoFromSearch}
+                addVideoFromSearch={addVideoFromSearch}
+                page={page}
+                setPage={setPage}
+                search={search}
+                searchInput={searchInput}
+            />
         </div>
     )
 };
 
-export default VideoSelect;
+export default VideoSearch;

@@ -24,7 +24,7 @@ const ChatInput = ({ message, setMessage, sendMessage }) => {
     }
 
     return (
-        <form className='form'>
+        <div className='form'>
             <input
                 autoFocus
                 className='input'
@@ -34,10 +34,10 @@ const ChatInput = ({ message, setMessage, sendMessage }) => {
                 onChange={event => handleInputChange(event)}
                 onKeyPress={event => event.key === 'Enter' ? handleInputSend(event) : null}
             />
-            <button id='sendButton' onClick={(event) => handleInputSend(event)}>
+            <div id='sendButton' onClick={(event) => handleInputSend(event)}>
                 <FontAwesomeIcon id='sendIcon' icon="paper-plane" size="2x" />
-            </button>
-        </form>
+            </div>
+        </div>
     )
 };
 

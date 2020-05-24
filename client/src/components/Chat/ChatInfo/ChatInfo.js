@@ -10,12 +10,12 @@ const ChatInfo = ({ users }) => (
       users
         ? (
           <div>
-            <h2>Currently watching:</h2>
+            {/* <h2>Currently watching:</h2> */}
             <div className="activeContainer">
               <h3>
                 {users.map(({ name }) => (
                   <div key={name} className="activeItem">
-                    {name}
+                    <span>{name}</span>
                     <FontAwesomeIcon className="onlineIcon" size='xs' icon="circle" />
                   </div>
                 ))}

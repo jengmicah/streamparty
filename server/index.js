@@ -12,6 +12,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
+const cors = require('cors');
+
 io.on('connection', (socket) => {
     console.log('New Connection');
 
@@ -89,5 +91,6 @@ io.on('connection', (socket) => {
 });
 
 app.use(router);
+app.use(cors());
 
 server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));

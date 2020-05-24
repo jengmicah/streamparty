@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import './Video.css';
 import VideoPlayer from './VideoPlayer/VideoPlayer';
-import VideoSelect from './VideoSelect/VideoSelect';
+import VideoSearch from './VideoSearch/VideoSearch';
 
 import { sckt } from '../Socket';
 import { insert } from './VideoHelper';
@@ -159,7 +159,7 @@ const Video = ({ log, name, room }) => {
                 loadFromQueue={loadFromQueue}
                 loadVideo={loadVideo}
             />
-            <VideoSelect
+            <VideoSearch
                 updateState={updateState}
                 sendVideoState={sendVideoState}
                 videoProps={videoProps}

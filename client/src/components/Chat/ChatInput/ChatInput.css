@@ -1,12 +1,13 @@
 .form {
   display: flex;
+  margin-top:10px;
   /* border-top: 2px solid #d3d3d3; */
 }
 
 .input {
   border: none;
   border-radius: 30px;
-  padding: 0 5%;
+  padding: 0 16px;
   margin: 10px;
   width: 80%;
   font-size: 1.2em;
