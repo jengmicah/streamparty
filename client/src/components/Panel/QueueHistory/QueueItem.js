@@ -1,9 +1,10 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './QueueItem.css';
 
-const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
+const QueueItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
   return (
-    <li className="list-group-item">
+    <li className="list-group-item single-col">
       <div className="search-item-container">
         <div onClick={() => onVideoPlay(searchItem)} className="search-item-thumb">
           <img src={searchItem.video.thumbnail_src} />
@@ -19,14 +20,11 @@ const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
               <FontAwesomeIcon id='verifiedIcon' icon="check-circle" size="sm" />
             }
           </a>
-          <div className="search-item-channel-date">
-            <div>{searchItem.video.views} • {searchItem.video.upload_date}</div>
-            <div><FontAwesomeIcon onClick={() => onVideoAddToQueue(searchItem)} className='videoIcons plusIcon' icon="plus" /></div>
-          </div>
+            {/* <div><FontAwesomeIcon onClick={() => onVideoAddToQueue(searchItem)} className='videoIcons plusIcon' icon="times" /></div> */}
         </div>
       </div>
     </li>
   );
 };
 
-export default VideoListItem;
+export default QueueItem;

@@ -17,7 +17,10 @@ import {
     faAngleDoubleRight,
     faCaretLeft,
     faCaretRight,
-    faCheckCircle
+    faCheckCircle,
+    faComment,
+    faStream,
+    faCog
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -31,7 +34,10 @@ library.add(
     faAngleDoubleRight,
     faCaretLeft,
     faCaretRight,
-    faCheckCircle
+    faCheckCircle,
+    faComment,
+    faStream,
+    faCog
 );
 
 const App = () => (

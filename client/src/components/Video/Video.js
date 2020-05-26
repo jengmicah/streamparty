@@ -6,16 +6,9 @@ import VideoSearch from './VideoSearch/VideoSearch';
 import { sckt } from '../Socket';
 import { insert } from './VideoHelper';
 
-const Video = ({ log, name, room }) => {
+const Video = ({ log, name, room, videoProps, updateState }) => {
     const playerRef = useRef(null);
-    const [videoProps, setVideoProps] = useState({
-        queueIndex: 0,
-        queue: ["ffyKY3Dj5ZE"],
-        playing: true,
-        seekTime: 0,
-        lastStateYT: -1,
-        receiving: false,
-    });
+
     useEffect(() => {
         // Send videoProps to new user
         sckt.socket.on("getSync", ({ id }) => {
@@ -43,7 +36,7 @@ const Video = ({ log, name, room }) => {
         });
         // Update single value in videoProps from other user
         sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams = {} }) => {
-            const { seekTime, playbackRate, videoId, queue, queueIndex, insertIndex } = eventParams;
+            const { seekTime, playbackRate, videoId, queue, queueIndex, insertIndex, searchItem } = eventParams;
             updateState({ receiving: true });
             switch (eventName) {
                 case 'syncPlay':
@@ -59,11 +52,11 @@ const Video = ({ log, name, room }) => {
                     modifyVideoState({ playbackRate });
                     break;
                 case 'syncLoad':
-                    loadVideo(videoId, false);
+                    loadVideo(searchItem, false);
                     break;
                 case 'syncAddToQueue':
                     updateState({ queueIndex });
-                    addVideoToQueue(videoId, queue, insertIndex);
+                    addVideoToQueue(searchItem, queue, insertIndex);
                     break;
                 case 'syncLoadFromQueue':
                     updateState({ queueIndex });
@@ -83,18 +76,19 @@ const Video = ({ log, name, room }) => {
         };
         sckt.socket.emit('sendVideoState', params, (error) => { });
     };
-    const loadVideo = (videoId, sync) => {
+    const loadVideo = (searchItem, sync) => {
         if (playerRef.current != null && playerRef.current.internalPlayer != null) {
             const { playing, seekTime } = videoProps;
             let player = playerRef.current.internalPlayer;
+            let videoId = searchItem.video.id;
             if (sync) {
                 if (playing) {
-                    player.loadVideoById({
+                    player.cueVideoById({
                         videoId: videoId,
                         startSeconds: seekTime
                     });
                 } else {
-                    player.loadVideoById({
+                    player.cueVideoById({
                         videoId: videoId,
                         startSeconds: seekTime
                     });
@@ -102,18 +96,15 @@ const Video = ({ log, name, room }) => {
                     updateState({ receiving: false });
                 }
             } else {
-                player.loadVideoById({ videoId });
+                player.cueVideoById({ videoId });
             }
         }
     }
     const loadFromQueue = (queue, nextVideoIndex) => {
-        let nextVideoId = queue[nextVideoIndex];
-        if (nextVideoId !== undefined) {
-            loadVideo(nextVideoId, false);
+        let nextVideo = queue[nextVideoIndex];
+        if (nextVideo !== undefined) {
+            loadVideo(nextVideo, false);
         }
-    }
-    const updateState = (paramsToChange) => {
-        setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
     }
     const modifyVideoState = (paramsToChange) => {
         if (playerRef.current != null && playerRef.current.internalPlayer != null) {
@@ -136,8 +127,8 @@ const Video = ({ log, name, room }) => {
             }
         }
     }
-    const addVideoToQueue = (videoId, queue, queueIndex) => {
-        let updatedQueue = insert(queue, queueIndex, videoId)
+    const addVideoToQueue = (searchItem, queue, queueIndex) => {
+        let updatedQueue = insert(queue, queueIndex, searchItem)
         updateState({ queue: updatedQueue });
     }
     // Debugging

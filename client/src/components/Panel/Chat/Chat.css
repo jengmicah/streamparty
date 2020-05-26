@@ -1,11 +1,11 @@
 .chatContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: #ffffff;
-  /* border-radius: 8px; */
-  height: 100vh;
-  width: 25vw;
+  height: 100%;
+  width: 100%;
   font-size: 0.8em;
 }
 
@@ -22,14 +22,6 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #999;
-}
-
-@media (max-width: 720px) {
-  .chatContainer {
-    width: 100%;
-    height: 100%;
-    display: none;
-  }
 }
 
 /* @media (min-width: 480px) and (max-width: 1200px) {

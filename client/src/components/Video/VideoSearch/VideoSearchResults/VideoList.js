@@ -13,7 +13,7 @@ const VideoList = ({ onVideoPlay, onVideoAddToQueue, searchResults }) => {
     );
   });
   return (
-    <ul className="videoList col-md-4">{videoItems}</ul>
+    <ul className="videoList col-md-4 abridged">{videoItems}</ul>
   );
 };
 

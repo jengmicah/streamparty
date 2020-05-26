@@ -10,7 +10,7 @@
   padding: 0 16px;
   margin: 10px;
   width: 80%;
-  font-size: 1.2em;
+  /* font-size: 1.05em; */
   background: rgba(0, 0, 0, 0.05);
   color: rgba(0,0,0,0.7);
 }

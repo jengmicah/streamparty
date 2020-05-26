@@ -15,9 +15,11 @@ Finished:
 - Search YT videos
 
 Todo:
+- Fix thumbnail res for direct URL links
+- Queue order, positioning, highlighting
+- Add tooltips for video handler icons
 - Browse public rooms
 - Video/Audio chat
-- Add tooltips for video handler icons
 
 Issues:
 - Spamming Play/Pause causes inconsistent `receiving` values

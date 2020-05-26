@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-import ChatInfo from './ChatInfo/ChatInfo';
+// import ChatInfo from './ChatInfo/ChatInfo';
 import ChatMessages from './ChatMessages/ChatMessages';
-import ChatBar from './ChatBar/ChatBar';
+// import ChatBar from './ChatBar/ChatBar';
 import ChatInput from './ChatInput/ChatInput';
 
 import './Chat.css';
 
-import { sckt } from '../Socket';
+import { sckt } from '../../Socket';
 
-const Chat = ({ name, room }) => {
-    const [users, setUsers] = useState('');
+const Chat = ({ name, room, users }) => {
+
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         sckt.socket.on('message', message => {
             setMessages(messages => [...messages, message]);
-        });
-        sckt.socket.on("roomData", ({ users }) => {
-            setUsers(users);
         });
     }, []);
 
@@ -33,10 +30,10 @@ const Chat = ({ name, room }) => {
 
     return (
         <div className="chatContainer">
-            <ChatBar room={room} users={users} />
+            {/* <ChatBar room={room} users={users} /> */}
             <ChatMessages messages={messages} name={name} />
             <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage} />
-            <ChatInfo users={users} />
+            {/* <ChatInfo users={users} /> */}
         </div>
     );
 }
