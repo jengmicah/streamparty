@@ -20,7 +20,9 @@ import {
     faCheckCircle,
     faComment,
     faStream,
-    faCog
+    faCog,
+    faSearch,
+    faHistory
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -37,7 +39,9 @@ library.add(
     faCheckCircle,
     faComment,
     faStream,
-    faCog
+    faCog,
+    faSearch,
+    faHistory
 );
 
 const App = () => (

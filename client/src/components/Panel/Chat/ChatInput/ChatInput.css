@@ -1,22 +1,23 @@
 .form {
   display: flex;
-  margin-top:10px;
+  margin-top: 10px;
   /* border-top: 2px solid #d3d3d3; */
+  justify-content: center;
 }
 
 .input {
   border: none;
   border-radius: 30px;
-  padding: 0 16px;
+  padding: 10px 16px;
   margin: 10px;
   width: 80%;
   /* font-size: 1.05em; */
   background: rgba(0, 0, 0, 0.05);
-  color: rgba(0,0,0,0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .input::placeholder {
-  color: rgba(0,0,0,0.3);
+  color: rgba(0, 0, 0, 0.3);
 }
 .input::-webkit-input-placeholder,
 .input::-moz-placeholder,
@@ -47,6 +48,6 @@ select:focus {
   transition: all 0.1s;
 }
 .readyToPress {
-  color: #43A3F0 !important;
+  color: #43a3f0 !important;
   cursor: pointer;
 }

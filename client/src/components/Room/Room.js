@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import Chat from '../Chat/Chat';
 import Video from '../Video/Video';
 import JoinUser from './JoinUser';
@@ -9,11 +9,10 @@ import './Room.css';
 import Panel from "../Panel/Panel";
 
 const Room = ({ location, history }) => {
+    const playerRef = useRef(null);
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
-
     const [videoProps, setVideoProps] = useState({
-        queueIndex: 0,
         queue: [
             {
                 "video": {
@@ -21,7 +20,7 @@ const Room = ({ location, history }) => {
                     "title": "Every Brooklyn Nine-Nine Cold Open - Brooklyn Nine-Nine",
                     "url": "https://www.youtube.com/watch?v=GbtF3oA7NMM",
                     "upload_date": "Streamed 3 weeks ago",
-                    "thumbnail_src": "https://i.ytimg.com/vi/GbtF3oA7NMM/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLAu2-W_1kAs4s78O6OjQ4R9PjRkAw",
+                    "thumbnail": "https://i.ytimg.com/vi/GbtF3oA7NMM/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLAu2-W_1kAs4s78O6OjQ4R9PjRkAw",
                     "views": "1.1M views"
                 },
                 "channel": {
@@ -31,6 +30,7 @@ const Room = ({ location, history }) => {
                 }
             }
         ],
+        history: [],
         playing: true,
         seekTime: 0,
         lastStateYT: -1,
@@ -39,6 +39,15 @@ const Room = ({ location, history }) => {
     const updateState = (paramsToChange) => {
         setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
     }
+    const sendVideoState = ({ eventName, eventParams }) => {
+        let params = {
+            name: name,
+            room: room,
+            eventName: eventName,
+            eventParams: eventParams
+        };
+        sckt.socket.emit('sendVideoState', params, (error) => { });
+    };
     const log = (msg, type) => {
         let baseStyles = [
             "color: #fff",
@@ -58,7 +67,7 @@ const Room = ({ location, history }) => {
         ].join(';');
         // Set style based on input type
         let style = baseStyles + ';';
-        switch(type) {
+        switch (type) {
             case "server": style += serverStyles; break;
             case "other": style += otherStyles; break;
             case "me": style += meStyles; break;
@@ -71,7 +80,7 @@ const Room = ({ location, history }) => {
     // From JoinRoom.js 
     useEffect(() => {
         const room = location.pathname.split('/').pop().trim();
-        if(room.length > 0)
+        if (room.length > 0)
             setRoom(room);
         else {
             history.push('/');
@@ -91,14 +100,28 @@ const Room = ({ location, history }) => {
             }
         });
     }
-
     return (
         name && room
             ? (
                 <div className="outerContainer">
-                    <Video log={log} name={name} room={room} videoProps={videoProps} updateState={updateState} />
-                    <Panel log={log} name={name} room={room} videoProps={videoProps} updateState={updateState} />
-                    {/* <Chat log={log} name={name} room={room} /> */}
+                    <Video
+                        log={log}
+                        name={name}
+                        room={room}
+                        videoProps={videoProps}
+                        updateState={updateState}
+                        playerRef={playerRef}
+                        sendVideoState={sendVideoState}
+                    />
+                    <Panel
+                        log={log}
+                        name={name}
+                        room={room}
+                        videoProps={videoProps}
+                        updateState={updateState}
+                        playerRef={playerRef}
+                        sendVideoState={sendVideoState}
+                    />
                 </div>
             ) : (
                 <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />

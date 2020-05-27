@@ -7,13 +7,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Chat from './Chat/Chat';
 import Users from './Users/Users';
 import QueueHistory from './QueueHistory/QueueHistory';
-// import JoinUser from './JoinUser';
+import ReactTooltip from "react-tooltip";
 
 import { sckt } from '../Socket';
 
 import './Panel.css';
 
-const Panel = ({ log, name, room, videoProps, updateState }) => {
+const Panel = ({ log, name, room, videoProps, updateState, playerRef, sendVideoState }) => {
 
     const [users, setUsers] = useState('');
 
@@ -25,26 +25,52 @@ const Panel = ({ log, name, room, videoProps, updateState }) => {
 
     return (
         <div className="panelContainer">
+            <ReactTooltip effect="solid" />
             <Tabs forceRenderTabPanel={true}>
                 <TabList>
-                    <Tab><FontAwesomeIcon icon="comment" /></Tab>
-                    <Tab><FontAwesomeIcon icon="stream" /></Tab>
-                    <Tab><FontAwesomeIcon icon="users" /></Tab>
+                    <Tab data-tip="Chat"><FontAwesomeIcon icon="comment" /></Tab>
+                    <Tab data-tip="Queue"><FontAwesomeIcon icon="stream" /></Tab>
+                    <Tab data-tip="History"><FontAwesomeIcon icon="history" /></Tab>
+                    <Tab data-tip="Users"><FontAwesomeIcon icon="users" /><sub>{users.length}</sub></Tab>
                     {/* <Tab><FontAwesomeIcon icon="cog" /></Tab> */}
                 </TabList>
 
                 <TabPanel>
-                    <Chat log={log} name={name} room={room} users={users} />
+                    <Chat
+                        log={log}
+                        name={name}
+                        room={room}
+                        users={users}
+                    />
                 </TabPanel>
                 <TabPanel>
-                    <QueueHistory queue={videoProps.queue} updateState={updateState} />
+                    <QueueHistory
+                        name={name}
+                        room={room}
+                        videoProps={videoProps}
+                        updateState={updateState}
+                        playerRef={playerRef}
+                        isQueue={true}
+                        sendVideoState={sendVideoState}
+                    />
+                </TabPanel>
+                <TabPanel>
+                    <QueueHistory
+                        name={name}
+                        room={room}
+                        videoProps={videoProps}
+                        updateState={updateState}
+                        playerRef={playerRef}
+                        isQueue={false}
+                        sendVideoState={sendVideoState}
+                    />
                 </TabPanel>
                 <TabPanel>
                     <Users users={users} />
                 </TabPanel>
                 {/* <TabPanel>
                     <Settings />
-                </TabPanel> */}
+                </TabPanel>  */}
             </Tabs>
         </div>
     );

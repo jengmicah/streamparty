@@ -15,9 +15,7 @@ Finished:
 - Search YT videos
 
 Todo:
-- Fix thumbnail res for direct URL links
-- Queue order, positioning, highlighting
-- Add tooltips for video handler icons
+- Fix sync on loading from queue/history
 - Browse public rooms
 - Video/Audio chat
 

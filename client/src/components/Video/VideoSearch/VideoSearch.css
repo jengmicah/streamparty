@@ -25,6 +25,9 @@
   color: #43a3f0 !important;
   cursor: pointer;
 }
-.notReadyToPress {
-  color: #e26a6a !important;
+.validReadyToPress {
+  color: #23cba7 !important;
+  cursor: pointer;
 }
+.readyToPress:hover,
+.validReadyToPress:hover { opacity: 0.9; }

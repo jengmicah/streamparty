@@ -63,19 +63,17 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         }
     }
     const onYTEnded = () => {
-        const { receiving, queue, queueIndex } = videoProps;
+        const { receiving, queue } = videoProps;
         if (receiving) {
             updateState({ receiving: false });
         } else {
             log("ENDING", 'me');
-            if (queueIndex + 1 <= queue.length - 1) {
-                loadFromQueue(queue, queueIndex + 1);
-                updateState({ queueIndex: queueIndex + 1 });
+            if (queue.length > 0) {
+                loadFromQueue(queue);
                 sendVideoState({
                     eventName: 'syncLoadFromQueue',
                     eventParams: {
                         queue: queue,
-                        queueIndex: queueIndex + 1
                     }
                 });
             }
@@ -118,11 +116,11 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     }
     const onYTReady = (event) => {
         log("STARTING", 'me');
-        const { queue, queueIndex, receiving } = videoProps;
+        const { queue, history, receiving } = videoProps;
         if (receiving) {
-            loadVideo(queue[queueIndex], true);
+            loadVideo(history[0], true);
         } else {
-            loadVideo(queue[queueIndex], false);
+            loadFromQueue(queue, false);
         }
     }
 

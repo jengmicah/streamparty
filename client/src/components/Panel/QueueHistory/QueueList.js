@@ -1,15 +1,17 @@
 import React from 'react';
 import QueueItem from './QueueItem';
 
-const QueueList = ({ onVideoPlay, onVideoAddToQueue, searchResults }) => {
+const QueueList = ({ handlePlayFromList, handleRemoveFromQueue, videoList, isQueue }) => {
 
-  const videoItems = searchResults.map((searchItem) => {
+  const videoItems = videoList.map((searchItem, index) => {
     return (
       <QueueItem
-        onVideoPlay={onVideoPlay}
-        // onVideoAddToQueue={onVideoAddToQueue}
-        key={searchItem.video.id}
-        searchItem={searchItem} />
+        handlePlayFromList={() => handlePlayFromList(index)}
+        handleRemoveFromQueue={() => handleRemoveFromQueue(index)}
+        key={searchItem.video.id + index}
+        searchItem={searchItem}
+        isQueue={isQueue}
+      />
     );
   });
   return (

@@ -72,7 +72,7 @@ input:focus {
 }
 #verifiedIcon {
   color: #606060;
-  margin-left: 3px;
+  margin-left: 5px;
 }
 .navIcons {
   display: flex;
@@ -83,6 +83,13 @@ input:focus {
   margin: 10px;
   cursor: pointer;
   color: #43a3f0;
+}
+.navIcons div:hover {
+  opacity: 0.9;
+}
+.navIcons span {
+  color: #555;
+  font-size: 0.85em;
 }
 .search-item-thumb {
   position: relative;
@@ -112,4 +119,7 @@ input:focus {
 .plusIcon:hover {
   transform: scale(1.2);
   color: #000;
+}
+.loading {
+  text-align: center;
 }
