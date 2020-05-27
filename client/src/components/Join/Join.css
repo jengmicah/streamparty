@@ -66,16 +66,6 @@ body {
   margin-top: 20px;
 }
 
-@media (max-width: 720px) {
-  .joinOuterContainer {
-    height: 100%;
-  }
-
-  .joinInnerContainer {
-    width: 60%;
-  }
-}
-
 button:focus {
   outline: 0;
 }

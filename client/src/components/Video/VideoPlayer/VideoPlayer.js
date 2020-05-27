@@ -55,11 +55,11 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             let eventParams = {
                 playbackRate: event.target.getPlaybackRate()
             };
-            updateState({ ...eventParams, receiving: false });
             sendVideoState({
                 eventName: 'syncRateChange',
                 eventParams: eventParams
             });
+            updateState({ ...eventParams, receiving: false });
         }
     }
     const onYTEnded = () => {
@@ -69,18 +69,22 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         } else {
             log("ENDING", 'me');
             if (queue.length > 0) {
-                loadFromQueue(queue);
                 sendVideoState({
                     eventName: 'syncLoadFromQueue',
                     eventParams: {
                         queue: queue,
                     }
                 });
+                loadFromQueue(queue);
             }
         }
     }
-    const onYTCue = () => {
+    const onYTCue = (seekTime) => {
         log("CUED", 'me');
+        updateState({
+            lastStateYT: 5,
+            playing: false
+        });
     }
     const YTPlayerState = {
         UNSTARTED: -1,
@@ -110,7 +114,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
                 onYTBuffer(currTime);
                 break;
             case YTPlayerState.VIDEO_CUED:
-                onYTCue();
+                onYTCue(currTime);
                 break;
         }
     }

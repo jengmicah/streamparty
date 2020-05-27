@@ -8,7 +8,7 @@ import VideoSearchResults from './VideoSearchResults/VideoSearchResults';
 import axios from 'axios';
 import _ from 'lodash';
 
-const VideoSearch = ({ updateState, sendVideoState, videoProps, loadVideo, loadFromQueue, addVideoToQueue }) => {
+const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const [searchInput, setSearchInput] = useState('');
     const [searching, setSearching] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
@@ -32,27 +32,7 @@ const VideoSearch = ({ updateState, sendVideoState, videoProps, loadVideo, loadF
             sendButtons.map(button => button.classList.remove('validReadyToPress'));
         }
     }, [searchInput]);
-    
-    const addVideoFromSearch = (searchItem) => {
-        let { queue } = videoProps;
-        // Handle adding to queue
-        addVideoToQueue(searchItem, queue);
-        sendVideoState({
-            eventName: "syncAddToQueue",
-            eventParams: {
-                searchItem: searchItem,
-                queue: queue,
-            }
-        });
-    }
-    const playVideoFromSearch = (searchItem) => {
-        // Handle playing video immediately
-        loadVideo(searchItem, false);
-        sendVideoState({
-            eventName: "syncLoad",
-            eventParams: { videoId: searchItem.video.id }
-        });
-    }
+
     const handlePlay = (event) => {        
         let trimInput = searchInput.trim();
         event.preventDefault();
@@ -81,7 +61,7 @@ const VideoSearch = ({ updateState, sendVideoState, videoProps, loadVideo, loadF
             }
         }).then(response => {
             setSearchResults(response.data.results);
-            console.log(response.data.results, term);
+            // console.log(response.data.results, term);
             setPage(page);
             setSearching(false);
         });
@@ -91,7 +71,7 @@ const VideoSearch = ({ updateState, sendVideoState, videoProps, loadVideo, loadF
             params: { videoId }
         }).then(response => {
             setSearchResults(response.data.results);
-            console.log(response.data.results);
+            // console.log(response.data.results);
             setSearching(false);
         });
     }
@@ -120,7 +100,7 @@ const VideoSearch = ({ updateState, sendVideoState, videoProps, loadVideo, loadF
             <VideoSearchResults
                 searchResults={searchResults}
                 playVideoFromSearch={playVideoFromSearch}
-                addVideoFromSearch={addVideoFromSearch}
+                addVideoToQueue={addVideoToQueue}
                 page={page}
                 search={search}
                 searchInput={searchInput}

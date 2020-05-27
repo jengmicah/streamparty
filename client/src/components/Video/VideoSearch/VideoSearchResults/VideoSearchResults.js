@@ -5,13 +5,13 @@ import './VideoSearchResults.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import BeatLoader from "react-spinners/BeatLoader";
 
-const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoFromSearch, page, search, searchInput, searching }) => {
-    const handlePrevPage = (event) => {
+const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueue, page, search, searchInput, searching }) => {
+    const handlePrevPage = () => {
         if (page - 1 >= 1) {
             search({ term: searchInput, page: page - 1 })
         }
     }
-    const handleNextPage = (event) => {
+    const handleNextPage = () => {
         search({ term: searchInput, page: page + 1 })
     }
     return (
@@ -25,17 +25,17 @@ const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoFromSe
             </div>
             <VideoList
                 onVideoPlay={selectedVideo => playVideoFromSearch(selectedVideo)}
-                onVideoAddToQueue={selectedVideo => addVideoFromSearch(selectedVideo)}
+                onVideoAddToQueue={selectedVideo => addVideoToQueue(selectedVideo)}
                 searchResults={searchResults}
             />
             {
                 searchResults && searchResults.length > 0 &&
                 <div className='navIcons'>
-                    <div onClick={(event) => handlePrevPage(event)}>
+                    <div onClick={handlePrevPage}>
                         <FontAwesomeIcon id='prevPageIcon' icon="caret-left" size="2x" />
                     </div>
                     <span>{page}</span>
-                    <div onClick={(event) => handleNextPage(event)}>
+                    <div onClick={handleNextPage}>
                         <FontAwesomeIcon id='nextPageIcon' icon="caret-right" size="2x" />
                     </div>
                 </div>

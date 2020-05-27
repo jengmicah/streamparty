@@ -13,7 +13,7 @@ import { sckt } from '../Socket';
 
 import './Panel.css';
 
-const Panel = ({ log, name, room, videoProps, updateState, playerRef, sendVideoState }) => {
+const Panel = ({ log, name, room, videoProps, updateState, playerRef, sendVideoState, playVideoFromSearch }) => {
 
     const [users, setUsers] = useState('');
 
@@ -52,6 +52,7 @@ const Panel = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
                         playerRef={playerRef}
                         isQueue={true}
                         sendVideoState={sendVideoState}
+                        playVideoFromSearch={playVideoFromSearch}
                     />
                 </TabPanel>
                 <TabPanel>
@@ -63,6 +64,7 @@ const Panel = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
                         playerRef={playerRef}
                         isQueue={false}
                         sendVideoState={sendVideoState}
+                        playVideoFromSearch={playVideoFromSearch}
                     />
                 </TabPanel>
                 <TabPanel>

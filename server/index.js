@@ -81,6 +81,10 @@ io.on('connection', (socket) => {
                 admin_msg = `${name} added a video to the queue.`; break;
             case 'syncLoadFromQueue':
                 admin_msg = `${name} loaded next video on the queue.`; break;
+            case 'syncQueue':
+                admin_msg = `${name} modifed queue.`; break;
+            case 'syncHistory':
+                admin_msg = `${name} modifed history.`; break;
             default:
                 admin_msg = ''; break;
         }

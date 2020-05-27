@@ -6,7 +6,7 @@ import VideoSearch from './VideoSearch/VideoSearch';
 import { sckt } from '../Socket';
 import { insert } from './VideoHelper';
 
-const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoState }) => {
+const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoState, loadVideo, playVideoFromSearch }) => {
 
     useEffect(() => {
         // Send videoProps to new user
@@ -37,7 +37,7 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
         });
         // Update single value in videoProps from other user
         sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams = {} }) => {
-            const { seekTime, playbackRate, videoId, queue, searchItem } = eventParams;
+            const { seekTime, playbackRate, queue, searchItem, history } = eventParams;
             updateState({ receiving: true });
             switch (eventName) {
                 case 'syncPlay':
@@ -54,43 +54,20 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
                     break;
                 case 'syncLoad':
                     loadVideo(searchItem, false);
-                    break;
-                case 'syncAddToQueue':
-                    addVideoToQueue(searchItem, queue);
+                    updateState({ history });
                     break;
                 case 'syncLoadFromQueue':
                     loadFromQueue(queue);
+                    console.log(queue);
+                    break;
+                case 'syncQueue':
+                    updateState({ queue });
                     break;
                 default:
                     break;
             }
         });
     }, []);
-    const loadVideo = (searchItem, sync) => {
-        if (playerRef.current != null && playerRef.current.internalPlayer != null) {
-            const { playing, seekTime } = videoProps;
-            let player = playerRef.current.internalPlayer;
-            let videoId = searchItem.video.id;
-            if (sync) {
-                if (playing) {
-                    player.loadVideoById({
-                        videoId: videoId,
-                        startSeconds: seekTime
-                    });
-                } else {
-                    player.cueVideoById({
-                        videoId: videoId,
-                        startSeconds: seekTime
-                    });
-                    player.pauseVideo();
-                    updateState({ receiving: false });
-                }
-            } else {
-                player.cueVideoById({ videoId });
-            }
-            updateState({ history: [searchItem, ...videoProps.history] });
-        }
-    }
     const loadFromQueue = (queue, sync = false) => {
         let nextVideo = queue.shift(); // Remove from beginning of queue
         if (nextVideo !== undefined) {
@@ -120,8 +97,15 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
             }
         }
     }
-    const addVideoToQueue = (searchItem, queue) => {
+    const addVideoToQueue = (searchItem) => {
+        let { queue } = videoProps;
         let updatedQueue = insert(queue, queue.length, searchItem)
+        sendVideoState({
+            eventName: "syncQueue",
+            eventParams: {
+                queue: updatedQueue
+            }
+        });
         updateState({ queue: updatedQueue });
     }
     // // Debugging
@@ -145,12 +129,8 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
                 loadFromQueue={loadFromQueue}
             />
             <VideoSearch
-                updateState={updateState}
-                sendVideoState={sendVideoState}
-                videoProps={videoProps}
-                loadVideo={loadVideo}
-                loadFromQueue={loadFromQueue}
                 addVideoToQueue={addVideoToQueue}
+                playVideoFromSearch={playVideoFromSearch}
             />
         </div>
     );

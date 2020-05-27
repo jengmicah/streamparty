@@ -26,7 +26,7 @@ const ChatInput = ({ message, setMessage, sendMessage }) => {
     return (
         <div className='form'>
             <input
-                autoFocus
+                // autoFocus
                 className='input'
                 type='text'
                 placeholder="Type a message..."

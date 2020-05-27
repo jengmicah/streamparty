@@ -23,9 +23,3 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #999;
 }
-
-/* @media (min-width: 480px) and (max-width: 1200px) {
-  .container {
-    width: 60%;
-  }
-} */

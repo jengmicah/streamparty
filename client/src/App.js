@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import JoinRoom from './components/Join/JoinRoom';
 import Room from './components/Room/Room';
+import './components/breakpoints.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {

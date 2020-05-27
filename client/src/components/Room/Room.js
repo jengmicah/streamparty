@@ -48,6 +48,44 @@ const Room = ({ location, history }) => {
         };
         sckt.socket.emit('sendVideoState', params, (error) => { });
     };
+    // useEffect(() => {
+    //     console.log(videoProps);
+    // }, [videoProps.history])
+
+    // Video.js
+    const loadVideo = (searchItem, sync) => {
+        if (playerRef.current != null && playerRef.current.internalPlayer != null) {
+            const { playing, seekTime } = videoProps;
+            let player = playerRef.current.internalPlayer;
+            let videoId = searchItem.video.id;
+            if (sync) {
+                if (playing) {
+                    player.loadVideoById({
+                        videoId: videoId,
+                        startSeconds: seekTime
+                    });
+                } else {
+                    player.loadVideoById({
+                        videoId: videoId,
+                        startSeconds: seekTime
+                    });
+                    player.pauseVideo();
+                    updateState({ receiving: false });
+                }
+            } else {
+                player.loadVideoById({ videoId });
+            }
+        }
+    }
+    const playVideoFromSearch = (searchItem) => {
+        // Handle playing video immediately
+        loadVideo(searchItem, false);
+        sendVideoState({
+            eventName: "syncLoad",
+            eventParams: { searchItem, history: [searchItem, ...videoProps.history] }
+        });
+        updateState({ history: [searchItem, ...videoProps.history] });
+    }
     const log = (msg, type) => {
         let baseStyles = [
             "color: #fff",
@@ -112,6 +150,8 @@ const Room = ({ location, history }) => {
                         updateState={updateState}
                         playerRef={playerRef}
                         sendVideoState={sendVideoState}
+                        loadVideo={loadVideo}
+                        playVideoFromSearch={playVideoFromSearch}
                     />
                     <Panel
                         log={log}
@@ -121,6 +161,7 @@ const Room = ({ location, history }) => {
                         updateState={updateState}
                         playerRef={playerRef}
                         sendVideoState={sendVideoState}
+                        playVideoFromSearch={playVideoFromSearch}
                     />
                 </div>
             ) : (

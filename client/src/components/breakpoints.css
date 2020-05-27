@@ -1,0 +1,31 @@
+@media (max-width: 720px) {
+  body {
+    overflow-x: hidden;
+  }
+  .panelContainer,
+  .react-tabs__tab-panel {
+    width: 100vw;
+    height: 50vh;
+  }
+  .videoContainer {
+    height: auto;
+  }
+  .outerContainer {
+    display: block;
+  }
+  .joinOuterContainer {
+    height: 100%;
+  }
+  .joinInnerContainer {
+    width: 60%;
+  }
+  .single-col {
+    display: flex;
+    width: 100%;
+  }
+}
+@media (max-width: 960px) {
+  .list-group-item {
+    flex: 0 1 calc(50% - 1em);
+  }
+}
