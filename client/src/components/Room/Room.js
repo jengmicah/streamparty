@@ -75,6 +75,7 @@ const Room = ({ location, history }) => {
             } else {
                 player.loadVideoById({ videoId });
             }
+            // sckt.socket.emit('updateRoomData', { video: searchItem }, (error) => { });
         }
     }
     const playVideoFromSearch = (searchItem) => {
@@ -139,34 +140,38 @@ const Room = ({ location, history }) => {
         });
     }
     return (
-        name && room
-            ? (
-                <div className="outerContainer">
-                    <Video
-                        log={log}
-                        name={name}
-                        room={room}
-                        videoProps={videoProps}
-                        updateState={updateState}
-                        playerRef={playerRef}
-                        sendVideoState={sendVideoState}
-                        loadVideo={loadVideo}
-                        playVideoFromSearch={playVideoFromSearch}
-                    />
-                    <Panel
-                        log={log}
-                        name={name}
-                        room={room}
-                        videoProps={videoProps}
-                        updateState={updateState}
-                        playerRef={playerRef}
-                        sendVideoState={sendVideoState}
-                        playVideoFromSearch={playVideoFromSearch}
-                    />
-                </div>
-            ) : (
-                <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
-            )
+        <div>
+            {
+                name && room
+                    ? (
+                        <div className="outerContainer">
+                            <Video
+                                log={log}
+                                name={name}
+                                room={room}
+                                videoProps={videoProps}
+                                updateState={updateState}
+                                playerRef={playerRef}
+                                sendVideoState={sendVideoState}
+                                loadVideo={loadVideo}
+                                playVideoFromSearch={playVideoFromSearch}
+                            />
+                            <Panel
+                                log={log}
+                                name={name}
+                                room={room}
+                                videoProps={videoProps}
+                                updateState={updateState}
+                                playerRef={playerRef}
+                                sendVideoState={sendVideoState}
+                                playVideoFromSearch={playVideoFromSearch}
+                            />
+                        </div>
+                    ) : (
+                        <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
+                    )
+            }
+        </div>
     );
 }
 

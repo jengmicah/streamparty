@@ -6,8 +6,11 @@ const JoinUser = ({ room, joinRoomAsUser }) => {
     const [name, setName] = useState('');
 
     return (
-        <div className='joinOuterContainer'>
-            <div className='joinInnerContainer'>
+        <div className='joinOuterContainer two-col'>
+            {/* <div className='header two-col-child'>
+                Sync Party
+            </div> */}
+            <div className='joinInnerContainer two-col-child'>
                 <h1 className='heading'>Make a Username</h1>
                 <p><strong>Room:</strong> {room}</p>
                 {/* <p><strong>Number of People:</strong> {users.length}</p> */}

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap');
+
 .outerContainer {
   display: flex;
   justify-content: center;
@@ -6,3 +8,19 @@
   height: 100vh;
   background-color: #f0f0f0;
 }
+.header {
+  width: 100%;
+  text-align: center;
+  color: #43a3f0;
+  /* background-color: #fff; */
+  font-family: 'Chelsea Market', cursive;
+  font-size: 4em;
+  padding: 10px;
+  z-index: 99999;
+}
+/* .two-col {
+  display: flex;
+}
+.two-col-child {
+  flex: 50%;
+} */

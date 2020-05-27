@@ -1,0 +1,12 @@
+.browseContainer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  /* align-items: center; */
+  height: 100%;
+  background-color: #f0f0f0;
+}
+.browseContainer h3 {
+  color: #555;
+  margin-top:50px;
+}

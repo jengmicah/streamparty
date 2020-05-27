@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import JoinRoom from './components/Join/JoinRoom';
 import Room from './components/Room/Room';
+import Browse from './components/Browse/Browse';
+
 import './components/breakpoints.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -49,6 +51,7 @@ const App = () => (
     <Router>
         <Route path="/" exact component={JoinRoom} />
         <Route path="/room" component={Room} />
+        {/* <Route path="/browse" component={Browse} /> */}
     </Router>
 );
 

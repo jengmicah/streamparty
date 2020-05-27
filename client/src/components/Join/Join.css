@@ -26,6 +26,7 @@ body {
 
 .joinInnerContainer {
   width: 25%;
+  /* padding: 0 125px; */
 }
 
 .joinInput {

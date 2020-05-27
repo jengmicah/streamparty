@@ -30,7 +30,6 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
         // Sync other user's videoProps to our state
         sckt.socket.on("startSync", (videoProps) => {
             log("I'm syncing.", 'server');
-            console.log(videoProps);
             updateState({ ...videoProps });
             modifyVideoState({ ...videoProps });
             // loadVideo(videoProps.history[0], true);

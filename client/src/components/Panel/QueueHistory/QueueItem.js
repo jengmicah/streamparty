@@ -14,13 +14,13 @@ const QueueItem = ({ searchItem, handlePlayFromList, handleRemoveFromQueue, isQu
             {searchItem.video.title}
           </h3>
           <div className="search-item-channel-date">
-            <a href={searchItem.channel.url} target="_blank" className="search-item-channel-title">
+            <div className="search-item-channel-title">
               {searchItem.channel.username}
               {
                 searchItem.channel.verified &&
                 <FontAwesomeIcon id='verifiedIcon' icon="check-circle" size="sm" />
               }
-            </a>
+            </div>
             {
               isQueue &&
               <div><FontAwesomeIcon onClick={() => handleRemoveFromQueue(searchItem)} className='videoIcons plusIcon' icon="times" /></div>

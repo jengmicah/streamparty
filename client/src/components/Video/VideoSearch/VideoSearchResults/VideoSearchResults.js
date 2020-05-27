@@ -28,16 +28,29 @@ const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueu
                 onVideoAddToQueue={selectedVideo => addVideoToQueue(selectedVideo)}
                 searchResults={searchResults}
             />
+            <div className="loading">
+                <BeatLoader
+                    size={25}
+                    color={"#43a3f0"}
+                    loading={searching}
+                />
+            </div>
             {
                 searchResults && searchResults.length > 0 &&
                 <div className='navIcons'>
-                    <div onClick={handlePrevPage}>
-                        <FontAwesomeIcon id='prevPageIcon' icon="caret-left" size="2x" />
-                    </div>
+                    {
+                        page - 1 >= 1 &&
+                        <div onClick={handlePrevPage}>
+                            <FontAwesomeIcon id='prevPageIcon' icon="caret-left" size="2x" />
+                        </div>
+                    }
                     <span>{page}</span>
-                    <div onClick={handleNextPage}>
-                        <FontAwesomeIcon id='nextPageIcon' icon="caret-right" size="2x" />
-                    </div>
+                    {
+                        searchResults.length >= 9 &&
+                        <div onClick={handleNextPage}>
+                            <FontAwesomeIcon id='nextPageIcon' icon="caret-right" size="2x" />
+                        </div>
+                    }
                 </div>
             }
         </div >

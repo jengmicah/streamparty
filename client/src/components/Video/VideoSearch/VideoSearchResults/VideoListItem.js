@@ -12,13 +12,13 @@ const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
           <h3 onClick={() => onVideoPlay(searchItem)} className="search-item-video-title">
             {searchItem.video.title}
           </h3>
-          <a href={searchItem.channel.url} target="_blank" className="search-item-channel-title">
+          <div className="search-item-channel-title">
             {searchItem.channel.username}
             {
               searchItem.channel.verified &&
               <FontAwesomeIcon id='verifiedIcon' icon="check-circle" size="sm" />
             }
-          </a>
+          </div>
           <div className="search-item-channel-date">
             <div>{searchItem.video.views} • {searchItem.video.upload_date}</div>
             <div><FontAwesomeIcon onClick={() => onVideoAddToQueue(searchItem)} className='videoIcons plusIcon' icon="plus" /></div>

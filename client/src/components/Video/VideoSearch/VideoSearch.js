@@ -16,6 +16,11 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const baseURL = 'https://youtube-search-scraper.herokuapp.com';
 
     useEffect(() => {
+        // Establish connection with YT scraper
+        search({ term: '' });
+    }, []);
+
+    useEffect(() => {
         let trimInput = searchInput.trim();
         let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
         // Update play/add to queue button color

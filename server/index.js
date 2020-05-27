@@ -3,6 +3,7 @@ const socketio = require('socket.io');
 const http = require('http');
 
 const { addUser, removeUser, getUser, getUsersInRoom, getOtherUserInRoom } = require('./users.js');
+// const { getActiveRooms } = require('./rooms.js');
 
 const PORT = process.env.PORT || 5000;
 
@@ -14,6 +15,8 @@ const io = socketio(server);
 
 const cors = require('cors');
 
+// let currVideo = {}; // Video playing in room
+
 io.on('connection', (socket) => {
     console.log('New Connection');
 
@@ -22,8 +25,7 @@ io.on('connection', (socket) => {
         const { error, user } = addUser({ id: socket.id, name, room });
         if (error) return callback(error);
 
-        socket.emit('message', { user: 'admin', text: `Hi ${user.name}! You can invite your friends to watch in this room by sending them the link to this page down below.` });
-
+        socket.emit('message', { user: 'admin', text: `Hi ${user.name}! Welcome to Sync Party! You can invite your friends to watch in this room by sending them the link to this page down below.` });
         socket.emit('message', { user: 'admin', text: `http://localhost:3000/room/${user.room}` });
 
         socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined` });
@@ -46,6 +48,27 @@ io.on('connection', (socket) => {
             io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
         }
     });
+
+    /** ROOM DATA */
+    // socket.on('updateRoomData', ({ video }, callback) => {
+    //     const currRoom = Object.keys(socket.rooms).filter(item => item != socket.id)[0];
+    //     currVideo[currRoom] = video;
+    // })
+    // socket.on('getAllRoomData', ({ }, callback) => {
+    //     let rooms = getActiveRooms(io);
+    //     let allRoomData = [];
+    //     for (const currRoom of rooms) {
+    //         let data = {
+    //             room: currRoom,
+    //             numUsers: getUsersInRoom(currRoom).length,
+    //             currVideo: currVideo[currRoom]
+    //         }
+    //         allRoomData.push(data);
+    //     }
+    //     socket.emit('allRoomData', {
+    //         allRoomData
+    //     });
+    // });
 
     /** SENDING MESSAGES */
     socket.on('sendMessage', (message, callback) => {

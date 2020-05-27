@@ -11,11 +11,17 @@ const JoinRoom = ({ history }) => {
             history.push(`/room/${trimmedRoom}`);
         }
     };
+    const browseRooms = () => {
+        history.push(`/browse`);
+    }
 
     return (
-        <div className='joinOuterContainer'>
-            <div className='joinInnerContainer'>
-                <h1 className='heading'>Join a Room</h1>
+        <div className='joinOuterContainer two-col'>
+            {/* <div className='header two-col-child'>
+                Sync Party
+            </div> */}
+            <div className='joinInnerContainer two-col-child'>
+                <h1 className='heading'>Join or Create a Room</h1>
                 <div>
                     <input
                         autoFocus
@@ -30,8 +36,16 @@ const JoinRoom = ({ history }) => {
                     className='button mt-20'
                     onClick={() => joinRoom()}
                 >
-                    Join
+                    Join Room
                 </button>
+                {/* <p>or</p>
+                <h1 className='heading'>Browse Rooms</h1>
+                <button
+                    className='button'
+                    onClick={() => browseRooms()}
+                >
+                    Browse Rooms
+                </button> */}
             </div>
         </div>
     )

@@ -13,18 +13,15 @@
   .outerContainer {
     display: block;
   }
-  .joinOuterContainer {
-    height: 100%;
-  }
-  .joinInnerContainer {
-    width: 60%;
-  }
   .single-col {
     display: flex;
     width: 100%;
   }
 }
 @media (max-width: 960px) {
+  .joinInnerContainer {
+    width: 80%;
+  }
   .list-group-item {
     flex: 0 1 calc(50% - 1em);
   }
