@@ -7,13 +7,14 @@ import { youtube_parser, validateYouTubeUrl } from '../VideoHelper';
 import VideoSearchResults from './VideoSearchResults/VideoSearchResults';
 import axios from 'axios';
 import _ from 'lodash';
+require('dotenv').config()
 
 const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const [searchInput, setSearchInput] = useState('');
     const [searching, setSearching] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const [page, setPage] = useState(1);
-    const baseURL = 'https://youtube-search-scraper.herokuapp.com';
+    const baseURL = process.env.REACT_APP_YT_SCRAPER;
 
     useEffect(() => {
         // Establish connection with YT scraper

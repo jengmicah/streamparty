@@ -15,6 +15,8 @@ const io = socketio(server);
 
 const cors = require('cors');
 
+require('dotenv').config()
+
 // let currVideo = {}; // Video playing in room
 
 io.on('connection', (socket) => {
@@ -26,7 +28,7 @@ io.on('connection', (socket) => {
         if (error) return callback(error);
 
         socket.emit('message', { user: 'admin', text: `Hi ${user.name}! Welcome to Sync Party! You can invite your friends to watch in this room by sending them the link to this page down below.` });
-        socket.emit('message', { user: 'admin', text: `http://localhost:3000/room/${user.room}` });
+        socket.emit('message', { user: 'admin', text: `${process.env.CLIENT}/room/${user.room}` });
 
         socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined` });
 

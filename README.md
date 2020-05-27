@@ -15,9 +15,10 @@ Finished:
 - Search YT videos
 
 Todo:
-- Fix sync on loading from queue/history
 - Browse public rooms
 - Video/Audio chat
+- Search videos by channel
+- User progress bar
 
 Issues:
 - Spamming Play/Pause causes inconsistent `receiving` values

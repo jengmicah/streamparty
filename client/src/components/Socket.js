@@ -1,8 +1,9 @@
 import io from 'socket.io-client';
 // import { remoteUrl } from './constants/RemoteUrl';
 // import SocketWorker from './utilities/SocketWorker';
+require('dotenv').config()
 
-const ENDPOINT = 'localhost:5000';
+const ENDPOINT = process.env.REACT_APP_SERVER;
 
 function Socket() {
   this.socket = io(ENDPOINT);
