@@ -25,7 +25,9 @@ import {
     faStream,
     faCog,
     faSearch,
-    faHistory
+    faHistory,
+    faCopy,
+    faCheck
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -44,7 +46,9 @@ library.add(
     faStream,
     faCog,
     faSearch,
-    faHistory
+    faHistory,
+    faCopy,
+    faCheck
 );
 
 const App = () => (

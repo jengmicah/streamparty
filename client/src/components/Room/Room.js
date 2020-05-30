@@ -4,6 +4,8 @@ import Video from '../Video/Video';
 import JoinUser from './JoinUser';
 
 import { sckt } from '../Socket';
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 import './Room.css';
 import Panel from "../Panel/Panel";
@@ -166,6 +168,7 @@ const Room = ({ location, history }) => {
                                 sendVideoState={sendVideoState}
                                 playVideoFromSearch={playVideoFromSearch}
                             />
+                            <ReactNotification />
                         </div>
                     ) : (
                         <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />

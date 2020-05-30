@@ -34,3 +34,36 @@
   color: #69f0ae;
   margin: 0 10px;
 }
+
+.copyContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+#copyInput {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  cursor: auto;
+}
+.copyButton {
+  margin: 0;
+  background: #43a3f0;
+  border: 0;
+  color: #fff;
+  padding: 10px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.copyButton:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+.copyIcon {
+  cursor: pointer;
+}

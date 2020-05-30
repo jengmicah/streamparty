@@ -15,6 +15,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-emoji": "^0.5.0",
+    "react-notifications-component": "^2.4.0",
     "react-picture-in-picture": "^1.0.0",
     "react-player": "^2.0.1",
     "react-router": "^5.2.0",

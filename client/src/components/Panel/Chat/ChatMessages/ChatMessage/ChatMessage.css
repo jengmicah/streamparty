@@ -32,7 +32,6 @@
 .sentText {
   display: flex;
   align-items: center;
-  font-family: Helvetica;
   color: #828282;
   letter-spacing: 0.3px;
 }

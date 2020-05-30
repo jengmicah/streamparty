@@ -1,4 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap'); */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&display=swap");
+
+html,
+body {
+  font-family: "Roboto", Helvetica, sans-serif !important;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  font-family: "Roboto", Helvetica, sans-serif !important;
+}
 
 .outerContainer {
   display: flex;
@@ -8,19 +20,30 @@
   height: 100vh;
   background-color: #f0f0f0;
 }
-.header {
+/* .header {
   width: 100%;
   text-align: center;
   color: #43a3f0;
-  /* background-color: #fff; */
+  background-color: #fff;
   font-family: 'Chelsea Market', cursive;
   font-size: 4em;
   padding: 10px;
   z-index: 99999;
-}
+} */
 /* .two-col {
   display: flex;
 }
 .two-col-child {
   flex: 50%;
 } */
+
+.notification-parent {
+  width: 82% !important;
+}
+.notification-content {
+    padding:15px;
+}
+.notification-info {
+  background: #999;
+  border-left: 8px solid #777;
+}

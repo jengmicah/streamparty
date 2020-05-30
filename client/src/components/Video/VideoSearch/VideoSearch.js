@@ -83,7 +83,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     }
     const search = _.debounce(({ term, page, videoId }) => {
         setSearching(true);
-        console.log(term, page, videoId);
+        // console.log(term, page, videoId);
         if (videoId === undefined) videoSearch(term, page)
         else videoShow(videoId);
     }, 5);
