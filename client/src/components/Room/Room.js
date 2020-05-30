@@ -118,7 +118,7 @@ const Room = ({ location, history }) => {
 
     // From JoinRoom.js 
     useEffect(() => {
-        const room = location.pathname.split('/').pop().trim();
+        const room = encodeURIComponent(location.pathname.split('/').pop().trim());
         if (room.length > 0)
             setRoom(room);
         else {

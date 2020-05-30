@@ -40,9 +40,6 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
             updateState({ receiving: true });
             switch (eventName) {
                 case 'syncPlay':
-                    updateState({ playing: true });
-                    modifyVideoState({ playing: true });
-                    break;
                 case 'syncSeek':
                     updateState({ playing: true, seekTime });
                     modifyVideoState({ playing: true, seekTime });
@@ -61,7 +58,6 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
                     break;
                 case 'syncLoadFromQueue':
                     loadFromQueue(queue);
-                    console.log(queue);
                     break;
                 case 'syncQueue':
                     updateState({ queue });

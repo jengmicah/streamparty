@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
 import JoinRoom from './components/Join/JoinRoom';
 import Room from './components/Room/Room';
@@ -50,7 +50,8 @@ library.add(
 const App = () => (
     <Router>
         <Route path="/" exact component={JoinRoom} />
-        <Route path="/room" component={Room} />
+        <Route path="/room" exact><Redirect to="/" /></Route>
+        <Route path="/room/:roomName" component={Room} />
         {/* <Route path="/browse" component={Browse} /> */}
     </Router>
 );

@@ -101,20 +101,17 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
 
     // Check if sub exists at end of full array
     const isSubArrayEnd = (A, B) => {
-        let iterations = A.length < B.length ? A.length : B.length;
-        if (iterations > 0) {
-            let i = 0;
-            while (i <= iterations) {
-                if (A[A.length - i] !== B[B.length - i]) {
-                    // console.log(A[A.length - i], A.length - i, A)
-                    // console.log(B[B.length - i], B.length - i, B)
-                    return false;
-                }
-                i++;
+        if (A.length < B.length) return false;
+        let i = 0;
+        while (i < B.length) {
+            if (A[A.length - i - 1] !== B[B.length - i - 1]) {
+                // console.log(A[A.length - i - 1], A.length - i - 1, A)
+                // console.log(B[B.length - i - 1], B.length - i - 1, B)
+                return false;
             }
-            return true;
+            i++;
         }
-        return false;
+        return true;
     }
     // Seek Mouse: pause + buffer + play: 2 + 3 + 1
     // Seek Arrow Keys: buffer + play: 3 + 1
@@ -122,31 +119,39 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         const { receiving } = videoProps;
         if (!receiving) {
             setSequence([...sequence, type]);
-            if (type == 1 && isSubArrayEnd(sequence, [2, 3])) {
+            // if (type == 1 && isSubArrayEnd(sequence, [2, 3])) {
+            //     // console.log(sequence, [2, 3], isSubArrayEnd(sequence, [2, 3]));
+            //     sendVideoState({
+            //         eventName: 'syncSeek',
+            //         eventParams: { seekTime }
+            //     });
+            //     log("Sending SEEK", 'me');
+            //     setSequence([]);
+            if (type == 1 && isSubArrayEnd(sequence, [3])) {
                 sendVideoState({
                     eventName: 'syncSeek',
                     eventParams: { seekTime }
                 });
                 log("Sending SEEK", 'me');
-            } else if (type == 1 && isSubArrayEnd(sequence, [3])) {
-                sendVideoState({
-                    eventName: 'syncSeek',
-                    eventParams: { seekTime }
-                });
-                log("Sending SEEK", 'me');
+                setSequence([]);
             } else {
                 clearTimeout(timer);
-                let timeout = setTimeout(function () {
-                    if (type == 1) {
-                        sendVideoState({ eventName: 'syncPlay' });
-                        log("Sending PLAY", 'me');
-                    } else if (type == 2) {
-                        sendVideoState({ eventName: 'syncPause' });
-                        log("Sending PAUSE", 'me');
-                    }
-                    setSequence([]);
-                }, 650);
-                setTimer(timeout);
+                if (type !== 3) {
+                    let timeout = setTimeout(function () {
+                        if (type == 1) {
+                            sendVideoState({
+                                eventName: 'syncPlay',
+                                eventParams: { seekTime }
+                            });
+                            log("Sending PLAY", 'me');
+                        } else if (type == 2) {
+                            sendVideoState({ eventName: 'syncPause' });
+                            log("Sending PAUSE", 'me');
+                        }
+                        setSequence([]);
+                    }, 250);
+                    setTimer(timeout);
+                }
             }
         }
     }

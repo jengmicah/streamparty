@@ -21,3 +21,6 @@ Todo:
 - Video/Audio chat
 - Search videos by channel
 - User progress bar
+
+Issues: 
+- Pause, seek, play ==> no seek
