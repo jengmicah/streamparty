@@ -18,7 +18,7 @@ const JoinRoom = ({ history }) => {
     return (
         <div className='joinOuterContainer two-col'>
             {/* <div className='header two-col-child'>
-                Sync Party
+                Watch Party
             </div> */}
             <div className='joinInnerContainer two-col-child'>
                 <h1 className='heading'>Join or Create a Room</h1>

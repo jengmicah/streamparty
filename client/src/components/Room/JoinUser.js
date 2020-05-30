@@ -8,7 +8,7 @@ const JoinUser = ({ room, joinRoomAsUser }) => {
     return (
         <div className='joinOuterContainer two-col'>
             {/* <div className='header two-col-child'>
-                Sync Party
+                Watch Party
             </div> */}
             <div className='joinInnerContainer two-col-child'>
                 <h1 className='heading'>Make a Username</h1>

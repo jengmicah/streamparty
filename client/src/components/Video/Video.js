@@ -40,12 +40,16 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
             updateState({ receiving: true });
             switch (eventName) {
                 case 'syncPlay':
+                    updateState({ playing: true });
+                    modifyVideoState({ playing: true });
+                    break;
+                case 'syncSeek':
                     updateState({ playing: true, seekTime });
                     modifyVideoState({ playing: true, seekTime });
                     break;
                 case 'syncPause':
-                    updateState({ playing: false, seekTime });
-                    modifyVideoState({ playing: false, seekTime });
+                    updateState({ playing: false });
+                    modifyVideoState({ playing: false });
                     break;
                 case 'syncRateChange':
                     updateState({ playbackRate });
@@ -82,7 +86,7 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
             let player = playerRef.current.internalPlayer;
             if (playing !== undefined) {
                 if (playing) {
-                    player.seekTo(seekTime);
+                    if(seekTime) player.seekTo(seekTime);
                     // If not already playing
                     if (lastStateYT != 1 || lastStateYT != 3)
                         player.playVideo();

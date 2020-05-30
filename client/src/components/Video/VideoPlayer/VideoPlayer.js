@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import YouTube from 'react-youtube';
 import ReactPlayer from 'react-player';
 
@@ -13,15 +13,15 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             playing: true,
             seekTime
         });
+        updateState({ receiving: false });
         if (receiving) {
             log("Got PLAY", 'others');
-            updateState({ receiving: false });
         } else {
-            log("Sending PLAY", 'me');
-            sendVideoState({
-                eventName: 'syncPlay',
-                eventParams: { seekTime }
-            });
+            // log("Sending PLAY", 'me');
+            // sendVideoState({
+            //     eventName: 'syncPlay',
+            //     eventParams: { seekTime }
+            // });
         }
     }
     const onYTPause = (seekTime) => {
@@ -31,18 +31,19 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             playing: false,
             seekTime
         });
+        updateState({ receiving: false });
         if (receiving) {
             log("Got PAUSE", 'others');
-            updateState({ receiving: false });
         } else {
-            log("Sending PAUSE", 'me');
-            sendVideoState({
-                eventName: 'syncPause',
-                eventParams: { seekTime }
-            });
+            // log("Sending PAUSE", 'me');
+            // sendVideoState({
+            //     eventName: 'syncPause',
+            //     eventParams: { seekTime }
+            // });
         }
     }
     const onYTBuffer = (seekTime) => {
+        // log("BUFFER", 'me');
         updateState({ lastStateYT: 3 });
     }
     const onYTPlaybackRateChange = (event) => {
@@ -86,6 +87,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             playing: false
         });
     }
+
     const YTPlayerState = {
         UNSTARTED: -1,
         ENDED: 0,
@@ -94,6 +96,61 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         BUFFERING: 3,
         VIDEO_CUED: 5
     };
+    const [sequence, setSequence] = useState([]);
+    const [timer, setTimer] = useState(null);
+
+    // Check if sub exists at end of full array
+    const isSubArrayEnd = (A, B) => {
+        let iterations = A.length < B.length ? A.length : B.length;
+        if (iterations > 0) {
+            let i = 0;
+            while (i <= iterations) {
+                if (A[A.length - i] !== B[B.length - i]) {
+                    // console.log(A[A.length - i], A.length - i, A)
+                    // console.log(B[B.length - i], B.length - i, B)
+                    return false;
+                }
+                i++;
+            }
+            return true;
+        }
+        return false;
+    }
+    // Seek Mouse: pause + buffer + play: 2 + 3 + 1
+    // Seek Arrow Keys: buffer + play: 3 + 1
+    const handleVideoSync = ({ type, event, seekTime }) => {
+        const { receiving } = videoProps;
+        if (!receiving) {
+            setSequence([...sequence, type]);
+            if (type == 1 && isSubArrayEnd(sequence, [2, 3])) {
+                sendVideoState({
+                    eventName: 'syncSeek',
+                    eventParams: { seekTime }
+                });
+                log("Sending SEEK", 'me');
+            } else if (type == 1 && isSubArrayEnd(sequence, [3])) {
+                sendVideoState({
+                    eventName: 'syncSeek',
+                    eventParams: { seekTime }
+                });
+                log("Sending SEEK", 'me');
+            } else {
+                clearTimeout(timer);
+                let timeout = setTimeout(function () {
+                    if (type == 1) {
+                        sendVideoState({ eventName: 'syncPlay' });
+                        log("Sending PLAY", 'me');
+                    } else if (type == 2) {
+                        sendVideoState({ eventName: 'syncPause' });
+                        log("Sending PAUSE", 'me');
+                    }
+                    setSequence([]);
+                }, 650);
+                setTimer(timeout);
+            }
+        }
+    }
+
     const onYTStateChange = (event) => {
         let playerState = event.data;
         const currTime = event.target.getCurrentTime();
@@ -106,12 +163,15 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
                 break;
             case YTPlayerState.PLAYING:
                 onYTPlay(currTime);
+                handleVideoSync({ type: 1, event: "PLAY", seekTime: currTime });
                 break;
             case YTPlayerState.PAUSED:
                 onYTPause(currTime);
+                handleVideoSync({ type: 2, event: "PAUSE", seekTime: currTime });
                 break;
             case YTPlayerState.BUFFERING:
                 onYTBuffer(currTime);
+                handleVideoSync({ type: 3, event: "BUFFER" });
                 break;
             case YTPlayerState.VIDEO_CUED:
                 onYTCue(currTime);
