@@ -24,19 +24,19 @@ const ChatInput = ({ message, setMessage, sendMessage }) => {
     }
 
     return (
-        <div className='form'>
+        <div className='inputButtonContainer'>
             <input
                 // autoFocus
-                className='input'
+                className='chatInput'
                 type='text'
                 placeholder="Type a message..."
                 value={message}
                 onChange={event => handleInputChange(event)}
                 onKeyPress={event => event.key === 'Enter' ? handleInputSend(event) : null}
             />
-            <div id='sendButton' onClick={(event) => handleInputSend(event)}>
+            <button className='chatButton' onClick={(event) => handleInputSend(event)}>
                 <FontAwesomeIcon id='sendIcon' icon="paper-plane" size="2x" />
-            </div>
+            </button>
         </div>
     )
 };

@@ -21,23 +21,23 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
         search({ term: '' });
     }, []);
 
-    useEffect(() => {
-        let trimInput = searchInput.trim();
-        let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
-        // Update play/add to queue button color
-        if (trimInput !== '') {
-            if (validateYouTubeUrl(trimInput)) {
-                sendButtons.map(button => button.classList.add('validReadyToPress'));
-                sendButtons.map(button => button.classList.remove('readyToPress'));
-            } else {
-                sendButtons.map(button => button.classList.add('readyToPress'));
-                sendButtons.map(button => button.classList.remove('validReadyToPress'));
-            }
-        } else {
-            sendButtons.map(button => button.classList.remove('readyToPress'));
-            sendButtons.map(button => button.classList.remove('validReadyToPress'));
-        }
-    }, [searchInput]);
+    // useEffect(() => {
+    //     let trimInput = searchInput.trim();
+    //     let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
+    //     // Update play/add to queue button color
+    //     if (trimInput !== '') {
+    //         if (validateYouTubeUrl(trimInput)) {
+    //             sendButtons.map(button => button.classList.add('validReadyToPress'));
+    //             sendButtons.map(button => button.classList.remove('readyToPress'));
+    //         } else {
+    //             sendButtons.map(button => button.classList.add('readyToPress'));
+    //             sendButtons.map(button => button.classList.remove('validReadyToPress'));
+    //         }
+    //     } else {
+    //         sendButtons.map(button => button.classList.remove('readyToPress'));
+    //         sendButtons.map(button => button.classList.remove('validReadyToPress'));
+    //     }
+    // }, [searchInput]);
 
     const handlePlay = (event) => {        
         let trimInput = searchInput.trim();
@@ -89,19 +89,19 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     }, 5);
 
     return (
-        <div className="VideoSearchContainer">
-            <div className='form'>
+        <div className="videoSearchContainer">
+            <div className='inputButtonContainer'>
                 <input
-                    className='input'
+                    className='searchInput'
                     type='text'
                     value={searchInput}
                     placeholder="Search a video or paste a video link..."
                     onChange={event => setSearchInput(event.target.value)}
                     onKeyPress={event => event.key === 'Enter' ? handlePlay(event) : null}
                 />
-                <div className='videoNavButton' onClick={(event) => searchInput.trim() !== '' ? handlePlay(event) : null}>
-                    <FontAwesomeIcon className='videoNavIcon' icon="search" size="2x" />
-                </div>
+                <button className='videoNavButton' onClick={(event) => searchInput.trim() !== '' ? handlePlay(event) : null}>
+                    <FontAwesomeIcon className='videoNavIcon' icon="search" size="sm" />
+                </button>
             </div>
             <VideoSearchResults
                 searchResults={searchResults}

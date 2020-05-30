@@ -1,53 +1,66 @@
-.form {
+.inputButtonContainer {
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
   /* border-top: 2px solid #d3d3d3; */
-  justify-content: center;
 }
-
-.input {
+.inputButtonContainer input {
   border: none;
   border-radius: 30px;
   padding: 10px 16px;
   margin: 10px;
   width: 80%;
-  /* font-size: 1.05em; */
   background: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.7);
-}
+  font-size: 1em;
 
-.input::placeholder {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.inputButtonContainer input::placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
-.input::-webkit-input-placeholder,
-.input::-moz-placeholder,
-.input::-ms-input-placeholder,
-.input:-ms-input-placeholder,
-.input:-moz-placeholder {
-  color: orange;
+.inputButtonContainer button {
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #43a3f0;
+  display: inline-block;
+  border: none;
+  box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 1em;
+
+  margin: 0;
+  padding: 10px;
+  width: auto;
+  border-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
+
 input:focus,
 textarea:focus,
 select:focus {
   outline: none;
 }
 
-#sendButton {
-  color: #fff !important;
-  text-transform: uppercase;
-  text-decoration: none;
-  /* background: #43A3F0; */
-  background: #fff;
-  padding: 15px;
-  display: inline-block;
-  border: none;
-  /* width: 20%; */
+.chatInput {
+  border-radius: 30px !important;
+  margin: 10px 0 !important;
+}
+.chatButton {
+  background: #fff !important;
+  box-shadow: none !important;
 }
 #sendIcon {
   color: #bfbfbf;
   transition: all 0.1s;
 }
-.readyToPress {
+#sendIcon.readyToPress {
   color: #43a3f0 !important;
   cursor: pointer;
 }

@@ -36,32 +36,6 @@
   margin: 0 10px;
 }
 
-.copyContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.break {
-  flex-basis: 100%;
-  height: 0;
-}
-#copyInput {
-  margin: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  cursor: auto;
-}
-.copyButton {
-  margin: 0;
-  background: #43a3f0;
-  border: 0;
-  color: #fff;
-  padding: 10px;
-  border-radius: 0;
-  width: auto;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-.copyIcon {
-  cursor: pointer;
+#copyInput, .copyButton {
+  font-size: 0.8em !important;
 }

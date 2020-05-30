@@ -38,9 +38,9 @@ const Users = ({ users }) => {
         users
           ? (
             <div>
-              <div className="copyContainer">
-                <input className="input" id="copyInput" value={window.location.href} readOnly /><br />
-                <button onClick={copyText} className="button copyButton">
+              <div className="inputButtonContainer">
+                <input id="copyInput" value={window.location.href} readOnly /><br />
+                <button className="copyButton" onClick={copyText}>
                   <FontAwesomeIcon className="copyIcon" size='sm' icon="copy" />
                 </button>
               </div>
