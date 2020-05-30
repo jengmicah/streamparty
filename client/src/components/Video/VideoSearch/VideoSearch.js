@@ -95,7 +95,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
                     className='searchInput'
                     type='text'
                     value={searchInput}
-                    placeholder="Search a video or paste a video link..."
+                    placeholder="Search a video or paste a YouTube link..."
                     onChange={event => setSearchInput(event.target.value)}
                     onKeyPress={event => event.key === 'Enter' ? handlePlay(event) : null}
                 />

@@ -47,7 +47,7 @@
   width: 100%;
   box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
 }
 
 .button:hover {

@@ -43,7 +43,7 @@ input:focus {
 .search-item-thumb img {
   cursor: pointer;
   width: 100%;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .search-item-body {
@@ -105,12 +105,12 @@ input:focus {
   left: 0;
   /* background-color: rgba(67, 163, 240, 0.6); */
   opacity: 0;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 .plusIcon {
   color: #606060;
   font-size: 17px;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 .search-item-thumb img:hover {
@@ -122,4 +122,5 @@ input:focus {
 }
 .loading {
   text-align: center;
+  margin-bottom: 20px;
 }
