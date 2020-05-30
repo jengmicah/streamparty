@@ -9,6 +9,7 @@
   position: relative;
   height: 100%;
   width: 100%;
+  padding: 20px 10px;
 }
 
 .activeContainer {
@@ -39,7 +40,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
 }
 .break {
   flex-basis: 100%;
@@ -57,12 +57,10 @@
   border: 0;
   color: #fff;
   padding: 10px;
+  border-radius: 0;
+  width: auto;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-}
-.copyButton:hover {
-  opacity: 0.9;
-  cursor: pointer;
 }
 .copyIcon {
   cursor: pointer;

@@ -50,6 +50,14 @@ io.on('connection', (socket) => {
             io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
         }
     });
+    socket.on('leaveRoom', ({ room }) => {
+        const user = removeUser(socket.id);
+        if (user) {
+            io.to(user.room).emit('message', { user: 'admin', text: `${user.name} has left` });
+            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+        }
+        socket.leave(room);
+    });
 
     /** ROOM DATA */
     // socket.on('updateRoomData', ({ video }, callback) => {

@@ -1,0 +1,11 @@
+.leaveButton {
+  margin: 0 auto;
+  background: #b53737;
+  border: 0;
+  color: #fff;
+  padding: 15px 20px;
+  width: fit-content;
+}
+.leaveButton:hover {
+  opacity: 0.9;
+}

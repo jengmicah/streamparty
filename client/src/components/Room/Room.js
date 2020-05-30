@@ -162,6 +162,7 @@ const Room = ({ location, history }) => {
                                 log={log}
                                 name={name}
                                 room={room}
+                                history={history}
                                 videoProps={videoProps}
                                 updateState={updateState}
                                 playerRef={playerRef}

@@ -7,13 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Chat from './Chat/Chat';
 import Users from './Users/Users';
 import QueueHistory from './QueueHistory/QueueHistory';
+import Settings from './Settings/Settings';
 import ReactTooltip from "react-tooltip";
 
 import { sckt } from '../Socket';
 
 import './Panel.css';
 
-const Panel = ({ log, name, room, videoProps, updateState, playerRef, sendVideoState, playVideoFromSearch }) => {
+const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, sendVideoState, playVideoFromSearch }) => {
 
     const [users, setUsers] = useState('');
 
@@ -32,7 +33,7 @@ const Panel = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
                     <Tab data-tip="Queue"><FontAwesomeIcon icon="stream" /></Tab>
                     <Tab data-tip="History"><FontAwesomeIcon icon="history" /></Tab>
                     <Tab data-tip="Users"><FontAwesomeIcon icon="users" /><sub>{users.length}</sub></Tab>
-                    {/* <Tab><FontAwesomeIcon icon="cog" /></Tab> */}
+                    <Tab data-tip="Settings"><FontAwesomeIcon icon="cog" /></Tab>
                 </TabList>
 
                 <TabPanel>
@@ -70,9 +71,12 @@ const Panel = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
                 <TabPanel>
                     <Users users={users} />
                 </TabPanel>
-                {/* <TabPanel>
-                    <Settings />
-                </TabPanel>  */}
+                <TabPanel>
+                    <Settings
+                        room={room}
+                        history={history}
+                    />
+                </TabPanel>
             </Tabs>
         </div>
     );

@@ -40,7 +40,7 @@ const Users = ({ users }) => {
             <div>
               <div className="copyContainer">
                 <input className="input" id="copyInput" value={window.location.href} readOnly /><br />
-                <button onClick={copyText} className="copyButton">
+                <button onClick={copyText} className="button copyButton">
                   <FontAwesomeIcon className="copyIcon" size='sm' icon="copy" />
                 </button>
               </div>
