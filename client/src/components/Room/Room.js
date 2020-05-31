@@ -18,16 +18,16 @@ const Room = ({ location, history }) => {
         queue: [
             {
                 "video": {
-                    "id": "GbtF3oA7NMM",
-                    "title": "Every Brooklyn Nine-Nine Cold Open - Brooklyn Nine-Nine",
-                    "url": "https://www.youtube.com/watch?v=GbtF3oA7NMM",
-                    "upload_date": "Streamed 3 weeks ago",
-                    "thumbnail": "https://i.ytimg.com/vi/GbtF3oA7NMM/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLAu2-W_1kAs4s78O6OjQ4R9PjRkAw",
-                    "views": "1.1M views"
+                    "id": "ffyKY3Dj5ZE",
+                    "title": "Brooklyn Nine-Nine - Jake Makes the Criminals Sing (Episode Highlight)",
+                    "url": "https://www.youtube.com/watch?v=ffyKY3Dj5ZE",
+                    "upload_date": "2 years ago",
+                    "thumbnail": "https://i.ytimg.com/vi/ffyKY3Dj5ZE/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLDGxzq0EsaWJxv7O8f8GmhsWkG1Kw",
+                    "views": "16.4M views"
                 },
                 "channel": {
-                    "username": "NBC ",
-                    "url": "https://www.youtube.com/user/NBC",
+                    "username": "Brooklyn Nine-Nine",
+                    "url": "https://youtube.com/channel/UCtRa82x1BwQdnpHf0Es4gcQ",
                     "verified": true
                 }
             }

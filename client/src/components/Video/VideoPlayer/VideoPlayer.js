@@ -112,7 +112,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             //     });
             //     log("Sending SEEK", 'me');
             //     setSequence([]);
-            if (type == 1 && isSubArrayEnd(sequence, [3])) {
+            if (type == 1 && isSubArrayEnd(sequence, [3]) && !sequence.includes(-1)) {
                 sendVideoState({
                     eventName: 'syncSeek',
                     eventParams: { seekTime }
