@@ -7,7 +7,7 @@ const QueueItem = ({ searchItem, handlePlayFromList, handleRemoveFromQueue, isQu
     <li className="list-group-item single-col">
       <div className="search-item-container">
         <div onClick={handlePlayFromList} className="search-item-thumb">
-          <img src={searchItem.video.thumbnail} />
+          <img src={searchItem.video.thumbnail} alt="video thumbnail" />
         </div>
         <div className="search-item-body">
           <h3 onClick={handlePlayFromList} className="search-item-video-title">

@@ -6,7 +6,7 @@ const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
     <li className="list-group-item">
       <div className="search-item-container">
         <div onClick={() => onVideoPlay(searchItem)} className="search-item-thumb">
-          <img src={searchItem.video.thumbnail} />
+          <img src={searchItem.video.thumbnail} alt="video thumbnail" />
         </div>
         <div className="search-item-body">
           <h3 onClick={() => onVideoPlay(searchItem)} className="search-item-video-title">

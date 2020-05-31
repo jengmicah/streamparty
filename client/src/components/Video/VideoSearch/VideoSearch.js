@@ -16,11 +16,6 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const [page, setPage] = useState(1);
     const baseURL = process.env.REACT_APP_YT_SCRAPER;
 
-    useEffect(() => {
-        // Establish connection with YT scraper
-        search({ term: '' });
-    }, []);
-
     // useEffect(() => {
     //     let trimInput = searchInput.trim();
     //     let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
@@ -86,6 +81,11 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
         if (videoId === undefined) videoSearch(term, page)
         else videoShow(videoId);
     }, 5);
+
+    useEffect(() => {
+        // Establish connection with YT scraper
+        search({ term: '' });
+    }, []);
 
     return (
         <div className="videoSearchContainer">

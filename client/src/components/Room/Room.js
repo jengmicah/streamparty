@@ -130,7 +130,7 @@ const Room = ({ location, history }) => {
         // sckt.socket.on("roomData", ({ users }) => {
         //     setUsers(users);
         // });
-    }, [location.pathname]);
+    }, [location.pathname, history]);
 
     // From JoinUser.js
     const joinRoomAsUser = (name) => {

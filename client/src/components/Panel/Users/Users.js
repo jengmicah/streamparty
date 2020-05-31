@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Users.css';
@@ -11,9 +11,7 @@ const Users = ({ users }) => {
     text.select();
     text.setSelectionRange(0, 99999)
     try {
-      let successful = document.execCommand('copy');
-      let msg = successful ? 'successful' : 'unsuccessful';
-      // console.log('Copying text command was ' + msg);
+      document.execCommand('copy');
       store.addNotification({
         // title: "Link copied to clipboard!",
         message: "Link copied to clipboard!",

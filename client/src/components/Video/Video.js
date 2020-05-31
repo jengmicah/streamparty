@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import './Video.css';
 import VideoPlayer from './VideoPlayer/VideoPlayer';
 import VideoSearch from './VideoSearch/VideoSearch';
@@ -12,7 +12,7 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
         // Send videoProps to new user
         sckt.socket.on("getSync", ({ id }) => {
             // log("New user needs videoProps to sync.", 'server');
-            if (playerRef.current != null && playerRef.current.internalPlayer != null) {
+            if (playerRef.current !== null && playerRef.current.internalPlayer !== null) {
                 let player = playerRef.current.internalPlayer;
                 player.getCurrentTime().then((currTime) => {
                     let params = {
@@ -76,7 +76,7 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
         }
     }
     const modifyVideoState = (paramsToChange) => {
-        if (playerRef.current != null && playerRef.current.internalPlayer != null) {
+        if (playerRef.current !== null && playerRef.current.internalPlayer !== null) {
             const { lastStateYT } = videoProps;
             const { playing, seekTime, playbackRate } = paramsToChange;
             let player = playerRef.current.internalPlayer;
@@ -84,11 +84,11 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
                 if (playing) {
                     if(seekTime) player.seekTo(seekTime);
                     // If not already playing
-                    if (lastStateYT != 1 || lastStateYT != 3)
+                    if (lastStateYT !== 1 || lastStateYT !== 3)
                         player.playVideo();
                 } else {
                     // If not already paused
-                    if (lastStateYT != 2)
+                    if (lastStateYT !== 2)
                         player.pauseVideo();
                 }
             } else if (playbackRate !== undefined) {

@@ -8,7 +8,7 @@ const insert = (arr, index, newItem) => [
 const youtube_parser = (url) => {
     let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     let match = url.match(regExp);
-    return (match && match[7].length == 11) ? match[7] : false;
+    return (match && match[7].length === 11) ? match[7] : false;
 }
 // https://stackoverflow.com/questions/28735459 how-to-validate-youtube-url-in-client-side-in-text-box
 const validateYouTubeUrl = (url) => {

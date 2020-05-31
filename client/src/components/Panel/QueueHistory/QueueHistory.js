@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import './QueueHistory.css';
 import QueueList from './QueueList';
@@ -39,7 +39,7 @@ const QueueHistory = ({ isQueue, videoProps, name, room, updateState, playerRef,
                                 />
                             </div>
                         ) : (
-                            <span className="videoListText">Queue is empty ☹️</span>
+                            <span className="videoListText">Queue is empty <span role="img" aria-label="frown">☹️</span></span>
                         )
                     )
                     : null
@@ -57,7 +57,7 @@ const QueueHistory = ({ isQueue, videoProps, name, room, updateState, playerRef,
                                 />
                             </div>
                         ) : (
-                            <span className="videoListText">History is empty ☹️</span>
+                            <span className="videoListText">History is empty <span role="img" aria-label="frown">☹️</span></span>
                         )
                     )
                     : null

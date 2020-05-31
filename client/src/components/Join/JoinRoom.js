@@ -11,9 +11,9 @@ const JoinRoom = ({ history }) => {
             history.push(`/room/${trimmedRoom}`);
         }
     };
-    const browseRooms = () => {
-        history.push(`/browse`);
-    }
+    // const browseRooms = () => {
+    //     history.push(`/browse`);
+    // }
 
     return (
         <div className='joinOuterContainer two-col'>

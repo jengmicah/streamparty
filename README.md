@@ -21,6 +21,7 @@ Todo:
 - Video/Audio chat
 - Search videos by channel
 - User progress bar
+- Change panel size
 
 Issues: 
 - Pause, seek, play ==> no seek

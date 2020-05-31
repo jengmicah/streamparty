@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import YouTube from 'react-youtube';
-import ReactPlayer from 'react-player';
+// import ReactPlayer from 'react-player';
 
 import './VideoPlayer.css';
 
 const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, loadVideo, loadFromQueue }) => {
 
     const onYTPlay = (seekTime) => {
-        const { receiving } = videoProps;
+        // const { receiving } = videoProps;
         updateState({
             lastStateYT: 1,
             playing: true,
@@ -19,7 +19,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         // }
     }
     const onYTPause = (seekTime) => {
-        const { receiving } = videoProps;
+        // const { receiving } = videoProps;
         updateState({
             lastStateYT: 2,
             playing: false,
@@ -112,7 +112,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             //     });
             //     log("Sending SEEK", 'me');
             //     setSequence([]);
-            if (type == 1 && isSubArrayEnd(sequence, [3]) && !sequence.includes(-1)) {
+            if (type === 1 && isSubArrayEnd(sequence, [3]) && !sequence.includes(-1)) {
                 sendVideoState({
                     eventName: 'syncSeek',
                     eventParams: { seekTime }
@@ -123,13 +123,13 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
                 clearTimeout(timer);
                 if (type !== 3) {
                     let timeout = setTimeout(function () {
-                        if (type == 1) {
+                        if (type === 1) {
                             sendVideoState({
                                 eventName: 'syncPlay',
                                 eventParams: { seekTime }
                             });
                             // log("Sending PLAY", 'me');
-                        } else if (type == 2) {
+                        } else if (type === 2) {
                             sendVideoState({ eventName: 'syncPause' });
                             // log("Sending PAUSE", 'me');
                         }
@@ -165,6 +165,8 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
                 break;
             case YTPlayerState.VIDEO_CUED:
                 onYTCue(currTime);
+                break;
+            default:
                 break;
         }
     }

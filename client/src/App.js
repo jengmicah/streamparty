@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
 import JoinRoom from './components/Join/JoinRoom';
 import Room from './components/Room/Room';
-import Browse from './components/Browse/Browse';
+// import Browse from './components/Browse/Browse';
 
 import './components/breakpoints.css';
 
