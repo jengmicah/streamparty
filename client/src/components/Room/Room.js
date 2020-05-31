@@ -9,6 +9,7 @@ import 'react-notifications-component/dist/theme.css'
 
 import './Room.css';
 import Panel from "../Panel/Panel";
+import { motion } from "framer-motion"
 
 const Room = ({ location, history }) => {
     const playerRef = useRef(null);
@@ -141,34 +142,56 @@ const Room = ({ location, history }) => {
             }
         });
     }
+    const animationVariantLeft = {
+        visible: { opacity: 1, x: 0 },
+        hidden: { opacity: 0, x: -100 },
+    }
+    const animationVariantRight = {
+        visible: { opacity: 1, x: 0 },
+        hidden: { opacity: 0, x: 100 },
+    }
     return (
         <div>
             {
                 name && room
                     ? (
                         <div className="outerContainer">
-                            <Video
-                                log={log}
-                                name={name}
-                                room={room}
-                                videoProps={videoProps}
-                                updateState={updateState}
-                                playerRef={playerRef}
-                                sendVideoState={sendVideoState}
-                                loadVideo={loadVideo}
-                                playVideoFromSearch={playVideoFromSearch}
-                            />
-                            <Panel
-                                log={log}
-                                name={name}
-                                room={room}
-                                history={history}
-                                videoProps={videoProps}
-                                updateState={updateState}
-                                playerRef={playerRef}
-                                sendVideoState={sendVideoState}
-                                playVideoFromSearch={playVideoFromSearch}
-                            />
+                            {/* <motion.div
+                                initial="hidden"
+                                animate="visible"
+                                transition={{ ease: "easeOut", duration: 0.3 }}
+                                variants={animationVariantLeft}
+                            > */}
+                                <Video
+                                    log={log}
+                                    name={name}
+                                    room={room}
+                                    videoProps={videoProps}
+                                    updateState={updateState}
+                                    playerRef={playerRef}
+                                    sendVideoState={sendVideoState}
+                                    loadVideo={loadVideo}
+                                    playVideoFromSearch={playVideoFromSearch}
+                                />
+                            {/* </motion.div> */}
+                            <motion.div
+                                initial="hidden"
+                                animate="visible"
+                                transition={{ ease: "easeOut", duration: 0.3 }}
+                                variants={animationVariantRight}
+                            >
+                                <Panel
+                                    log={log}
+                                    name={name}
+                                    room={room}
+                                    history={history}
+                                    videoProps={videoProps}
+                                    updateState={updateState}
+                                    playerRef={playerRef}
+                                    sendVideoState={sendVideoState}
+                                    playVideoFromSearch={playVideoFromSearch}
+                                />
+                            </motion.div>
                             <ReactNotification />
                         </div>
                     ) : (

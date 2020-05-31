@@ -27,8 +27,8 @@ io.on('connection', (socket) => {
         const { error, user } = addUser({ id: socket.id, name, room });
         if (error) return callback(error);
 
-        socket.emit('message', { user: 'admin', text: `Hi ${user.name}! Welcome to Watch Party! You can invite your friends to watch in this room by sending them the link to this page.` });
-        // socket.emit('message', { user: 'admin', text: `${process.env.CLIENT}/room/${user.room}` });
+        socket.emit('message', { user: 'admin', text: `Hi ${user.name}! Welcome to Watch Party! You can invite your friends to watch with you by sending them the link to this page.` });
+        socket.emit('message', { user: 'admin', text: `${process.env.CLIENT}/room/${user.room}` });
 
         socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined` });
 
@@ -90,7 +90,7 @@ io.on('connection', (socket) => {
 
     /** VIDEO STATE CHANGES */
     socket.on('sendSync', ({ id, ...videoProps }, callback) => {
-        console.log(videoProps);
+        // console.log(videoProps);
         socket.to(id).emit('startSync', videoProps);
     });
     socket.on('sendVideoState', (params, callback) => {
@@ -121,7 +121,7 @@ io.on('connection', (socket) => {
             default:
                 admin_msg = ''; break;
         }
-        console.log(admin_msg);
+        // console.log(admin_msg);
         io.in(room).emit('message', { user: 'admin', text: admin_msg });
         callback();
     });

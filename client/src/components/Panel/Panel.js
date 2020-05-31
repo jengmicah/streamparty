@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Chat from './Chat/Chat';
 import Users from './Users/Users';
 import QueueHistory from './QueueHistory/QueueHistory';
-import Settings from './Settings/Settings';
+// import Settings from './Settings/Settings';
 import ReactTooltip from "react-tooltip";
 
 import { sckt } from '../Socket';
@@ -33,7 +33,7 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
                     <Tab data-tip="Queue"><FontAwesomeIcon icon="stream" /></Tab>
                     <Tab data-tip="History"><FontAwesomeIcon icon="history" /></Tab>
                     <Tab data-tip="Users"><FontAwesomeIcon icon="users" /><sub>{users.length}</sub></Tab>
-                    <Tab data-tip="Settings"><FontAwesomeIcon icon="cog" /></Tab>
+                    {/* <Tab data-tip="Settings"><FontAwesomeIcon icon="cog" /></Tab> */}
                 </TabList>
 
                 <TabPanel>
@@ -69,14 +69,16 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
                     />
                 </TabPanel>
                 <TabPanel>
-                    <Users users={users} />
+                    <Users users={users}
+                        room={room}
+                        history={history} />
                 </TabPanel>
-                <TabPanel>
+                {/* <TabPanel>
                     <Settings
                         room={room}
                         history={history}
                     />
-                </TabPanel>
+                </TabPanel> */}
             </Tabs>
         </div>
     );

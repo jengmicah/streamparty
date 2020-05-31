@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from "framer-motion"
 
 import './Join.css';
 
@@ -14,31 +15,40 @@ const JoinRoom = ({ history }) => {
     // const browseRooms = () => {
     //     history.push(`/browse`);
     // }
-
+    const animationVariant = {
+        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: -50 },
+    }
     return (
         <div className='joinOuterContainer two-col'>
             {/* <div className='header two-col-child'>
                 Watch Party
             </div> */}
-            <div className='joinInnerContainer two-col-child'>
-                <h1 className='heading'>Join or Create a Room</h1>
-                <div>
-                    <input
-                        autoFocus
-                        placeholder='Room Name'
-                        className='joinInput'
-                        type='text'
-                        onChange={(event) => setRoom(event.target.value)}
-                        onKeyPress={(event) => event.key === 'Enter' ? joinRoom() : null}
-                    />
-                </div>
-                <button
-                    className='button mt-20'
-                    onClick={() => joinRoom()}
-                >
-                    Join Room
+            <motion.div
+                initial="hidden"
+                animate="visible"
+                transition={{ ease: "easeOut", duration: 0.3 }}
+                variants={animationVariant}
+            >
+                <div className='joinInnerContainer two-col-child'>
+                    <h1 className='heading'>Join or Create a Room</h1>
+                    <div>
+                        <input
+                            autoFocus
+                            placeholder='Room Name'
+                            className='joinInput'
+                            type='text'
+                            onChange={(event) => setRoom(event.target.value)}
+                            onKeyPress={(event) => event.key === 'Enter' ? joinRoom() : null}
+                        />
+                    </div>
+                    <button
+                        className='button mt-20'
+                        onClick={() => joinRoom()}
+                    >
+                        Join Room
                 </button>
-                {/* <p>or</p>
+                    {/* <p>or</p>
                 <h1 className='heading'>Browse Rooms</h1>
                 <button
                     className='button'
@@ -46,7 +56,8 @@ const JoinRoom = ({ history }) => {
                 >
                     Browse Rooms
                 </button> */}
-            </div>
+                </div>
+            </motion.div>
         </div>
     )
 }

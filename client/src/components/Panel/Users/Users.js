@@ -3,8 +3,9 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Users.css';
 import { store } from 'react-notifications-component';
+import { sckt } from '../../Socket';
 
-const Users = ({ users }) => {
+const Users = ({ users, room, history }) => {
   const copyText = () => {
     let text = document.getElementById('copyInput');
     text.focus();
@@ -29,7 +30,10 @@ const Users = ({ users }) => {
       // console.log('Oops, unable to copy');
     }
   }
-
+  const leaveRoom = () => {
+    sckt.socket.emit('leaveRoom', { room });
+    history.push('/');
+  }
   return (
     <div className="infoContainer" id="infoContainer">
       {
@@ -56,6 +60,7 @@ const Users = ({ users }) => {
           )
           : null
       }
+      <button onClick={leaveRoom} className="button leaveButton">Leave Room</button>
     </div>
   )
 };

@@ -9,6 +9,10 @@
   }
   .videoContainer {
     height: auto;
+    width: 100%;
+  }
+  .videoSearchContainer {
+    display: none;
   }
   .outerContainer {
     display: block;
