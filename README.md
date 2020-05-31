@@ -4,7 +4,7 @@ A simple online video synchronization platform to watch YouTube videos with your
 
 Written with React, Socket.io, and the YouTube Player API.
 
-![demo picture](https://github.com/jengmicah/video-sync/blob/master/images/demo.png?raw=true)
+![demo picture](https://github.com/jengmicah/video-sync/blob/master/images/demo.gif?raw=true)
 
 ## Features
 - Sync video playback with other users in your room
