@@ -18,16 +18,16 @@ const Room = ({ location, history }) => {
         queue: [
             {
                 "video": {
-                    "id": "ffyKY3Dj5ZE",
-                    "title": "Brooklyn Nine-Nine - Jake Makes the Criminals Sing (Episode Highlight)",
-                    "url": "https://www.youtube.com/watch?v=ffyKY3Dj5ZE",
-                    "upload_date": "2 years ago",
-                    "thumbnail": "https://i.ytimg.com/vi/ffyKY3Dj5ZE/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLDGxzq0EsaWJxv7O8f8GmhsWkG1Kw",
-                    "views": "16.4M views"
+                    "id": "0wCC3aLXdOw",
+                    "title": "4K Video 💚 Beauty of Nature UHD Time Lapse",
+                    "url": "https://www.youtube.com/watch?v=0wCC3aLXdOw",
+                    "upload_date": "5 years ago",
+                    "thumbnail": "https://i.ytimg.com/vi/0wCC3aLXdOw/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLBdnskP_3c1Mg8PEihoEl-_BbYSQA",
+                    "views": "14.9M views"
                 },
                 "channel": {
-                    "username": "Brooklyn Nine-Nine",
-                    "url": "https://youtube.com/channel/UCtRa82x1BwQdnpHf0Es4gcQ",
+                    "username": "LoungeV Films - Relaxing Music and Nature Sounds",
+                    "url": "https://youtube.com/user/LoungeVstudio",
                     "verified": true
                 }
             }

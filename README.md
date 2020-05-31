@@ -1,27 +1,25 @@
-# A Video Synchronization Platform
+# Watch Party
 
------------------------
+A simple online video synchronization platform to watch YouTube videos with your friends.
 
-Supported:
-- Youtube
+Written with React, Socket.io, and the YouTube Player API.
 
-Soon to be supported:
-- Vimeo
-- Daily Motion
+![demo picture](https://github.com/jengmicah/video-sync/images/demo.png?raw=true)
 
-Finished:
-- Sync play/pause/playback rate change/seek
-- Sync new user on join
-- Add videos to queue
-- Play next/prev video
-- Search YT videos
+## Features
+- Sync video playback with other users in your room
+    - `play`, `pause`, `seek`, `playback rate change`, `video change`
+- Search YouTube videos directly inside the site
+- Chat with your friends
+- Add videos to a queue
+- Track your video watching history
 
-Todo:
-- Browse public rooms
-- Video/Audio chat
+## Potential Features
+- Public and private rooms (browse public rooms)
+- User customization (name, avatar, etc.)
+- Video and audio chat support
 - Search videos by channel
-- User progress bar
 - Change panel size
+- User progress bar
+- Dark mode
 
-Issues: 
-- Pause, seek, play ==> no seek

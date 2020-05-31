@@ -27,8 +27,8 @@ io.on('connection', (socket) => {
         const { error, user } = addUser({ id: socket.id, name, room });
         if (error) return callback(error);
 
-        socket.emit('message', { user: 'admin', text: `Hi ${user.name}! Welcome to Watch Party! You can invite your friends to watch in this room by sending them the link to this page down below.` });
-        socket.emit('message', { user: 'admin', text: `${process.env.CLIENT}/room/${user.room}` });
+        socket.emit('message', { user: 'admin', text: `Hi ${user.name}! Welcome to Watch Party! You can invite your friends to watch in this room by sending them the link to this page.` });
+        // socket.emit('message', { user: 'admin', text: `${process.env.CLIENT}/room/${user.room}` });
 
         socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined` });
 
@@ -117,9 +117,7 @@ io.on('connection', (socket) => {
             case 'syncLoadFromQueue':
                 admin_msg = `${name} loaded next video on the queue.`; break;
             case 'syncQueue':
-                admin_msg = `${name} modifed queue.`; break;
-            case 'syncHistory':
-                admin_msg = `${name} modifed history.`; break;
+                admin_msg = `${name} added a video to the queue.`; break;
             default:
                 admin_msg = ''; break;
         }

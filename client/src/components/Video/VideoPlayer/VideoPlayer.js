@@ -134,7 +134,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
                             // log("Sending PAUSE", 'me');
                         }
                         setSequence([]);
-                    }, 250);
+                    }, 100);
                     setTimer(timeout);
                 }
             }
