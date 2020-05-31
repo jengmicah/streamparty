@@ -11,10 +11,6 @@ const ChatMessage = ({ message: { user, text }, name }) => {
     if (user === trimmedName) {
         isSentByCurrentUser = true;
     }
-    useEffect(() => {
-        console.log(user, name, text)
-    }, [name, text]);
-
     return (
         isSentByCurrentUser
             ? (
