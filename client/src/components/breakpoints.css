@@ -17,6 +17,9 @@
     display: flex;
     width: 100%;
   }
+  .joinInnerContainer {
+    width: 80% !important;
+  }
 }
 @media (max-width: 960px) {
   .searchInput {
@@ -24,9 +27,6 @@
   }
   .videoSearchContainer .inputButtonContainer {
     margin: 0 20px 20px 20px !important;
-  }
-  .joinInnerContainer {
-    width: 80%;
   }
   .list-group-item {
     flex: 0 1 calc(50% - 1em);

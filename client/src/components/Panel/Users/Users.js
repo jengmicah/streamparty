@@ -28,7 +28,7 @@ const Users = ({ users }) => {
         }
       });
     } catch (err) {
-      console.log('Oops, unable to copy');
+      // console.log('Oops, unable to copy');
     }
   }
 

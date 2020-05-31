@@ -42,7 +42,6 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const handlePlay = (event) => {        
         let trimInput = searchInput.trim();
         event.preventDefault();
-        console.log(trimInput);
         if (validateYouTubeUrl(trimInput)) {
             // Reset the color after playing
             let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));

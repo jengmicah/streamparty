@@ -16,8 +16,8 @@
 }
 
 .joinInnerContainer {
-  width: 25%;
-  /* padding: 0 125px; */
+  width: 30%;
+  transition: 0.2s all;
 }
 
 .joinInput {
@@ -30,7 +30,7 @@
 
 .heading {
   color: #444;
-  font-size: 2.5em;
+  font-size: 2em;
   padding-bottom: 10px;
   border-bottom: 2px solid #444;
 }

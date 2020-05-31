@@ -14,15 +14,9 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             seekTime
         });
         updateState({ receiving: false });
-        if (receiving) {
-            log("Got PLAY", 'others');
-        } else {
-            // log("Sending PLAY", 'me');
-            // sendVideoState({
-            //     eventName: 'syncPlay',
-            //     eventParams: { seekTime }
-            // });
-        }
+        // if (receiving) {
+        //     log("Got PLAY", 'others');
+        // }
     }
     const onYTPause = (seekTime) => {
         const { receiving } = videoProps;
@@ -32,15 +26,9 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
             seekTime
         });
         updateState({ receiving: false });
-        if (receiving) {
-            log("Got PAUSE", 'others');
-        } else {
-            // log("Sending PAUSE", 'me');
-            // sendVideoState({
-            //     eventName: 'syncPause',
-            //     eventParams: { seekTime }
-            // });
-        }
+        // if (receiving) {
+        //     log("Got PAUSE", 'others');
+        // }
     }
     const onYTBuffer = (seekTime) => {
         // log("BUFFER", 'me');
@@ -49,10 +37,10 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     const onYTPlaybackRateChange = (event) => {
         const { receiving } = videoProps;
         if (receiving) {
-            log("Got PLAYBACK RATE change", 'others');
+            // log("Got PLAYBACK RATE change", 'others');
             updateState({ receiving: false });
         } else {
-            log("Sending PLAYBACK RATE change", 'me');
+            // log("Sending PLAYBACK RATE change", 'me');
             let eventParams = {
                 playbackRate: event.target.getPlaybackRate()
             };
@@ -68,7 +56,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         if (receiving) {
             updateState({ receiving: false });
         } else {
-            log("ENDING", 'me');
+            // log("ENDING", 'me');
             if (queue.length > 0) {
                 sendVideoState({
                     eventName: 'syncLoadFromQueue',
@@ -81,7 +69,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         }
     }
     const onYTCue = (seekTime) => {
-        log("CUED", 'me');
+        // log("CUED", 'me');
         updateState({
             lastStateYT: 5,
             playing: false
@@ -104,11 +92,8 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         if (A.length < B.length) return false;
         let i = 0;
         while (i < B.length) {
-            if (A[A.length - i - 1] !== B[B.length - i - 1]) {
-                // console.log(A[A.length - i - 1], A.length - i - 1, A)
-                // console.log(B[B.length - i - 1], B.length - i - 1, B)
+            if (A[A.length - i - 1] !== B[B.length - i - 1])
                 return false;
-            }
             i++;
         }
         return true;
@@ -132,7 +117,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
                     eventName: 'syncSeek',
                     eventParams: { seekTime }
                 });
-                log("Sending SEEK", 'me');
+                // log("Sending SEEK", 'me');
                 setSequence([]);
             } else {
                 clearTimeout(timer);
@@ -143,10 +128,10 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
                                 eventName: 'syncPlay',
                                 eventParams: { seekTime }
                             });
-                            log("Sending PLAY", 'me');
+                            // log("Sending PLAY", 'me');
                         } else if (type == 2) {
                             sendVideoState({ eventName: 'syncPause' });
-                            log("Sending PAUSE", 'me');
+                            // log("Sending PAUSE", 'me');
                         }
                         setSequence([]);
                     }, 250);
@@ -161,7 +146,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         const currTime = event.target.getCurrentTime();
         switch (playerState) {
             case YTPlayerState.UNSTARTED:
-                // onYTLoadVideo();
+                handleVideoSync({ type: -1, event: "UNSTARTED" });
                 break;
             case YTPlayerState.ENDED:
                 onYTEnded();
@@ -184,7 +169,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         }
     }
     const onYTReady = (event) => {
-        log("STARTING", 'me');
+        // log("STARTING", 'me');
         const { queue, history, receiving } = videoProps;
         if (receiving) {
             loadVideo(history[0], true);

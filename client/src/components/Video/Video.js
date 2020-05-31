@@ -11,7 +11,7 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
     useEffect(() => {
         // Send videoProps to new user
         sckt.socket.on("getSync", ({ id }) => {
-            log("New user needs videoProps to sync.", 'server');
+            // log("New user needs videoProps to sync.", 'server');
             if (playerRef.current != null && playerRef.current.internalPlayer != null) {
                 let player = playerRef.current.internalPlayer;
                 player.getCurrentTime().then((currTime) => {
@@ -29,7 +29,7 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
     useEffect(() => {
         // Sync other user's videoProps to our state
         sckt.socket.on("startSync", (videoProps) => {
-            log("I'm syncing.", 'server');
+            // log("I'm syncing.", 'server');
             updateState({ ...videoProps });
             modifyVideoState({ ...videoProps });
             // loadVideo(videoProps.history[0], true);
