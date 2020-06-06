@@ -104,17 +104,9 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
         const { receiving } = videoProps;
         if (!receiving) {
             setSequence([...sequence, type]);
-            // if (type == 1 && isSubArrayEnd(sequence, [2, 3])) {
-            //     // console.log(sequence, [2, 3], isSubArrayEnd(sequence, [2, 3]));
-            //     sendVideoState({
-            //         eventName: 'syncSeek',
-            //         eventParams: { seekTime }
-            //     });
-            //     log("Sending SEEK", 'me');
-            //     setSequence([]);
             if (type === 1 && isSubArrayEnd(sequence, [3]) && !sequence.includes(-1)) {
                 sendVideoState({
-                    eventName: 'syncSeek',
+                    eventName: 'syncPlay',
                     eventParams: { seekTime }
                 });
                 // log("Sending SEEK", 'me');
