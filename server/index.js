@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
         if (error) return callback(error);
 
         socket.emit('message', { user: 'admin', text: `Hi ${user.name}! Welcome to Watch Party! You can invite your friends to watch with you by sending them the link to this page.` });
-        socket.emit('message', { user: 'admin', text: `${process.env.CLIENT}/room/${user.room}` });
+        // socket.emit('message', { user: 'admin', text: `${process.env.CLIENT}/room/${user.room}` });
 
         socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined` });
 

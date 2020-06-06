@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-// import Chat from '../Chat/Chat';
 import Video from '../Video/Video';
 import JoinUser from './JoinUser';
 
@@ -9,7 +8,6 @@ import 'react-notifications-component/dist/theme.css'
 
 import './Room.css';
 import Panel from "../Panel/Panel";
-import { motion } from "framer-motion"
 
 const Room = ({ location, history }) => {
     const playerRef = useRef(null);
@@ -19,16 +17,16 @@ const Room = ({ location, history }) => {
         queue: [
             {
                 "video": {
-                    "id": "0wCC3aLXdOw",
-                    "title": "4K Video 💚 Beauty of Nature UHD Time Lapse",
-                    "url": "https://www.youtube.com/watch?v=0wCC3aLXdOw",
-                    "upload_date": "5 years ago",
-                    "thumbnail": "https://i.ytimg.com/vi/0wCC3aLXdOw/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLBdnskP_3c1Mg8PEihoEl-_BbYSQA",
-                    "views": "14.9M views"
+                    "id": "Y-JQ-RCyPpQ",
+                    "title": "Relaxing Bossa Nova & Jazz Music For Study - Smooth Jazz Music - Background Music",
+                    "url": "https://www.youtube.com/watch?v=Y-JQ-RCyPpQ",
+                    "upload_date": "1 year ago",
+                    "thumbnail": "https://i.ytimg.com/vi/Y-JQ-RCyPpQ/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLCnRdFecEZI55Bfh5oRhOQqs_lm_Q",
+                    "views": "14.6M views"
                 },
                 "channel": {
-                    "username": "LoungeV Films - Relaxing Music and Nature Sounds",
-                    "url": "https://youtube.com/user/LoungeVstudio",
+                    "username": "Cafe Music BGM channel",
+                    "url": "https://youtube.com/channel/UCJhjE7wbdYAae1G25m0tHAA",
                     "verified": true
                 }
             }
@@ -142,56 +140,34 @@ const Room = ({ location, history }) => {
             }
         });
     }
-    const animationVariantLeft = {
-        visible: { opacity: 1, x: 0 },
-        hidden: { opacity: 0, x: -100 },
-    }
-    const animationVariantRight = {
-        visible: { opacity: 1, x: 0 },
-        hidden: { opacity: 0, x: 100 },
-    }
     return (
         <div>
             {
                 name && room
                     ? (
                         <div className="outerContainer">
-                            {/* <motion.div
-                                initial="hidden"
-                                animate="visible"
-                                transition={{ ease: "easeOut", duration: 0.3 }}
-                                variants={animationVariantLeft}
-                            > */}
-                                <Video
-                                    log={log}
-                                    name={name}
-                                    room={room}
-                                    videoProps={videoProps}
-                                    updateState={updateState}
-                                    playerRef={playerRef}
-                                    sendVideoState={sendVideoState}
-                                    loadVideo={loadVideo}
-                                    playVideoFromSearch={playVideoFromSearch}
-                                />
-                            {/* </motion.div> */}
-                            <motion.div
-                                initial="hidden"
-                                animate="visible"
-                                transition={{ ease: "easeOut", duration: 0.3 }}
-                                variants={animationVariantRight}
-                            >
-                                <Panel
-                                    log={log}
-                                    name={name}
-                                    room={room}
-                                    history={history}
-                                    videoProps={videoProps}
-                                    updateState={updateState}
-                                    playerRef={playerRef}
-                                    sendVideoState={sendVideoState}
-                                    playVideoFromSearch={playVideoFromSearch}
-                                />
-                            </motion.div>
+                            <Video
+                                log={log}
+                                name={name}
+                                room={room}
+                                videoProps={videoProps}
+                                updateState={updateState}
+                                playerRef={playerRef}
+                                sendVideoState={sendVideoState}
+                                loadVideo={loadVideo}
+                                playVideoFromSearch={playVideoFromSearch}
+                            />
+                            <Panel
+                                log={log}
+                                name={name}
+                                room={room}
+                                history={history}
+                                videoProps={videoProps}
+                                updateState={updateState}
+                                playerRef={playerRef}
+                                sendVideoState={sendVideoState}
+                                playVideoFromSearch={playVideoFromSearch}
+                            />
                             <ReactNotification />
                         </div>
                     ) : (

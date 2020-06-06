@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-// import ChatInfo from './ChatInfo/ChatInfo';
 import ChatMessages from './ChatMessages/ChatMessages';
-// import ChatBar from './ChatBar/ChatBar';
 import ChatInput from './ChatInput/ChatInput';
 
 import './Chat.css';
@@ -30,10 +28,8 @@ const Chat = ({ name, room, users }) => {
 
     return (
         <div className="chatContainer">
-            {/* <ChatBar room={room} users={users} /> */}
             <ChatMessages messages={messages} name={name} />
             <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage} />
-            {/* <ChatInfo users={users} /> */}
         </div>
     );
 }

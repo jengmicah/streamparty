@@ -24,6 +24,9 @@
   .joinInnerContainer {
     width: 80% !important;
   }
+  .search-item-channel-date {
+    display: none;
+  }
 }
 @media (max-width: 960px) {
   .searchInput {

@@ -30,7 +30,9 @@
 .infoContainer h2 {
   margin-bottom: 0px;
 }
-
+.infoContainer div.inputButtonContainer {
+  margin-top: 0 !important;
+}
 .activeItem .onlineIcon {
   color: #69f0ae;
   margin: 0 10px;

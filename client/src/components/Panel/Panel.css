@@ -1,10 +1,11 @@
 .panelContainer {
   position: relative;
   height: 100vh;
+  margin-top: -2px;
 }
 .panelContainer,
 .react-tabs__tab-panel {
-  width: 30vw;
+  width: 25vw;
 }
 .react-tabs__tab-list {
   background: transparent;
