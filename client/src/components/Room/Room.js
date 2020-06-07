@@ -136,18 +136,18 @@ const Room = ({ location, history }) => {
     const joinRoomAsUser = (name) => {
         sckt.socket.emit('checkUser', { name, room }, (error) => {
             if (error === 'DUPLICATE_USER') {
-                store.addNotification({
-                    message: "User exists in this room already!",
-                    type: "warning",
-                    insert: "top",
-                    container: "bottom-right",
-                    animationIn: ["animated", "fadeInUp"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 10000,
-                        onScreen: false
-                    }
-                });
+                // store.addNotification({
+                //     message: "User exists in this room already!",
+                //     type: "warning",
+                //     insert: "top",
+                //     container: "bottom-right",
+                //     animationIn: ["animated", "fadeInUp"],
+                //     animationOut: ["animated", "fadeOut"],
+                //     dismiss: {
+                //         duration: 10000,
+                //         onScreen: false
+                //     }
+                // });
             } else {
                 setName(name);
                 sckt.socket.emit('join', { name, room }, () => {});
