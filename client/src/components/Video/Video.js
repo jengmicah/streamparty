@@ -102,7 +102,8 @@ const Video = ({ log, name, room, videoProps, updateState, playerRef, sendVideoS
         sendVideoState({
             eventName: "syncQueue",
             eventParams: {
-                queue: updatedQueue
+                queue: updatedQueue,
+                type: "add"
             }
         });
         updateState({ queue: updatedQueue });

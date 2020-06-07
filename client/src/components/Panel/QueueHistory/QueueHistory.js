@@ -10,7 +10,8 @@ const QueueHistory = ({ isQueue, videoProps, name, room, updateState, playerRef,
         sendVideoState({
             eventName: "syncQueue",
             eventParams: {
-                queue: queue
+                queue: queue,
+                type: "remove"
             }
         });
         updateState({ queue });

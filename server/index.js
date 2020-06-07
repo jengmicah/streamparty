@@ -121,12 +121,14 @@ io.on('connection', (socket) => {
                 admin_msg = `${name} changed the playback rate to ${eventParams.playbackRate}.`; break;
             case 'syncLoad':
                 admin_msg = `${name} changed the video.`; break;
-            case 'syncAddToQueue':
-                admin_msg = `${name} added a video to the queue.`; break;
             case 'syncLoadFromQueue':
                 admin_msg = `${name} loaded next video on the queue.`; break;
             case 'syncQueue':
-                admin_msg = `${name} added a video to the queue.`; break;
+                if(eventParams.type === "add")
+                    admin_msg = `${name} added a video to the queue.`
+                else if(eventParams.type === "remove")
+                    admin_msg = `${name} removed a video from the queue.`;
+                break;
             default:
                 admin_msg = ''; break;
         }
