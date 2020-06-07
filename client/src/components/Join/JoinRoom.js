@@ -27,6 +27,7 @@ const JoinRoom = ({ history }) => {
                             placeholder='Room Name'
                             className='joinInput'
                             type='text'
+                            maxLength='50'
                             onChange={(event) => setRoom(event.target.value)}
                             onKeyPress={(event) => event.key === 'Enter' ? joinRoom() : null}
                         />

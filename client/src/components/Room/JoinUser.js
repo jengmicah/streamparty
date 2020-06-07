@@ -31,6 +31,7 @@ const JoinUser = ({ room, joinRoomAsUser }) => {
                         placeholder='Username'
                         className='joinInput'
                         type='text'
+                        maxLength='50'
                         onChange={(event) => setCurrName(event.target.value.trim())}
                         onKeyPress={(event) => event.key === 'Enter' ? joinRoomAsUser(currName) : null}
                     />

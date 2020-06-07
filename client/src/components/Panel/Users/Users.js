@@ -22,7 +22,7 @@ const Users = ({ users, room, history }) => {
         animationIn: ["animated", "fadeInUp"],
         animationOut: ["animated", "fadeOut"],
         dismiss: {
-          duration: 1000,
+          duration: 2000,
           onScreen: false
         }
       });
