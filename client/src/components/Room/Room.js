@@ -136,7 +136,8 @@ const Room = ({ location, history }) => {
             if (error === 'DUPLICATE_USER') {
                 console.log(error);
                 store.addNotification({
-                    message: "User exists in this room already!",
+                    title: "Uh oh!",
+                    message: "User exists in this room already",
                     type: "warning",
                     insert: "top",
                     container: "bottom-right",

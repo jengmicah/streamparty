@@ -20,14 +20,21 @@ const ChatMessage = ({ message: { user, text }, name }) => {
                         <p className='messageText colorWhite'>{ReactEmoji.emojify(text)}</p>
                     </div>
                 </div>
-            )
-            : (
-                <div className='messageContainer justifyStart'>
-                    <div className='messageBox backgroundLight'>
-                        <p className='messageText colorDark'>{user === 'admin' ? text : ReactEmoji.emojify(text)}</p>
+            ) : (
+                user === 'admin' ? (
+                    <div className='messageContainer justifyCenter'>
+                        <div className='messageBox fullWidth pb-0'>
+                            <p className='messageText colorGray'>{text}</p>
+                        </div>
                     </div>
-                    <p className='sentText pl-10'>{user}</p>
-                </div>
+                ) : (
+                        <div className='messageContainer justifyStart'>
+                            <div className='messageBox backgroundLight'>
+                                <p className='messageText colorDark'>{ReactEmoji.emojify(text)}</p>
+                            </div>
+                            <p className='sentText pl-10'>{user}</p>
+                        </div>
+                    )
             )
     );
 };

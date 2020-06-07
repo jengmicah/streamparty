@@ -38,6 +38,57 @@ body {
   flex: 50%;
 } */
 
+.inputButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding: 0 10px;
+}
+.inputButtonContainer input {
+  transition: 0.2s all;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 16px;
+  margin: 10px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 1em;
+
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.inputButtonContainer input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+.inputButtonContainer button {
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #43a3f0;
+  display: inline-block;
+  border: none;
+  box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1em;
+
+  margin: 0;
+  padding: 10px;
+  width: auto;
+  border-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
 .notification-parent {
   width: 82% !important;
 }

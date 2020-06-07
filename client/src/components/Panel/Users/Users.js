@@ -14,8 +14,8 @@ const Users = ({ users, room, history }) => {
     try {
       document.execCommand('copy');
       store.addNotification({
-        // title: "Link copied to clipboard!",
-        message: "Link copied to clipboard!",
+        title: "Yay!",
+        message: "Link copied to clipboard",
         type: "info",
         insert: "top",
         container: "bottom-right",
