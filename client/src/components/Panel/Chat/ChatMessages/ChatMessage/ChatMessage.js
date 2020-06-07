@@ -23,7 +23,7 @@ const ChatMessage = ({ message: { user, text }, name }) => {
             ) : (
                 user === 'admin' ? (
                     <div className='messageContainer justifyCenter'>
-                        <div className='messageBox fullWidth pb-0'>
+                        <div className='messageBox fullWidth pb-0 textCenter'>
                             <p className='messageText colorGray'>{text}</p>
                         </div>
                     </div>
