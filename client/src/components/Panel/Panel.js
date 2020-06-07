@@ -23,7 +23,7 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
             setUsers(users);
         });
     }, []);
-
+    
     return (
         <div className="panelContainer">
             <ReactTooltip effect="solid" />

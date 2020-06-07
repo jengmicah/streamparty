@@ -23,6 +23,7 @@
   }
   .joinInnerContainer {
     width: 80% !important;
+    margin: auto !important;
   }
   .search-item-channel-date {
     display: none;

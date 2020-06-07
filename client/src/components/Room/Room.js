@@ -5,6 +5,7 @@ import JoinUser from './JoinUser';
 import { sckt } from '../Socket';
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
+import { store } from 'react-notifications-component';
 
 import './Room.css';
 import Panel from "../Panel/Panel";
@@ -133,12 +134,25 @@ const Room = ({ location, history }) => {
 
     // From JoinUser.js
     const joinRoomAsUser = (name) => {
-        setName(name);
-        sckt.socket.emit('join', { name, room }, (error) => {
+        sckt.socket.emit('checkUser', { name, room }, (error) => {
             if (error === 'DUPLICATE_USER') {
-                setName('');
+                store.addNotification({
+                    message: "User exists in this room already!",
+                    type: "warning",
+                    insert: "top",
+                    container: "bottom-right",
+                    animationIn: ["animated", "fadeInUp"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 10000,
+                        onScreen: false
+                    }
+                });
+            } else {
+                setName(name);
+                sckt.socket.emit('join', { name, room }, () => {});
             }
-        });
+        })
     }
     return (
         <div>

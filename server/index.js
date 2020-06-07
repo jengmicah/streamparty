@@ -2,7 +2,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
 
-const { addUser, removeUser, getUser, getUsersInRoom, getOtherUserInRoom } = require('./users.js');
+const { checkUser, addUser, removeUser, getUser, getUsersInRoom, getOtherUserInRoom } = require('./users.js');
 // const { getActiveRooms } = require('./rooms.js');
 
 const PORT = process.env.PORT || 5000;
@@ -23,6 +23,15 @@ io.on('connection', (socket) => {
     console.log('New Connection');
 
     /** JOINING/LEAVING ROOMS */
+    socket.on('getRoomData', ({ room }, callback) => {
+        io.to(socket.id).emit('roomData', { room: room, users: getUsersInRoom(room) });
+        // callback();
+    });
+    socket.on('checkUser', ({ name, room }, callback) => {
+        const { error } = checkUser({ name, room });
+        if (error) return callback(error);
+        return callback();
+    });
     socket.on('join', ({ name, room }, callback) => {
         const { error, user } = addUser({ id: socket.id, name, room });
         if (error) return callback(error);
