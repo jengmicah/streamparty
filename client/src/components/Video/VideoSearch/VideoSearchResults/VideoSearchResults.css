@@ -122,4 +122,5 @@ input:focus {
 }
 .loading {
   text-align: center;
+  margin-bottom: 10px;
 }
