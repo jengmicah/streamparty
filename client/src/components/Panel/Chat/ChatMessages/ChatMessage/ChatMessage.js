@@ -22,9 +22,9 @@ const ChatMessage = ({ message: { user, text }, name }) => {
                 </div>
             ) : (
                 user === 'admin' ? (
-                    <div className='messageContainer justifyCenter'>
-                        <div className='messageBox fullWidth pb-0 textCenter'>
-                            <p className='messageText colorGray'>{text}</p>
+                    <div className='messageContainer justifyCenter mtb-10'>
+                        <div className='messageBox fullWidth ptb-0 textCenter'>
+                            <p className='messageText colorDark'>{text}</p>
                         </div>
                     </div>
                 ) : (
@@ -32,7 +32,7 @@ const ChatMessage = ({ message: { user, text }, name }) => {
                             <div className='messageBox backgroundLight'>
                                 <p className='messageText colorDark'>{ReactEmoji.emojify(text)}</p>
                             </div>
-                            <p className='sentText pl-10'>{user}</p>
+                            <p className='sentText colorGray pl-10'>{user}</p>
                         </div>
                     )
             )
