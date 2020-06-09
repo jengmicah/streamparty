@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
 
         if (getUsersInRoom(user.room).length > 1) {
             const otherUser = getOtherUserInRoom(room, user);
-            socket.to(otherUser.id).emit('getSync', { id: user.id });
+            if (otherUser) socket.to(otherUser.id).emit('getSync', { id: user.id });
         }
 
         socket.join(user.room);
@@ -92,8 +92,10 @@ io.on('connection', (socket) => {
     /** SENDING MESSAGES */
     socket.on('sendMessage', (message, callback) => {
         const user = getUser(socket.id);
-        io.to(user.room).emit('message', { user: user.name, text: message });
-        // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
+        if (user) {
+            io.to(user.room).emit('message', { user: user.name, text: message });
+            // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
+        }
         callback();
     });
 
@@ -124,9 +126,9 @@ io.on('connection', (socket) => {
             case 'syncLoadFromQueue':
                 admin_msg = `${name} loaded next video on the queue.`; break;
             case 'syncQueue':
-                if(eventParams.type === "add")
+                if (eventParams.type === "add")
                     admin_msg = `${name} added a video to the queue.`
-                else if(eventParams.type === "remove")
+                else if (eventParams.type === "remove")
                     admin_msg = `${name} removed a video from the queue.`;
                 break;
             default:

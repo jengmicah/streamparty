@@ -15,25 +15,25 @@ const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueu
     }
     return (
         <div>
-            <div className="loading">
+            {/* <div className="loading">
                 <BeatLoader
                     size={25}
                     color={"#43a3f0"}
                     loading={searching}
                 />
-            </div>
+            </div> */}
             <VideoList
                 onVideoPlay={selectedVideo => playVideoFromSearch(selectedVideo)}
                 onVideoAddToQueue={selectedVideo => addVideoToQueue(selectedVideo)}
                 searchResults={searchResults}
             />
-            <div className="loading">
+            {/* <div className="loading">
                 <BeatLoader
                     size={25}
                     color={"#43a3f0"}
                     loading={searching}
                 />
-            </div>
+            </div> */}
             {
                 searchResults && searchResults.length > 0 &&
                 <div className='navIcons'>

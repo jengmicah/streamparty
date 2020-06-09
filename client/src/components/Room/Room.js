@@ -48,10 +48,7 @@ const Room = ({ location, history }) => {
         };
         sckt.socket.emit('sendVideoState', params, (error) => { });
     };
-    // useEffect(() => {
-    //     console.log(videoProps);
-    // }, [videoProps.history])
-
+    
     // Video.js
     const loadVideo = (searchItem, sync) => {
         if (playerRef.current != null && playerRef.current.internalPlayer != null) {
@@ -150,7 +147,9 @@ const Room = ({ location, history }) => {
                 });
             } else {
                 setName(name);
-                sckt.socket.emit('join', { name, room }, () => { });
+                sckt.socket.emit('join', { name, room }, () => {
+                    // console.log(`${name} joined room ${room}`);
+                });
             }
         })
     }

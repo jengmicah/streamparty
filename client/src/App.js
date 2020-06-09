@@ -29,7 +29,8 @@ import {
     faSearch,
     faHistory,
     faCopy,
-    faCheck
+    faCheck,
+    faRandom
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -50,7 +51,8 @@ library.add(
     faSearch,
     faHistory,
     faCopy,
-    faCheck
+    faCheck,
+    faRandom
 );
 
 const App = () => (

@@ -62,3 +62,11 @@
 button:focus {
   outline: 0;
 }
+
+.joinInnerContainer .inputButtonContainer {
+  padding: 0;
+}
+.joinInnerContainer .inputButtonContainer input {
+  background: #fff;
+}
+

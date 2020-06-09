@@ -54,7 +54,7 @@ body {
   width: 100%;
   background: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.7);
-  font-size: 1.1em;
+  font-size: 1em;
 
   margin: 0;
   border-top-right-radius: 0;
@@ -82,7 +82,9 @@ body {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-
+.inputButtonContainer button:hover {
+  opacity: 0.9;
+}
 input:focus,
 textarea:focus,
 select:focus {
