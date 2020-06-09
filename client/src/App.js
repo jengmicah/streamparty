@@ -57,7 +57,7 @@ library.add(
 
 const App = () => (
     <div>
-        < ReactNotification />
+        <ReactNotification />
         <Router>
             <Route path="/" exact component={JoinRoom} />
             <Route path="/room" exact><Redirect to="/" /></Route>

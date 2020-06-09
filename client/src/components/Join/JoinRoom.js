@@ -43,11 +43,12 @@ const JoinRoom = ({ history }) => {
                             value={room}
                             onChange={(event) => setRoom(event.target.value)}
                             onKeyPress={(event) => handleKeyPress(event)}
+                            disabled
                         />
                         <button autoFocus onClick={setRandomRoom}><FontAwesomeIcon icon="random" /></button>
                     </div>
                     <button
-                        className='button mt-20'
+                        className='button'
                         onClick={joinRoom}>
                         Create
                     </button>

@@ -47,9 +47,9 @@ body {
 }
 .inputButtonContainer input {
   transition: 0.2s all;
-  border: none;
+  border: 0;
   border-radius: 30px;
-  padding: 10px 16px;
+  padding: 12px 16px;
   margin: 10px;
   width: 100%;
   background: rgba(0, 0, 0, 0.05);
@@ -76,7 +76,7 @@ body {
   font-size: 1em;
 
   margin: 0;
-  padding: 10px;
+  padding: 12px;
   width: auto;
   border-radius: 0;
   border-top-right-radius: 5px;

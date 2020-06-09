@@ -37,7 +37,7 @@ const JoinUser = ({ room, joinRoomAsUser }) => {
                     />
                 </div>
                 <button
-                    className='button mt-20'
+                    className='button'
                     onClick={(event) => currName ? joinRoomAsUser(currName) : null}
                 >
                     Set Username
