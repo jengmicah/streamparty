@@ -18,11 +18,11 @@ const JoinRoom = ({ history }) => {
         const randomRoom = Sentencer.make("{{ adjective }}-{{ noun }}");
         setRoom(randomRoom);
     }
-    // const handleKeyPress = e => {
-    //     if (e.key === 'Enter') {
-    //         joinRoom();
-    //     }
-    // }
+    const handleKeyPress = e => {
+        if (e.key === 'Enter') {
+            joinRoom();
+        }
+    }
     // const browseRooms = () => {
     //     history.push(`/browse`);
     // }
@@ -32,26 +32,26 @@ const JoinRoom = ({ history }) => {
                 Watch Party
             </div> */}
             <div className='joinInnerContainer two-col-child'>
-                <h1 className='heading'>Join or Create a Room</h1>
-                <div className='inputButtonContainer'>
-                    <input
-                        placeholder='🡆 Generate a Random Room Name 🡆'
-                        className='joinInput'
-                        type='text'
-                        maxLength='50'
-                        value={room}
-                        onChange={(event) => setRoom(event.target.value)}
-                        // onKeyPress={(event) => handleKeyPress(event)}
-                        disabled
-                    />
-                    <button autoFocus onClick={setRandomRoom}><FontAwesomeIcon icon="random" /></button>
+                <h1 className='heading'>Create a Party</h1>
+                <div>
+                    <div className='inputButtonContainer'>
+                        <input
+                            placeholder='🡆 Generate a Random Room Name 🡆'
+                            className='joinInput'
+                            type='text'
+                            maxLength='50'
+                            value={room}
+                            onChange={(event) => setRoom(event.target.value)}
+                            onKeyPress={(event) => handleKeyPress(event)}
+                        />
+                        <button autoFocus onClick={setRandomRoom}><FontAwesomeIcon icon="random" /></button>
+                    </div>
+                    <button
+                        className='button mt-20'
+                        onClick={joinRoom}>
+                        Create
+                    </button>
                 </div>
-                <button
-                    className='button mt-20'
-                    onClick={joinRoom}
-                >
-                    Join Party
-                </button>
                 {/* <p>or</p>
                 <h1 className='heading'>Browse Rooms</h1>
                 <button
@@ -60,8 +60,8 @@ const JoinRoom = ({ history }) => {
                 >
                     Browse Rooms
                 </button> */}
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 

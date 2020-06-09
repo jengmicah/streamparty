@@ -26,7 +26,7 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
     
     return (
         <div className="panelContainer">
-            <ReactTooltip effect="solid" />
+            <ReactTooltip effect="solid" data-place="bottom" />
             <Tabs forceRenderTabPanel={true}>
                 <TabList>
                     <Tab data-tip="Chat"><FontAwesomeIcon icon="comment" /></Tab>
