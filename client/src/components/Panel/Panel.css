@@ -53,6 +53,7 @@
   height: 92vh;
   overflow: auto;
 }
+.__react_component_tooltip,
 [data-id="tooltip"] {
   z-index: 99999;
 }
