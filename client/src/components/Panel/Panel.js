@@ -23,14 +23,13 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
             setUsers(users);
         });
     }, []);
-    
+
     return (
         <div className="panelContainer">
             <Tabs forceRenderTabPanel={true}>
                 <TabList>
                     <Tab data-tip="Chat"><FontAwesomeIcon icon="comment" /></Tab>
-                    <Tab data-tip="Queue"><FontAwesomeIcon icon="stream" /></Tab>
-                    <Tab data-tip="History"><FontAwesomeIcon icon="history" /></Tab>
+                    <Tab data-tip="Videos"><FontAwesomeIcon icon="stream" /></Tab>
                     <Tab data-tip="Users"><FontAwesomeIcon icon="users" /><sub>{users.length}</sub></Tab>
                     {/* <Tab data-tip="Settings"><FontAwesomeIcon icon="cog" /></Tab> */}
                 </TabList>
@@ -44,28 +43,36 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
                     />
                 </TabPanel>
                 <TabPanel>
-                    <QueueHistory
-                        name={name}
-                        room={room}
-                        videoProps={videoProps}
-                        updateState={updateState}
-                        playerRef={playerRef}
-                        isQueue={true}
-                        sendVideoState={sendVideoState}
-                        playVideoFromSearch={playVideoFromSearch}
-                    />
-                </TabPanel>
-                <TabPanel>
-                    <QueueHistory
-                        name={name}
-                        room={room}
-                        videoProps={videoProps}
-                        updateState={updateState}
-                        playerRef={playerRef}
-                        isQueue={false}
-                        sendVideoState={sendVideoState}
-                        playVideoFromSearch={playVideoFromSearch}
-                    />
+                    <Tabs forceRenderTabPanel={true} className="subTabs">
+                        <TabList>
+                            <Tab>Queue</Tab>
+                            <Tab>History</Tab>
+                        </TabList>
+                        <TabPanel>
+                            <QueueHistory
+                                name={name}
+                                room={room}
+                                videoProps={videoProps}
+                                updateState={updateState}
+                                playerRef={playerRef}
+                                isQueue={true}
+                                sendVideoState={sendVideoState}
+                                playVideoFromSearch={playVideoFromSearch}
+                            />
+                        </TabPanel>
+                        <TabPanel>
+                            <QueueHistory
+                                name={name}
+                                room={room}
+                                videoProps={videoProps}
+                                updateState={updateState}
+                                playerRef={playerRef}
+                                isQueue={false}
+                                sendVideoState={sendVideoState}
+                                playVideoFromSearch={playVideoFromSearch}
+                            />
+                        </TabPanel>
+                    </Tabs>
                 </TabPanel>
                 <TabPanel>
                     <Users users={users}

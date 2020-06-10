@@ -13,20 +13,23 @@
   margin: -1px 0 0 0;
 
   display: flex;
+  position: relative;
+  box-shadow: 1px 3px 10px 0px rgba(0, 0, 0, 0.1);
+  z-index: 99998;
 }
 .react-tabs__tab {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
-  font-weight: bold;
+  /* font-weight: bold; */
   padding: 0;
   text-align: center;
   background: #43a3f0;
   color: #fff;
   border-radius: 0;
   height: 8vh;
-  width: 25%;
+  width: 33.333%;
   border: 0;
 }
 .react-tabs__tab:hover {
@@ -50,7 +53,7 @@
   color: #000;
   border-top-left-radius: 30px 30px 0 0;
   height: 92vh;
-  overflow: auto;
+  overflow: hidden;
 }
 .__react_component_tooltip,
 [data-id="tooltip"] {
@@ -59,4 +62,9 @@
 sub {
   font-weight: 400;
   margin-left: 3px;
+}
+
+.subTabs .react-tabs__tab {
+  width: 50%;
+  height: 5vh;
 }
