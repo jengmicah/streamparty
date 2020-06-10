@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import JoinRoom from './components/Join/JoinRoom';
 import Room from './components/Room/Room';
@@ -59,10 +59,13 @@ const App = () => (
     <div>
         <ReactNotification />
         <Router>
-            <Route path="/" exact component={JoinRoom} />
-            <Route path="/room" exact><Redirect to="/" /></Route>
-            <Route path="/room/:roomName" component={Room} />
-            {/* <Route path="/browse" component={Browse} /> */}
+            <Switch>
+                <Route path="/" exact component={JoinRoom} />
+                <Route path="/room" exact><Redirect to="/" /></Route>
+                <Route path="/room/:roomName" component={Room} />
+                <Route component={JoinRoom}><Redirect to="/" /></Route>
+                {/* <Route path="/browse" component={Browse} /> */}
+            </Switch>
         </Router>
     </div>
 );
