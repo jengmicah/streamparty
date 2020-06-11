@@ -95,10 +95,10 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
                     type='text'
                     value={searchInput}
                     placeholder="Search a video or paste a YouTube link..."
-                    onChange={event => setSearchInput(event.target.value)}
-                    onKeyPress={event => event.key === 'Enter' ? handlePlay(event) : null}
+                    onChange={e => setSearchInput(e.target.value)}
+                    onKeyPress={e => e.key === 'Enter' ? handlePlay(e) : null}
                 />
-                <button className='videoNavButton' onClick={(event) => searchInput.trim() !== '' ? handlePlay(event) : null}>
+                <button className='videoNavButton' onClick={(e) => searchInput.trim() !== '' ? handlePlay(e) : null}>
                     <FontAwesomeIcon className='videoNavIcon' icon="search" size="sm" />
                 </button>
             </div>

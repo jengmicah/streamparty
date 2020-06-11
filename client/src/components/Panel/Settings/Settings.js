@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Settings.css';
@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { sckt } from '../../Socket';
 import { store } from 'react-notifications-component';
 
-const Settings = ({ room, history }) => {
+const Settings = ({ name, room, history }) => {
+  const [currName, setCurrName] = useState(name);
   const copyText = () => {
     let text = document.getElementById('copyInput');
     text.focus();
@@ -36,13 +37,46 @@ const Settings = ({ room, history }) => {
     sckt.socket.emit('leaveRoom', { room });
     history.push('/');
   }
+  const changeName = () => {
+    if (currName) {
+      store.addNotification({
+        title: "Whoops, sorry!",
+        message: `This feature isn't implemented yet, ${currName}`,
+        type: "warning",
+        insert: "top",
+        container: "bottom-right",
+        animationIn: ["animated", "fadeInUp"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 2000,
+          onScreen: false
+        }
+      });
+    }
+  }
   return (
-    <div className="infoContainer" id="infoContainer">
-      <div className="inputButtonContainer">
-        <input id="copyInput" value={window.location.href} readOnly /><br />
-        <button className="copyButton" onClick={copyText}>
-          <FontAwesomeIcon className="copyIcon" size='sm' icon="copy" />
-        </button>
+    <div className="settingsContainer">
+      <div>
+        <h3>Invite your friends!</h3>
+        <div className="inputButtonContainer">
+          <input id="copyInput" value={window.location.href} readOnly />
+          <button className="copyButton" onClick={copyText}>
+            <FontAwesomeIcon className="copyIcon" size='sm' icon="copy" />
+          </button>
+        </div>
+      </div>
+      <div>
+        <h3>Hello, my name is:</h3>
+        <div className="inputButtonContainer">
+          <input
+            value={currName}
+            onChange={e => setCurrName(e.target.value.trim())}
+            onKeyPress={e => e.key === 'Enter' ? changeName() : null}
+          />
+          <button onClick={changeName}>
+            <FontAwesomeIcon size='sm' icon="check" />
+          </button>
+        </div>
       </div>
       <button onClick={leaveRoom} className="button leaveButton">Leave Room</button>
     </div>

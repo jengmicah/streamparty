@@ -5,7 +5,6 @@
   overflow: auto;
   justify-content: space-between;
   word-break: break-word;
-
   position: relative;
   height: 100%;
   width: 100%;
@@ -50,11 +49,6 @@
 
 .infoContainer div.inputButtonContainer {
   margin-top: 0 !important;
-}
-
-#copyInput,
-.copyButton {
-  font-size: 0.8em !important;
 }
 
 .leaveButton {

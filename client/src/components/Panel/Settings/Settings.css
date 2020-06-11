@@ -1,3 +1,24 @@
+.settingsContainer {
+  display: flex;
+  flex-direction: column;
+  color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+  word-break: break-word;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 20px 10px;
+  font-weight: 500;
+}
+
+.settingsContainer > div {
+  text-align: center;
+  margin-bottom:20px;
+}
+.settingsContainer > div h3 {
+  margin: 0;
+}
+
 .leaveButton {
   margin: 0 auto;
   background: #b53737;

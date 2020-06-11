@@ -31,10 +31,10 @@ const ChatInput = ({ message, setMessage, sendMessage }) => {
                 type='text'
                 placeholder="Type a message..."
                 value={message}
-                onChange={event => handleInputChange(event)}
-                onKeyPress={event => event.key === 'Enter' ? handleInputSend(event) : null}
+                onChange={e => handleInputChange(e)}
+                onKeyPress={e => e.key === 'Enter' ? handleInputSend(e) : null}
             />
-            <button className='chatButton' onClick={(event) => handleInputSend(event)}>
+            <button className='chatButton' onClick={(e) => handleInputSend(e)}>
                 <FontAwesomeIcon id='sendIcon' icon="paper-plane" size="2x" />
             </button>
         </div>

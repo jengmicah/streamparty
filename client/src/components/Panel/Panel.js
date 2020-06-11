@@ -89,6 +89,7 @@ const Panel = ({
                 </TabPanel>
                 <TabPanel>
                     <Settings
+                        name={name}
                         room={room}
                         history={history}
                     />

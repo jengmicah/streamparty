@@ -30,13 +30,13 @@ const JoinUser = ({ room, joinRoomAsUser }) => {
                             placeholder='Username'
                             type='text'
                             maxLength='50'
-                            onChange={(event) => setCurrName(event.target.value.trim())}
-                            onKeyPress={(event) => event.key === 'Enter' ? joinRoomAsUser(currName) : null}
+                            onChange={(e) => setCurrName(e.target.value.trim())}
+                            onKeyPress={(e) => e.key === 'Enter' ? joinRoomAsUser(currName) : null}
                         />
                     </div>
                     <button
                         className='button'
-                        onClick={(event) => currName ? joinRoomAsUser(currName) : null}
+                        onClick={(e) => currName ? joinRoomAsUser(currName) : null}
                     >
                         Set Username
                     </button>
