@@ -1,58 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Join.css';
+import Logo from '../Logo/Logo';
+
 const Sentencer = require('sentencer');
 
 const JoinRoom = ({ history }) => {
     const [room, setRoom] = useState('');
 
     const joinRoom = () => {
-        // const randomRoom = Sentencer.make("{{ adjective }}-{{ noun }}");
-        // history.push(`/room/${randomRoom}`);
-        let trimmedRoom = room.trim();
-        if (trimmedRoom.length > 0) {
-            history.push(`/room/${trimmedRoom}`);
-        }
+        const randomRoom = encodeURIComponent(Sentencer.make("{{ adjective }}-{{ noun }}"));
+        history.push(`/room/${randomRoom}`);
     };
-    const setRandomRoom = () => {
-        const randomRoom = Sentencer.make("{{ adjective }}-{{ noun }}");
-        setRoom(randomRoom);
-    }
-    const handleKeyPress = e => {
-        if (e.key === 'Enter') {
-            joinRoom();
-        }
-    }
     // const browseRooms = () => {
     //     history.push(`/browse`);
     // }
     return (
-        <div className='joinOuterContainer two-col'>
-            {/* <div className='header two-col-child'>
-                Watch Party
-            </div> */}
-            <div className='joinInnerContainer two-col-child'>
-                <h1 className='heading'>Create a Party</h1>
-                <div>
-                    <div className='inputButtonContainer'>
-                        <input
-                            placeholder='🡆 Generate a Random Room Name 🡆'
-                            className='joinInput'
-                            type='text'
-                            maxLength='50'
-                            value={room}
-                            onChange={(event) => setRoom(event.target.value)}
-                            onKeyPress={(event) => handleKeyPress(event)}
-                            readOnly
-                        />
-                        <button autoFocus onClick={setRandomRoom}><FontAwesomeIcon icon="random" /></button>
+        <div className='joinOuterContainer'>
+            <div className='joinInnerContainer'>
+                <Logo />
+                <section>
+                    <div className="mid">
+                        <h2>Watch videos with friends and family from far away!</h2>
                     </div>
                     <button
                         className='button'
                         onClick={joinRoom}>
-                        Create
+                        Create a New Room
                     </button>
-                </div>
+                </section>
                 {/* <p>or</p>
                 <h1 className='heading'>Browse Rooms</h1>
                 <button

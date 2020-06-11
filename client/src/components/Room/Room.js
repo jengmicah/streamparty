@@ -8,6 +8,8 @@ import { store } from 'react-notifications-component';
 import './Room.css';
 import Panel from "../Panel/Panel";
 
+const Sentencer = require('sentencer');
+
 const Room = ({ location, history }) => {
     const playerRef = useRef(null);
     const [name, setName] = useState('');
@@ -48,7 +50,7 @@ const Room = ({ location, history }) => {
         };
         sckt.socket.emit('sendVideoState', params, (error) => { });
     };
-    
+
     // Video.js
     const loadVideo = (searchItem, sync) => {
         if (playerRef.current != null && playerRef.current.internalPlayer != null) {
@@ -112,13 +114,23 @@ const Room = ({ location, history }) => {
         }
         console.log(`%c${msg}`, style);
     }
-
+    const cap = (s) => {
+        if (typeof s !== 'string') return ''
+        return s.charAt(0).toUpperCase() + s.slice(1)
+    }
     // From JoinRoom.js 
     useEffect(() => {
         const room = encodeURIComponent(location.pathname.split('/').pop().trim());
-        if (room.length > 0)
+        if (room.length > 0) {
             setRoom(room);
-        else {
+            // const adj = Sentencer.make("{{ adjective }}");
+            // const noun = Sentencer.make("{{ noun }}");
+            // const randomName = `${cap(adj)} ${cap(noun)}`;
+            // setName(randomName)
+            // sckt.socket.emit('join', { name: randomName, room }, () => {
+            //     // console.log(`${name} joined room ${room}`);
+            // });
+        } else {
             history.push('/');
         }
         // sckt.socket.emit('createRoom', { room }, () => {});
@@ -159,33 +171,33 @@ const Room = ({ location, history }) => {
                 {
                     name && room
                         ? (
-                            <div className="outerContainer">
-                                <Video
-                                    log={log}
-                                    name={name}
-                                    room={room}
-                                    videoProps={videoProps}
-                                    updateState={updateState}
-                                    playerRef={playerRef}
-                                    sendVideoState={sendVideoState}
-                                    loadVideo={loadVideo}
-                                    playVideoFromSearch={playVideoFromSearch}
-                                />
-                                <Panel
-                                    log={log}
-                                    name={name}
-                                    room={room}
-                                    history={history}
-                                    videoProps={videoProps}
-                                    updateState={updateState}
-                                    playerRef={playerRef}
-                                    sendVideoState={sendVideoState}
-                                    playVideoFromSearch={playVideoFromSearch}
-                                />
-                            </div>
-                        ) : (
-                            <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
-                        )
+                    <div className="outerContainer">
+                        <Video
+                            log={log}
+                            name={name}
+                            room={room}
+                            videoProps={videoProps}
+                            updateState={updateState}
+                            playerRef={playerRef}
+                            sendVideoState={sendVideoState}
+                            loadVideo={loadVideo}
+                            playVideoFromSearch={playVideoFromSearch}
+                        />
+                        <Panel
+                            log={log}
+                            name={name}
+                            room={room}
+                            history={history}
+                            videoProps={videoProps}
+                            updateState={updateState}
+                            playerRef={playerRef}
+                            sendVideoState={sendVideoState}
+                            playVideoFromSearch={playVideoFromSearch}
+                        />
+                    </div>
+                    ) : (
+                        <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
+                    )
                 }
             </div>
         </div >

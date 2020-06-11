@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { sckt } from '../Socket';
+import Logo from '../Logo/Logo';
 
 import '../Join/Join.css';
 
@@ -17,31 +18,29 @@ const JoinUser = ({ room, joinRoomAsUser }) => {
     //     });
     // }, []);
     return (
-        <div className='joinOuterContainer two-col'>
-            {/* <div className='header two-col-child'>
-                Watch Party
-            </div> */}
-            <div className='joinInnerContainer two-col-child'>
-                <h1 className='heading'>Make a Username</h1>
-                <p><strong>Room:</strong> {room}</p>
-                {/* <p><strong>Users:</strong> {users.length}</p> */}
-                <div>
-                    <input
-                        autoFocus
-                        placeholder='Username'
-                        className='joinInput'
-                        type='text'
-                        maxLength='50'
-                        onChange={(event) => setCurrName(event.target.value.trim())}
-                        onKeyPress={(event) => event.key === 'Enter' ? joinRoomAsUser(currName) : null}
-                    />
-                </div>
-                <button
-                    className='button'
-                    onClick={(event) => currName ? joinRoomAsUser(currName) : null}
-                >
-                    Set Username
-                </button>
+        <div className='joinOuterContainer'>
+            <div className='joinInnerContainer'>
+                <Logo />
+                <section>
+                    {/* <h2><strong>Room:</strong> {room}</h2> */}
+                    {/* <p><strong>Users:</strong> {users.length}</p> */}
+                    <div className="mid">
+                        <input
+                            autoFocus
+                            placeholder='Username'
+                            type='text'
+                            maxLength='50'
+                            onChange={(event) => setCurrName(event.target.value.trim())}
+                            onKeyPress={(event) => event.key === 'Enter' ? joinRoomAsUser(currName) : null}
+                        />
+                    </div>
+                    <button
+                        className='button'
+                        onClick={(event) => currName ? joinRoomAsUser(currName) : null}
+                    >
+                        Set Username
+                    </button>
+                </section>
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 .panelContainer {
   position: relative;
   height: 100vh;
-  margin-top: -2px;
+  /* margin-top: -2px; */
 }
 .panelContainer,
 .react-tabs__tab-panel {
@@ -31,6 +31,12 @@
   height: 8vh;
   width: 33.333%;
   border: 0;
+
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .react-tabs__tab:hover {
   opacity: 0.9;
@@ -67,4 +73,8 @@ sub {
 .subTabs .react-tabs__tab {
   width: 50%;
   height: 5vh;
+}
+.react-tabs__tab:focus {
+  outline: none;
+  border: 0;
 }
