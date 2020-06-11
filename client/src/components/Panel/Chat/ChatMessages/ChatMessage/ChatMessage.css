@@ -9,7 +9,7 @@
 
 .messageText {
   width: 100%;
-  letter-spacing: 0;
+  letter-spacing: 0.2px;
   float: left;
   word-wrap: break-word;
   margin: 0;
@@ -23,32 +23,73 @@
   display: flex;
   justify-content: flex-end;
   padding: 0 5%;
-  margin: 5px 0;
+  margin: 7px 0;
+}
+.messageContainer section {
+  margin: 0 4px;
+  display: flex;
+  align-items: flex-end;
+}
+.messageContainer section img {
+  /* width: 30px; */
+  border-radius: 50%;
 }
 
 .sentText {
   display: flex;
   align-items: center;
   color: #828282;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 
-.pl-10 { padding-left: 10px; }
-.pr-10 { padding-right: 10px; }
-.ptb-0 { padding-top: 0; padding-bottom: 0; }
-.mtb-12 { margin-top: 12px; margin-bottom: 12px; }
+.pl-10 {
+  padding-left: 10px;
+}
+.pr-10 {
+  padding-right: 10px;
+}
+.ptb-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.mtb-14 {
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
 
-.justifyCenter { justify-content: center; }
-.justifyStart { justify-content: flex-start; }
-.justifyEnd { justify-content: flex-end; }
+.justifyCenter {
+  justify-content: center;
+}
+.justifyStart {
+  justify-content: flex-start;
+}
+.justifyEnd {
+  justify-content: flex-end;
+}
 
-.colorWhite { color: white; }
-.colorDark { color: #353535; }
-.colorGray { color: #828282; }
-.colorBlack { color: black; }
+.colorWhite {
+  color: white;
+}
+.colorDark {
+  color: #353535;
+}
+.colorGray {
+  color: #828282;
+}
+.colorBlack {
+  color: black;
+}
 
-.backgroundBlue { background: #43a3f0; }
-.backgroundLight { background: #f3f3f3; }
+.backgroundBlue {
+  background: #43a3f0;
+}
+.backgroundLight {
+  background: #f3f3f3;
+}
 
-.fullWidth { max-width: 100%; }
-.textCenter { text-align: center; }
+.fullWidth {
+  max-width: 100%;
+}
+.textCenter {
+  text-align: center;
+}

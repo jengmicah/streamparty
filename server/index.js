@@ -32,14 +32,14 @@ io.on('connection', (socket) => {
         if (error) return callback(error);
         return callback();
     });
-    socket.on('join', ({ name, room }, callback) => {
-        const { error, user } = addUser({ id: socket.id, name, room });
+    socket.on('join', ({ name, room, colors }, callback) => {
+        const { error, user } = addUser({ id: socket.id, name, room, colors });
         if (error) return callback(error);
 
-        socket.emit('message', { user: 'admin', text: `Hi ${user.name}! Welcome to Watch Party! You can invite your friends to watch with you by sending them the link to this page.` });
-        // socket.emit('message', { user: 'admin', text: `${process.env.CLIENT}/room/${user.room}` });
+        socket.emit('message', { user: { name: 'admin' }, text: `Hi ${user.name}! Welcome to Watch Party! You can invite your friends to watch with you by sending them the link to this page.` });
+        // socket.emit('message', { user: { name: 'admin' }, text: `${process.env.CLIENT}/room/${user.room}` });
 
-        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined` });
+        socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has joined` });
 
         if (getUsersInRoom(user.room).length > 1) {
             const otherUser = getOtherUserInRoom(room, user);
@@ -55,14 +55,14 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         if (user) {
-            io.to(user.room).emit('message', { user: 'admin', text: `${user.name} has left` });
+            io.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
             io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
         }
     });
     socket.on('leaveRoom', ({ room }) => {
         const user = removeUser(socket.id);
         if (user) {
-            io.to(user.room).emit('message', { user: 'admin', text: `${user.name} has left` });
+            io.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
             io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
         }
         socket.leave(room);
@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', (message, callback) => {
         const user = getUser(socket.id);
         if (user) {
-            io.to(user.room).emit('message', { user: user.name, text: message });
+            io.to(user.room).emit('message', { user: user, text: message });
             // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
         }
         callback();
@@ -135,7 +135,7 @@ io.on('connection', (socket) => {
                 admin_msg = ''; break;
         }
         // console.log(admin_msg);
-        io.in(room).emit('message', { user: 'admin', text: admin_msg });
+        io.in(room).emit('message', { user: { name: 'admin' }, text: admin_msg });
         callback();
     });
 

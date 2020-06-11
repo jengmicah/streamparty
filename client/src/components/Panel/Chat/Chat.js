@@ -7,7 +7,7 @@ import './Chat.css';
 
 import { sckt } from '../../Socket';
 
-const Chat = ({ name, room, users }) => {
+const Chat = ({ name, colors }) => {
 
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
@@ -28,7 +28,7 @@ const Chat = ({ name, room, users }) => {
 
     return (
         <div className="chatContainer">
-            <ChatMessages messages={messages} name={name} />
+            <ChatMessages messages={messages} name={name} colors={colors} />
             <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage} />
         </div>
     );

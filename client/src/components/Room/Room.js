@@ -4,6 +4,7 @@ import JoinUser from './JoinUser';
 
 import { sckt } from '../Socket';
 import { store } from 'react-notifications-component';
+import { invertColor, getRandomColor } from '../../Helper';
 
 import './Room.css';
 import Panel from "../Panel/Panel";
@@ -38,7 +39,9 @@ const Room = ({ location, history }) => {
         lastStateYT: -1,
         receiving: false,
     });
-    const updateState = (paramsToChange) => {
+    const [colors, setColors] = useState({}); // self colors
+
+    const updateVideoProps = (paramsToChange) => {
         setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
     }
     const sendVideoState = ({ eventName, eventParams }) => {
@@ -69,7 +72,7 @@ const Room = ({ location, history }) => {
                         startSeconds: seekTime
                     });
                     player.pauseVideo();
-                    updateState({ receiving: false });
+                    updateVideoProps({ receiving: false });
                 }
             } else {
                 player.loadVideoById({ videoId });
@@ -84,7 +87,7 @@ const Room = ({ location, history }) => {
             eventName: "syncLoad",
             eventParams: { searchItem, history: [searchItem, ...videoProps.history] }
         });
-        updateState({ history: [searchItem, ...videoProps.history] });
+        updateVideoProps({ history: [searchItem, ...videoProps.history] });
     }
     const log = (msg, type) => {
         let baseStyles = [
@@ -159,7 +162,11 @@ const Room = ({ location, history }) => {
                 });
             } else {
                 setName(name);
-                sckt.socket.emit('join', { name, room }, () => {
+                const bg = getRandomColor();
+                const txt = invertColor(bg);
+                const colors = { bg, txt };
+                setColors(colors);
+                sckt.socket.emit('join', { name, room, colors }, () => {
                     // console.log(`${name} joined room ${room}`);
                 });
             }
@@ -171,33 +178,34 @@ const Room = ({ location, history }) => {
                 {
                     name && room
                         ? (
-                    <div className="outerContainer">
-                        <Video
-                            log={log}
-                            name={name}
-                            room={room}
-                            videoProps={videoProps}
-                            updateState={updateState}
-                            playerRef={playerRef}
-                            sendVideoState={sendVideoState}
-                            loadVideo={loadVideo}
-                            playVideoFromSearch={playVideoFromSearch}
-                        />
-                        <Panel
-                            log={log}
-                            name={name}
-                            room={room}
-                            history={history}
-                            videoProps={videoProps}
-                            updateState={updateState}
-                            playerRef={playerRef}
-                            sendVideoState={sendVideoState}
-                            playVideoFromSearch={playVideoFromSearch}
-                        />
-                    </div>
-                    ) : (
-                        <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
-                    )
+                            <div className="outerContainer">
+                                <Video
+                                    log={log}
+                                    name={name}
+                                    room={room}
+                                    videoProps={videoProps}
+                                    updateVideoProps={updateVideoProps}
+                                    playerRef={playerRef}
+                                    sendVideoState={sendVideoState}
+                                    loadVideo={loadVideo}
+                                    playVideoFromSearch={playVideoFromSearch}
+                                />
+                                <Panel
+                                    log={log}
+                                    name={name}
+                                    room={room}
+                                    history={history}
+                                    videoProps={videoProps}
+                                    updateVideoProps={updateVideoProps}
+                                    playerRef={playerRef}
+                                    sendVideoState={sendVideoState}
+                                    playVideoFromSearch={playVideoFromSearch}
+                                    colors={colors}
+                                />
+                            </div>
+                        ) : (
+                            <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
+                        )
                 }
             </div>
         </div >

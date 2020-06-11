@@ -7,15 +7,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Chat from './Chat/Chat';
 import Users from './Users/Users';
 import QueueHistory from './QueueHistory/QueueHistory';
-// import Settings from './Settings/Settings';
+import Settings from './Settings/Settings';
 import ReactTooltip from "react-tooltip";
 
 import { sckt } from '../Socket';
 
 import './Panel.css';
 
-const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, sendVideoState, playVideoFromSearch }) => {
-
+const Panel = ({
+    log,
+    name,
+    room,
+    history,
+    videoProps,
+    updateVideoProps,
+    playerRef,
+    sendVideoState,
+    playVideoFromSearch,
+    colors
+}) => {
     const [users, setUsers] = useState('');
 
     useEffect(() => {
@@ -31,15 +41,13 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
                     <Tab data-tip="Chat"><FontAwesomeIcon icon="comment" /></Tab>
                     <Tab data-tip="Videos"><FontAwesomeIcon icon="stream" /></Tab>
                     <Tab data-tip="Users"><FontAwesomeIcon icon="users" /><sub>{users.length}</sub></Tab>
-                    {/* <Tab data-tip="Settings"><FontAwesomeIcon icon="cog" /></Tab> */}
+                    <Tab data-tip="Settings"><FontAwesomeIcon icon="cog" /></Tab>
                 </TabList>
 
                 <TabPanel>
                     <Chat
-                        log={log}
                         name={name}
-                        room={room}
-                        users={users}
+                        colors={colors}
                     />
                 </TabPanel>
                 <TabPanel>
@@ -53,7 +61,7 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
                                 name={name}
                                 room={room}
                                 videoProps={videoProps}
-                                updateState={updateState}
+                                updateVideoProps={updateVideoProps}
                                 playerRef={playerRef}
                                 isQueue={true}
                                 sendVideoState={sendVideoState}
@@ -65,7 +73,7 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
                                 name={name}
                                 room={room}
                                 videoProps={videoProps}
-                                updateState={updateState}
+                                updateVideoProps={updateVideoProps}
                                 playerRef={playerRef}
                                 isQueue={false}
                                 sendVideoState={sendVideoState}
@@ -75,16 +83,16 @@ const Panel = ({ log, name, room, history, videoProps, updateState, playerRef, s
                     </Tabs>
                 </TabPanel>
                 <TabPanel>
-                    <Users users={users}
-                        room={room}
-                        history={history} />
+                    <Users
+                        users={users}
+                    />
                 </TabPanel>
-                {/* <TabPanel>
+                <TabPanel>
                     <Settings
                         room={room}
                         history={history}
                     />
-                </TabPanel> */}
+                </TabPanel>
             </Tabs>
             <ReactTooltip effect="solid" place="bottom" />
         </div>

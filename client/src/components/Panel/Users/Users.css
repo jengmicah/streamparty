@@ -14,34 +14,48 @@
 
 .activeContainer {
   position: relative;
-  margin: 0 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .activeItem {
+  position: relative;
   display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
   align-items: center;
-  margin-bottom: 5px;
+  border-radius: 10px;
+  margin: 8px;
+  width: 100px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.activeItem img {
+  width: 100px;
+}
+.activeItem span {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  padding: 3px 7px;
+  background: rgba(0,0,0,0.2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.activeContainer img {
-  padding-left: 10px;
-}
-
-.infoContainer h2 {
-  margin-bottom: 0px;
-}
 .infoContainer div.inputButtonContainer {
   margin-top: 0 !important;
 }
-.activeItem .onlineIcon {
-  color: #69f0ae;
-  margin: 0 10px;
-}
 
-#copyInput, .copyButton {
+#copyInput,
+.copyButton {
   font-size: 0.8em !important;
 }
-
 
 .leaveButton {
   margin: 0 auto;

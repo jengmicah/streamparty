@@ -4,41 +4,41 @@ import YouTube from 'react-youtube';
 
 import './VideoPlayer.css';
 
-const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, loadVideo, loadFromQueue }) => {
+const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, playerRef, loadVideo, loadFromQueue }) => {
 
     const onYTPlay = (seekTime) => {
         // const { receiving } = videoProps;
-        updateState({
+        updateVideoProps({
             lastStateYT: 1,
             playing: true,
             seekTime
         });
-        updateState({ receiving: false });
+        updateVideoProps({ receiving: false });
         // if (receiving) {
         //     log("Got PLAY", 'others');
         // }
     }
     const onYTPause = (seekTime) => {
         // const { receiving } = videoProps;
-        updateState({
+        updateVideoProps({
             lastStateYT: 2,
             playing: false,
             seekTime
         });
-        updateState({ receiving: false });
+        updateVideoProps({ receiving: false });
         // if (receiving) {
         //     log("Got PAUSE", 'others');
         // }
     }
     const onYTBuffer = (seekTime) => {
         // log("BUFFER", 'me');
-        updateState({ lastStateYT: 3 });
+        updateVideoProps({ lastStateYT: 3 });
     }
     const onYTPlaybackRateChange = (event) => {
         const { receiving } = videoProps;
         if (receiving) {
             // log("Got PLAYBACK RATE change", 'others');
-            updateState({ receiving: false });
+            updateVideoProps({ receiving: false });
         } else {
             // log("Sending PLAYBACK RATE change", 'me');
             let eventParams = {
@@ -48,13 +48,13 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
                 eventName: 'syncRateChange',
                 eventParams: eventParams
             });
-            updateState({ ...eventParams, receiving: false });
+            updateVideoProps({ ...eventParams, receiving: false });
         }
     }
     const onYTEnded = () => {
         const { receiving, queue } = videoProps;
         if (receiving) {
-            updateState({ receiving: false });
+            updateVideoProps({ receiving: false });
         } else {
             // log("ENDING", 'me');
             if (queue.length > 0) {
@@ -70,7 +70,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateState, playerRef, 
     }
     const onYTCue = (seekTime) => {
         // log("CUED", 'me');
-        updateState({
+        updateVideoProps({
             lastStateYT: 5,
             playing: false
         });
