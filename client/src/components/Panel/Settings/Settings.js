@@ -38,10 +38,10 @@ const Settings = ({ name, room, history }) => {
     history.push('/');
   }
   const changeName = () => {
-    if (currName) {
+    if (currName.trim()) {
       store.addNotification({
         title: "Whoops, sorry!",
-        message: `This feature isn't implemented yet, ${currName}`,
+        message: `This feature isn't implemented yet, ${currName.trim()}`,
         type: "warning",
         insert: "top",
         container: "bottom-right",
@@ -70,7 +70,7 @@ const Settings = ({ name, room, history }) => {
         <div className="inputButtonContainer">
           <input
             value={currName}
-            onChange={e => setCurrName(e.target.value.trim())}
+            onChange={e => setCurrName(e.target.value)}
             onKeyPress={e => e.key === 'Enter' ? changeName() : null}
           />
           <button onClick={changeName}>
