@@ -61,9 +61,8 @@ const App = () => (
         <Router>
             <Switch>
                 <Route path="/" exact component={JoinRoom} />
-                <Route path="/room" exact><Redirect to="/" /></Route>
                 <Route path="/room/:roomName" component={Room} />
-                <Route component={JoinRoom}><Redirect to="/" /></Route>
+                <Redirect to="/" />
                 {/* <Route path="/browse" component={Browse} /> */}
             </Switch>
         </Router>

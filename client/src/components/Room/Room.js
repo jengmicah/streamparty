@@ -11,7 +11,7 @@ import Panel from "../Panel/Panel";
 
 const Sentencer = require('sentencer');
 
-const Room = ({ location, history }) => {
+const Room = ({ location, history, match }) => {
     const playerRef = useRef(null);
     const [name, setName] = useState('');
     const [room, setRoom] = useState('');
@@ -123,9 +123,9 @@ const Room = ({ location, history }) => {
     }
     // From JoinRoom.js 
     useEffect(() => {
-        const room = encodeURIComponent(location.pathname.split('/').pop().trim());
-        if (room.length > 0) {
-            setRoom(room);
+        const currRoom = match.params.roomName;
+        if (currRoom.length > 0) {
+            setRoom(currRoom);
             // const adj = Sentencer.make("{{ adjective }}");
             // const noun = Sentencer.make("{{ noun }}");
             // const randomName = `${cap(adj)} ${cap(noun)}`;
@@ -133,8 +133,6 @@ const Room = ({ location, history }) => {
             // sckt.socket.emit('join', { name: randomName, room }, () => {
             //     // console.log(`${name} joined room ${room}`);
             // });
-        } else {
-            history.push('/');
         }
         // sckt.socket.emit('createRoom', { room }, () => {});
         // sckt.socket.on("roomData", ({ users }) => {
