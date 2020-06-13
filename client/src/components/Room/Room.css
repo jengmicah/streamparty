@@ -54,7 +54,7 @@ body {
   width: 100%;
   background: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.7);
-  font-size: 1em;
+  font-size: 0.9em;
 
   margin: 0;
   border-top-right-radius: 0;
@@ -73,7 +73,7 @@ body {
   box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 1em;
+  font-size: 0.9em;
 
   margin: 0;
   padding: 12px;
