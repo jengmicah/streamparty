@@ -6,7 +6,11 @@ import ReactEmoji from 'react-emoji';
 import { getAvatarUrl } from '../../../../../Helper';
 
 const Message = ({ message: { user, text }, currUser, users }) => {
-    const getNameById = (id) => users.find(x => x.id === id).name;
+    const getNameById = (id) => {
+        const existingUser = users.find(x => x.id === id);
+        if (existingUser) return existingUser.name;
+        return '';
+    }
     return (
         user.id === currUser.id ? (
             <div className='messageContainer justifyEnd'>

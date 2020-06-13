@@ -49,7 +49,6 @@ const Room = ({ location, history, match }) => {
             setUsers(users);
         });
     }, []);
-    // const getNameById = (id) => users.find(x => x.id === id).name;
     const updateCurrUser = (paramsToChange) => {
         setCurrUser((prev) => ({ ...prev, ...paramsToChange }));
     }
