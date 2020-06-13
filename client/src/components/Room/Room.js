@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Video from '../Video/Video';
 import JoinUser from './JoinUser';
-
 import { sckt } from '../Socket';
 import { store } from 'react-notifications-component';
 import { invertColor, getRandomColor } from '../../Helper';
@@ -140,9 +139,13 @@ const Room = ({ location, history, match }) => {
             // const adj = Sentencer.make("{{ adjective }}");
             // const noun = Sentencer.make("{{ noun }}");
             // const randomName = `${cap(adj)} ${cap(noun)}`;
-            // setCurrUser(randomName)
-            // sckt.socket.emit('join', { name: randomName, room }, () => {
-            //     // console.log(`${name} joined room ${room}`);
+            // updateCurrUser({ name: randomName });
+            // const bg = getRandomColor();
+            // const txt = invertColor(bg);
+            // const colors = { bg, txt };
+            // updateCurrUser({ colors });
+            // sckt.socket.emit('join', { name: randomName, room, colors }, ({ id }) => {
+            //     updateCurrUser({ id });
             // });
         }
         // sckt.socket.emit('createRoom', { room }, () => {});
@@ -186,6 +189,7 @@ const Room = ({ location, history, match }) => {
         <div>
             <div>
                 {
+                    // room
                     currUser.name && room
                         ? (
                             <div className="outerContainer">
@@ -216,6 +220,7 @@ const Room = ({ location, history, match }) => {
                             </div>
                         ) : (
                             <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
+                            // null
                         )
                 }
             </div>

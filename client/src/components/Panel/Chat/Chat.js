@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-
 import Messages from './Messages/Messages';
 import ChatInput from './ChatInput/ChatInput';
+import { sckt } from '../../Socket';
 
 import './Chat.css';
-
-import { sckt } from '../../Socket';
 
 const Chat = ({ currUser, users }) => {
     const [message, setMessage] = useState('');

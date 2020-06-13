@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-
+import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import Chat from './Chat/Chat';
 import Users from './Users/Users';
 import QueueHistory from './QueueHistory/QueueHistory';
 import Settings from './Settings/Settings';
 import ReactTooltip from "react-tooltip";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import { sckt } from '../Socket';
-
+import 'react-tabs/style/react-tabs.css';
 import './Panel.css';
 
 const Panel = ({
@@ -24,8 +20,7 @@ const Panel = ({
     playerRef,
     sendVideoState,
     playVideoFromSearch,
-    users,
-    currUserId
+    users
 }) => {
     return (
         <div className="panelContainer">
@@ -84,9 +79,9 @@ const Panel = ({
                     <Settings
                         currUser={currUser}
                         updateCurrUser={updateCurrUser}
-                        currUserId={currUserId}
                         room={room}
                         history={history}
+                        users={users}
                     />
                 </TabPanel>
             </Tabs>

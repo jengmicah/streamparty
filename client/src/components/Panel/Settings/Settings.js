@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './Settings.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { sckt } from '../../Socket';
 import { store } from 'react-notifications-component';
+import './Settings.css';
 
-const Settings = ({ currUser, updateCurrUser, room, history }) => {
+const Settings = ({ currUser, updateCurrUser, room, history, users }) => {
   const [currName, setCurrName] = useState(currUser.name);
   const copyText = () => {
     let text = document.getElementById('copyInput');
@@ -39,22 +37,40 @@ const Settings = ({ currUser, updateCurrUser, room, history }) => {
   }
   const changeName = () => {
     const trimmedName = currName.trim();
+    // Check that name was changed
     if (trimmedName && trimmedName != currUser.name) {
-      store.addNotification({
-        title: `Hello, ${trimmedName}!`,
-        message: `Who's ${currUser.name}?`,
-        type: "success",
-        insert: "top",
-        container: "bottom-right",
-        animationIn: ["animated", "fadeInUp"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 2000,
-          onScreen: false
-        }
-      });
-      sckt.socket.emit('changeUsername', { oldName: currUser.name, newName: trimmedName });
-      updateCurrUser({ name: trimmedName });
+      // Check that name is unique
+      if (!users.find(x => x.name === trimmedName)) {
+        store.addNotification({
+          title: `Hello, ${trimmedName}!`,
+          message: `Who's ${currUser.name}?`,
+          type: "success",
+          insert: "top",
+          container: "bottom-right",
+          animationIn: ["animated", "fadeInUp"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 2000,
+            onScreen: false
+          }
+        });
+        sckt.socket.emit('changeUsername', { oldName: currUser.name, newName: trimmedName });
+        updateCurrUser({ name: trimmedName });
+      } else {
+        store.addNotification({
+          title: "Uh oh!",
+          message: "User exists in this room already",
+          type: "warning",
+          insert: "top",
+          container: "bottom-right",
+          animationIn: ["animated", "fadeInUp"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+            duration: 2000,
+            onScreen: false
+          }
+        });
+      }
     }
   }
   return (
