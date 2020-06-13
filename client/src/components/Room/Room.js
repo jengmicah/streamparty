@@ -13,7 +13,10 @@ const Sentencer = require('sentencer');
 
 const Room = ({ location, history, match }) => {
     const playerRef = useRef(null);
-    const [name, setName] = useState('');
+    const [currUser, setCurrUser] = useState({
+        name: '', id: '',
+        colors: { bg: '', txt: '' }
+    });
     const [room, setRoom] = useState('');
     const [videoProps, setVideoProps] = useState({
         queue: [
@@ -39,14 +42,23 @@ const Room = ({ location, history, match }) => {
         lastStateYT: -1,
         receiving: false,
     });
-    const [colors, setColors] = useState({}); // self colors
+    const [users, setUsers] = useState([]);
 
+    useEffect(() => {
+        sckt.socket.on("roomData", ({ users }) => {
+            setUsers(users);
+        });
+    }, []);
+    // const getNameById = (id) => users.find(x => x.id === id).name;
+    const updateCurrUser = (paramsToChange) => {
+        setCurrUser((prev) => ({ ...prev, ...paramsToChange }));
+    }
     const updateVideoProps = (paramsToChange) => {
         setVideoProps((prev) => ({ ...prev, ...paramsToChange }));
     }
     const sendVideoState = ({ eventName, eventParams }) => {
         let params = {
-            name: name,
+            name: currUser.name,
             room: room,
             eventName: eventName,
             eventParams: eventParams
@@ -129,7 +141,7 @@ const Room = ({ location, history, match }) => {
             // const adj = Sentencer.make("{{ adjective }}");
             // const noun = Sentencer.make("{{ noun }}");
             // const randomName = `${cap(adj)} ${cap(noun)}`;
-            // setName(randomName)
+            // setCurrUser(randomName)
             // sckt.socket.emit('join', { name: randomName, room }, () => {
             //     // console.log(`${name} joined room ${room}`);
             // });
@@ -159,27 +171,28 @@ const Room = ({ location, history, match }) => {
                     }
                 });
             } else {
-                setName(name);
+                updateCurrUser({ name });
                 const bg = getRandomColor();
                 const txt = invertColor(bg);
                 const colors = { bg, txt };
-                setColors(colors);
-                sckt.socket.emit('join', { name, room, colors }, () => {
-                    // console.log(`${name} joined room ${room}`);
+                updateCurrUser({ colors });
+                sckt.socket.emit('join', { name, room, colors }, ({ id }) => {
+                    updateCurrUser({ id });
                 });
             }
         })
     }
+
     return (
         <div>
             <div>
                 {
-                    name && room
+                    currUser.name && room
                         ? (
                             <div className="outerContainer">
                                 <Video
                                     log={log}
-                                    name={name}
+                                    currUser={currUser}
                                     room={room}
                                     videoProps={videoProps}
                                     updateVideoProps={updateVideoProps}
@@ -189,8 +202,8 @@ const Room = ({ location, history, match }) => {
                                     playVideoFromSearch={playVideoFromSearch}
                                 />
                                 <Panel
-                                    log={log}
-                                    name={name}
+                                    currUser={currUser}
+                                    updateCurrUser={updateCurrUser}
                                     room={room}
                                     history={history}
                                     videoProps={videoProps}
@@ -198,7 +211,8 @@ const Room = ({ location, history, match }) => {
                                     playerRef={playerRef}
                                     sendVideoState={sendVideoState}
                                     playVideoFromSearch={playVideoFromSearch}
-                                    colors={colors}
+                                    users={users}
+                                    setUsers={setUsers}
                                 />
                             </div>
                         ) : (

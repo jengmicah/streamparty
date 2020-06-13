@@ -15,8 +15,8 @@ import { sckt } from '../Socket';
 import './Panel.css';
 
 const Panel = ({
-    log,
-    name,
+    currUser,
+    updateCurrUser,
     room,
     history,
     videoProps,
@@ -24,16 +24,9 @@ const Panel = ({
     playerRef,
     sendVideoState,
     playVideoFromSearch,
-    colors
+    users,
+    currUserId
 }) => {
-    const [users, setUsers] = useState('');
-
-    useEffect(() => {
-        sckt.socket.on("roomData", ({ users }) => {
-            setUsers(users);
-        });
-    }, []);
-
     return (
         <div className="panelContainer">
             <Tabs forceRenderTabPanel={true}>
@@ -46,8 +39,8 @@ const Panel = ({
 
                 <TabPanel>
                     <Chat
-                        name={name}
-                        colors={colors}
+                        currUser={currUser}
+                        users={users}
                     />
                 </TabPanel>
                 <TabPanel>
@@ -58,7 +51,7 @@ const Panel = ({
                         </TabList>
                         <TabPanel>
                             <QueueHistory
-                                name={name}
+                                currUser={currUser}
                                 room={room}
                                 videoProps={videoProps}
                                 updateVideoProps={updateVideoProps}
@@ -70,7 +63,7 @@ const Panel = ({
                         </TabPanel>
                         <TabPanel>
                             <QueueHistory
-                                name={name}
+                                currUser={currUser}
                                 room={room}
                                 videoProps={videoProps}
                                 updateVideoProps={updateVideoProps}
@@ -89,7 +82,9 @@ const Panel = ({
                 </TabPanel>
                 <TabPanel>
                     <Settings
-                        name={name}
+                        currUser={currUser}
+                        updateCurrUser={updateCurrUser}
+                        currUserId={currUserId}
                         room={room}
                         history={history}
                     />

@@ -1,34 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import './ChatMessage.css';
+import './Message.css';
 
 import ReactEmoji from 'react-emoji';
 import { getAvatarUrl } from '../../../../../Helper';
 
-const ChatMessage = ({ message: { user, text }, self }) => {
-    let isSentByCurrentUser = false;
-    const trimmedName = self.name.trim().toLowerCase();
-
-    if (user.name === trimmedName) {
-        isSentByCurrentUser = true;
-    }
+const Message = ({ message: { user, text }, currUser, users }) => {
+    const getNameById = (id) => users.find(x => x.id === id).name;
     return (
-        isSentByCurrentUser
-            ? (
-                <div className='messageContainer justifyEnd'>
-                    {/* <p className='sentText pr-10'>{trimmedName}</p> */}
-                    <div className='messageBox backgroundBlue'>
-                        <p className='messageText colorWhite'>{ReactEmoji.emojify(text)}</p>
-                    </div>
-                    <section>
-                        <img src={getAvatarUrl({
-                            name: self.name,
-                            background: self.colors.bg,
-                            color: self.colors.txt,
-                        })} />
-                    </section>
+        user.id === currUser.id ? (
+            <div className='messageContainer justifyEnd'>
+                {/* <p className='sentText pr-10'>{trimmedCurrUser}</p> */}
+                <div className='messageBox backgroundBlue'>
+                    <p className='messageText colorWhite'>{ReactEmoji.emojify(text)}</p>
                 </div>
-            ) : (
+                <section>
+                    <img src={getAvatarUrl({
+                        name: getNameById(currUser.id),
+                        background: currUser.colors.bg,
+                        color: currUser.colors.txt,
+                    })} />
+                </section>
+            </div>
+        ) : (
                 user.name === 'admin' ? (
                     <div className='messageContainer justifyCenter mtb-14'>
                         <div className='messageBox fullWidth ptb-0 textCenter'>
@@ -39,7 +33,7 @@ const ChatMessage = ({ message: { user, text }, self }) => {
                         <div className='messageContainer justifyStart'>
                             <section>
                                 <img src={getAvatarUrl({
-                                    name: user.name,
+                                    name: getNameById(user.id),
                                     background: user.colors.bg,
                                     color: user.colors.txt,
                                 })} />
@@ -54,4 +48,4 @@ const ChatMessage = ({ message: { user, text }, self }) => {
     );
 };
 
-export default ChatMessage;
+export default Message;

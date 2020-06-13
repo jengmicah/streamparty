@@ -2,17 +2,22 @@ const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
 
-const { checkUser, addUser, removeUser, getUser, getUsersInRoom, getOtherUserInRoom } = require('./users.js');
+const {
+    checkUser,
+    addUser,
+    removeUser,
+    getUserById,
+    getUsersInRoom,
+    getOtherUserInRoom,
+    getUserByName
+} = require('./users.js');
 // const { getActiveRooms } = require('./rooms.js');
 
 const PORT = process.env.PORT || 5000;
-
 const router = require('./router');
-
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-
 const cors = require('cors');
 
 require('dotenv').config()
@@ -36,7 +41,7 @@ io.on('connection', (socket) => {
         const { error, user } = addUser({ id: socket.id, name, room, colors });
         if (error) return callback(error);
 
-        socket.emit('message', { user: { name: 'admin' }, text: `Hi ${user.name}! Welcome to Watch Party! You can invite your friends to watch with you by sending them the link to this page.` });
+        socket.emit('message', { user: { name: 'admin' }, text: `Hi ${user.name}! Welcome to your new room! You can invite your friends to watch with you by sending them the link to this page.` });
         // socket.emit('message', { user: { name: 'admin' }, text: `${process.env.CLIENT}/room/${user.room}` });
 
         socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has joined` });
@@ -47,10 +52,8 @@ io.on('connection', (socket) => {
         }
 
         socket.join(user.room);
-
         io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
-
-        callback();
+        callback({ id: socket.id });
     });
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
@@ -69,6 +72,14 @@ io.on('connection', (socket) => {
     });
 
     /** ROOM DATA */
+    socket.on('changeUsername', ({ oldName, newName }) => {
+        const user = getUserByName(oldName);
+        user.name = newName;
+        if (user) {
+            io.to(user.room).emit('message', { user: { name: 'admin' }, text: `${oldName} changed their name to ${newName}` });
+            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+        }
+    });
     // socket.on('updateRoomData', ({ video }, callback) => {
     //     const currRoom = Object.keys(socket.rooms).filter(item => item != socket.id)[0];
     //     currVideo[currRoom] = video;
@@ -91,7 +102,7 @@ io.on('connection', (socket) => {
 
     /** SENDING MESSAGES */
     socket.on('sendMessage', (message, callback) => {
-        const user = getUser(socket.id);
+        const user = getUserById(socket.id);
         if (user) {
             io.to(user.room).emit('message', { user: user, text: message });
             // io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});

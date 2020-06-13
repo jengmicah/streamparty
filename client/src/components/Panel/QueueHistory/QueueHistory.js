@@ -3,7 +3,7 @@ import React from 'react';
 import './QueueHistory.css';
 import QueueList from './QueueList';
 
-const QueueHistory = ({ isQueue, videoProps, name, room, updateVideoProps, playerRef, sendVideoState, playVideoFromSearch }) => {
+const QueueHistory = ({ isQueue, videoProps, room, updateVideoProps, playerRef, sendVideoState, playVideoFromSearch }) => {
     const handleRemoveFromQueue = (index) => {
         let { queue } = videoProps;
         queue.splice(index, 1);

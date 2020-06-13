@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { sckt } from '../../Socket';
 import { store } from 'react-notifications-component';
 
-const Settings = ({ name, room, history }) => {
-  const [currName, setCurrName] = useState(name);
+const Settings = ({ currUser, updateCurrUser, room, history }) => {
+  const [currName, setCurrName] = useState(currUser.name);
   const copyText = () => {
     let text = document.getElementById('copyInput');
     text.focus();
@@ -38,11 +38,12 @@ const Settings = ({ name, room, history }) => {
     history.push('/');
   }
   const changeName = () => {
-    if (currName.trim()) {
+    const trimmedName = currName.trim();
+    if (trimmedName && trimmedName != currUser.name) {
       store.addNotification({
-        title: "Whoops, sorry!",
-        message: `This feature isn't implemented yet, ${currName.trim()}`,
-        type: "warning",
+        title: `Hello, ${trimmedName}!`,
+        message: `Who's ${currUser.name}?`,
+        type: "success",
         insert: "top",
         container: "bottom-right",
         animationIn: ["animated", "fadeInUp"],
@@ -52,6 +53,8 @@ const Settings = ({ name, room, history }) => {
           onScreen: false
         }
       });
+      sckt.socket.emit('changeUsername', { oldName: currUser.name, newName: trimmedName });
+      updateCurrUser({ name: trimmedName });
     }
   }
   return (

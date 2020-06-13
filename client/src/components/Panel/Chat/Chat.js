@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import ChatMessages from './ChatMessages/ChatMessages';
+import Messages from './Messages/Messages';
 import ChatInput from './ChatInput/ChatInput';
 
 import './Chat.css';
 
 import { sckt } from '../../Socket';
 
-const Chat = ({ name, colors }) => {
-
+const Chat = ({ currUser, users }) => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
 
@@ -28,7 +27,7 @@ const Chat = ({ name, colors }) => {
 
     return (
         <div className="chatContainer">
-            <ChatMessages messages={messages} name={name} colors={colors} />
+            <Messages messages={messages} currUser={currUser} users={users} />
             <ChatInput message={message} setMessage={setMessage} sendMessage={sendMessage} />
         </div>
     );
