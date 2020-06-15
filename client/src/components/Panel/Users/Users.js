@@ -10,8 +10,8 @@ const Users = ({ users }) => {
       {
         users.length > 0 && (
             <div className="activeContainer">
-              {users.map(({ name, colors }) => (
-                <div key={name} className="activeItem">
+              {users.map(({ id, name, colors }) => (
+                <div key={id} className="activeItem">
                   <img src={getAvatarUrl({
                     name,
                     background: colors.bg,

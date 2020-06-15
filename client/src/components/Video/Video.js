@@ -10,7 +10,7 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
 
     useEffect(() => {
         // Send videoProps to new user
-        sckt.socket.on("getSync", ({ id }) => {
+        const getSyncHandler = ({ id }) => {
             // log("New user needs videoProps to sync.", 'server');
             if (playerRef.current !== null && playerRef.current.internalPlayer !== null) {
                 let player = playerRef.current.internalPlayer;
@@ -24,18 +24,16 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
                     sckt.socket.emit('sendSync', params, (error) => { });
                 });
             }
-        });
-    });
-    useEffect(() => {
+        }
         // Sync other user's videoProps to our state
-        sckt.socket.on("startSync", (videoProps) => {
+        const startSyncHandler = (videoProps) => {
             // log("I'm syncing.", 'server');
             updateVideoProps({ ...videoProps });
             modifyVideoState({ ...videoProps });
             // loadVideo(videoProps.history[0], true);
-        });
+        };
         // Update single value in videoProps from other user
-        sckt.socket.on("receiveVideoState", ({ name, room, eventName, eventParams = {} }) => {
+        const receiveVideoStateHandler = ({ name, room, eventName, eventParams = {} }) => {
             const { seekTime, playbackRate, queue, searchItem, history } = eventParams;
             updateVideoProps({ receiving: true });
             switch (eventName) {
@@ -65,8 +63,19 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
                 default:
                     break;
             }
-        });
+        };
+
+        
+        sckt.socket.on("getSync", getSyncHandler);
+        sckt.socket.on("startSync", startSyncHandler);
+        sckt.socket.on("receiveVideoState", receiveVideoStateHandler);
+        return () => {
+            sckt.socket.off('getSync', getSyncHandler);
+            sckt.socket.off('startSync', startSyncHandler);
+            sckt.socket.off('receiveVideoState', receiveVideoStateHandler);
+        };
     }, []);
+
     const loadFromQueue = (queue, sync = false) => {
         let nextVideo = queue.shift(); // Remove from beginning of queue
         if (nextVideo !== undefined) {

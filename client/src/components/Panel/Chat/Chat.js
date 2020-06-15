@@ -10,9 +10,9 @@ const Chat = ({ currUser, users }) => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        sckt.socket.on('message', message => {
-            setMessages(messages => [...messages, message]);
-        });
+        const handler = (message) => setMessages(messages => [...messages, message]);
+        sckt.socket.on('message', handler);
+        return () => sckt.socket.off('message', handler);
     }, []);
 
     const sendMessage = (event) => {

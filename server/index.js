@@ -58,15 +58,15 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         if (user) {
-            io.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
-            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+            socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
+            socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
         }
     });
     socket.on('leaveRoom', ({ room }) => {
         const user = removeUser(socket.id);
         if (user) {
-            io.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
-            io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+            socket.broadcast.to(user.room).emit('message', { user: { name: 'admin' }, text: `${user.name} has left` });
+            socket.broadcast.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
         }
         socket.leave(room);
     });

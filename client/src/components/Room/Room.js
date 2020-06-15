@@ -12,10 +12,6 @@ const Sentencer = require('sentencer');
 
 const Room = ({ location, history, match }) => {
     const playerRef = useRef(null);
-    // {
-    //     name: '', id: '',
-    //     colors: { bg: '', txt: '' }
-    // }
     const [currUser, setCurrUser] = useState({
         id: '',
         name: JSON.parse(localStorage.getItem('name')),
@@ -56,9 +52,9 @@ const Room = ({ location, history, match }) => {
     }, [currUser.colors])
 
     useEffect(() => {
-        sckt.socket.on("roomData", ({ users }) => {
-            setUsers(users);
-        });
+        const handler = ({ users }) => setUsers(users);
+        sckt.socket.on("roomData", handler);
+        return () => sckt.socket.off('roomData', handler);
     }, []);
     const updateCurrUser = (paramsToChange) => {
         setCurrUser((prev) => ({ ...prev, ...paramsToChange }));
@@ -78,7 +74,7 @@ const Room = ({ location, history, match }) => {
 
     // Video.js
     const loadVideo = (searchItem, sync) => {
-        if (playerRef.current != null && playerRef.current.internalPlayer != null) {
+        if (playerRef.current != null && playerRef.current.internalPlayer != null && searchItem) {
             const { playing, seekTime } = videoProps;
             let player = playerRef.current.internalPlayer;
             let videoId = searchItem.video.id;
@@ -145,24 +141,28 @@ const Room = ({ location, history, match }) => {
     }
     // From JoinRoom.js 
     useEffect(() => {
-        const room = match.params.roomName;
+        const room = match.params.roomName.trim();
         if (room.length > 0) {
             setRoom(room);
-
             let name = currUser.name;
-            if (!name) { // If no name in locaStorage
+            if (!name) { // If no name in localStorage
                 const adj = Sentencer.make("{{ adjective }}");
                 const noun = Sentencer.make("{{ noun }}");
                 name = `${cap(adj)} ${cap(noun)}`;
                 updateCurrUser({ name });
             }
             let colors = currUser.colors;
-            if (!colors) { // If no colors in locaStorage
-                const bg = getRandomColor();
-                const txt = invertColor(bg);
-                colors = { bg, txt };
-                updateCurrUser({ colors });
-            }
+            // if (!colors) { // If no colors in localStorage
+            //     const bg = getRandomColor();
+            //     const txt = invertColor(bg);
+            //     colors = { bg, txt };
+            //     updateCurrUser({ colors });
+            // }
+            const bg = getRandomColor();
+            const txt = invertColor(bg);
+            colors = { bg, txt };
+            updateCurrUser({ colors });
+
             sckt.socket.emit('join', { name, room, colors }, ({ id }) => {
                 updateCurrUser({ id });
             });
