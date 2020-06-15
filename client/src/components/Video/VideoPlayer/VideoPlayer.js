@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import YouTube from 'react-youtube';
 // import ReactPlayer from 'react-player';
+import { Embed } from 'semantic-ui-react'
 
 import './VideoPlayer.css';
 
@@ -183,6 +184,20 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
 
     return (
         <div id="videoPlayer" style={{ display: videoProps.initVideo ? 'block' : 'none' }}>
+            {/* <Embed
+                autoplay={false}
+                color='white'
+                hd={false}
+                id='gJscrxxl_Bg'
+                iframe={{
+                    allowFullScreen: true,
+                    // style: {
+                    //     padding: 10,
+                    // },
+                }}
+                placeholder='/images/image-16by9.png'
+                source='youtube'
+            /> */}
             <YouTube
                 ref={playerRef}
                 className='react-player'

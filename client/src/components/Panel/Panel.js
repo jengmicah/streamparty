@@ -4,10 +4,8 @@ import Users from './Users/Users';
 import QueueHistory from './QueueHistory/QueueHistory';
 import Settings from './Settings/Settings';
 import ReactTooltip from "react-tooltip";
-// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Popup, Menu, Label, Tab, Icon } from 'semantic-ui-react'
 
-import 'react-tabs/style/react-tabs.css';
 import './Panel.css';
 
 const Panel = ({
