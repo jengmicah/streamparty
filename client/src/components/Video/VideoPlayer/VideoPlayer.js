@@ -178,6 +178,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
         playerVars: {
             autoplay: 1,
         },
+        host: `${window.location.protocol}//www.youtube.com`,
     };
 
     return (
