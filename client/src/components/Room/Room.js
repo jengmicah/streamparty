@@ -12,9 +12,14 @@ const Sentencer = require('sentencer');
 
 const Room = ({ location, history, match }) => {
     const playerRef = useRef(null);
+    // {
+    //     name: '', id: '',
+    //     colors: { bg: '', txt: '' }
+    // }
     const [currUser, setCurrUser] = useState({
-        name: '', id: '',
-        colors: { bg: '', txt: '' }
+        id: '',
+        name: JSON.parse(localStorage.getItem('name')),
+        colors: JSON.parse(localStorage.getItem('colors'))
     });
     const [room, setRoom] = useState('');
     const [videoProps, setVideoProps] = useState({
@@ -42,6 +47,13 @@ const Room = ({ location, history, match }) => {
         receiving: false,
     });
     const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        localStorage.setItem('name', JSON.stringify(currUser.name));
+    }, [currUser.name])
+    useEffect(() => {
+        localStorage.setItem('colors', JSON.stringify(currUser.colors));
+    }, [currUser.colors])
 
     useEffect(() => {
         sckt.socket.on("roomData", ({ users }) => {
@@ -133,20 +145,27 @@ const Room = ({ location, history, match }) => {
     }
     // From JoinRoom.js 
     useEffect(() => {
-        const currRoom = match.params.roomName;
-        if (currRoom.length > 0) {
-            setRoom(currRoom);
-            // const adj = Sentencer.make("{{ adjective }}");
-            // const noun = Sentencer.make("{{ noun }}");
-            // const randomName = `${cap(adj)} ${cap(noun)}`;
-            // updateCurrUser({ name: randomName });
-            // const bg = getRandomColor();
-            // const txt = invertColor(bg);
-            // const colors = { bg, txt };
-            // updateCurrUser({ colors });
-            // sckt.socket.emit('join', { name: randomName, room, colors }, ({ id }) => {
-            //     updateCurrUser({ id });
-            // });
+        const room = match.params.roomName;
+        if (room.length > 0) {
+            setRoom(room);
+
+            let name = currUser.name;
+            if (!name) { // If no name in locaStorage
+                const adj = Sentencer.make("{{ adjective }}");
+                const noun = Sentencer.make("{{ noun }}");
+                name = `${cap(adj)} ${cap(noun)}`;
+                updateCurrUser({ name });
+            }
+            let colors = currUser.colors;
+            if (!colors) { // If no colors in locaStorage
+                const bg = getRandomColor();
+                const txt = invertColor(bg);
+                colors = { bg, txt };
+                updateCurrUser({ colors });
+            }
+            sckt.socket.emit('join', { name, room, colors }, ({ id }) => {
+                updateCurrUser({ id });
+            });
         }
         // sckt.socket.emit('createRoom', { room }, () => {});
         // sckt.socket.on("roomData", ({ users }) => {
@@ -154,75 +173,35 @@ const Room = ({ location, history, match }) => {
         // });
     }, [location.pathname, history]);
 
-    // From JoinUser.js
-    const joinRoomAsUser = (name) => {
-        sckt.socket.emit('checkUser', { name, room }, (error) => {
-            if (error === 'DUPLICATE_USER') {
-                console.log(error);
-                store.addNotification({
-                    title: "Uh oh!",
-                    message: "User exists in this room already",
-                    type: "warning",
-                    insert: "top",
-                    container: "bottom-right",
-                    animationIn: ["animated", "fadeInUp"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 2000,
-                        onScreen: false
-                    }
-                });
-            } else {
-                updateCurrUser({ name });
-                const bg = getRandomColor();
-                const txt = invertColor(bg);
-                const colors = { bg, txt };
-                updateCurrUser({ colors });
-                sckt.socket.emit('join', { name, room, colors }, ({ id }) => {
-                    updateCurrUser({ id });
-                });
-            }
-        })
-    }
-
     return (
         <div>
             <div>
-                {
-                    // room
-                    currUser.name && room
-                        ? (
-                            <div className="outerContainer">
-                                <Video
-                                    log={log}
-                                    currUser={currUser}
-                                    room={room}
-                                    videoProps={videoProps}
-                                    updateVideoProps={updateVideoProps}
-                                    playerRef={playerRef}
-                                    sendVideoState={sendVideoState}
-                                    loadVideo={loadVideo}
-                                    playVideoFromSearch={playVideoFromSearch}
-                                />
-                                <Panel
-                                    currUser={currUser}
-                                    updateCurrUser={updateCurrUser}
-                                    room={room}
-                                    history={history}
-                                    videoProps={videoProps}
-                                    updateVideoProps={updateVideoProps}
-                                    playerRef={playerRef}
-                                    sendVideoState={sendVideoState}
-                                    playVideoFromSearch={playVideoFromSearch}
-                                    users={users}
-                                    setUsers={setUsers}
-                                />
-                            </div>
-                        ) : (
-                            <JoinUser room={room} joinRoomAsUser={joinRoomAsUser} />
-                            // null
-                        )
-                }
+                <div className="outerContainer">
+                    <Video
+                        log={log}
+                        currUser={currUser}
+                        room={room}
+                        videoProps={videoProps}
+                        updateVideoProps={updateVideoProps}
+                        playerRef={playerRef}
+                        sendVideoState={sendVideoState}
+                        loadVideo={loadVideo}
+                        playVideoFromSearch={playVideoFromSearch}
+                    />
+                    <Panel
+                        currUser={currUser}
+                        updateCurrUser={updateCurrUser}
+                        room={room}
+                        history={history}
+                        videoProps={videoProps}
+                        updateVideoProps={updateVideoProps}
+                        playerRef={playerRef}
+                        sendVideoState={sendVideoState}
+                        playVideoFromSearch={playVideoFromSearch}
+                        users={users}
+                        setUsers={setUsers}
+                    />
+                </div>
             </div>
         </div >
     );

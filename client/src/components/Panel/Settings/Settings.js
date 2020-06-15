@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, Icon } from 'semantic-ui-react'
 import { sckt } from '../../Socket';
 import { store } from 'react-notifications-component';
@@ -6,6 +6,11 @@ import './Settings.css';
 
 const Settings = ({ currUser, updateCurrUser, room, history, users }) => {
   const [currName, setCurrName] = useState(currUser.name);
+  
+  useEffect(() => {
+    setCurrName(currUser.name);
+  }, [currUser.name]);
+
   const copyText = () => {
     let text = document.getElementById('copyInput');
     text.focus();
