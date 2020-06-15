@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import './Browse.css';
 import { sckt } from '../Socket';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 const Browse = ({ history }) => {
     const [room, setRoom] = useState('');
     const [allRoomData, setAllRoomData] = useState([]);

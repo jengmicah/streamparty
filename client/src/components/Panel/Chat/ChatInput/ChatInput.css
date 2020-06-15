@@ -3,9 +3,12 @@
   padding-bottom: 5px;
   /* font-size: 0.9em; */
 }
-.chatInput {
-  border-radius: 30px !important;
-  /* margin: 10px 0 !important; */
+.chatInput input {
+  border-radius: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  padding: 1em !important;
 }
 .chatButton {
   cursor: auto !important;
@@ -18,5 +21,6 @@
 }
 #sendIcon.readyToPress {
   color: #43a3f0 !important;
-  cursor: pointer;
+  cursor: pointer !important;
+  pointer-events: all !important;
 }

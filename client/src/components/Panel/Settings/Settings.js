@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Input, Button, Icon } from 'semantic-ui-react'
 import { sckt } from '../../Socket';
 import { store } from 'react-notifications-component';
 import './Settings.css';
@@ -77,27 +76,45 @@ const Settings = ({ currUser, updateCurrUser, room, history, users }) => {
     <div className="settingsContainer">
       <div>
         <h3>Invite your friends!</h3>
-        <div className="inputButtonContainer">
-          <input id="copyInput" value={window.location.href} readOnly />
-          <button className="copyButton" onClick={copyText}>
-            <FontAwesomeIcon className="copyIcon" size='sm' icon="copy" />
-          </button>
-        </div>
+        <Input
+          fluid
+          size='large'
+          id='copyInput'
+          value={window.location.href}
+          action={{
+            color: 'blue',
+            icon: 'copy',
+            onClick: copyText
+          }}
+          readOnly
+        />
       </div>
+
       <div>
         <h3>Hello, my name is:</h3>
-        <div className="inputButtonContainer">
-          <input
-            value={currName}
-            onChange={e => setCurrName(e.target.value)}
-            onKeyPress={e => e.key === 'Enter' ? changeName() : null}
-          />
-          <button onClick={changeName}>
-            <FontAwesomeIcon size='sm' icon="check" />
-          </button>
-        </div>
+        <Input
+          fluid
+          size='large'
+          value={currName}
+          onChange={e => setCurrName(e.target.value)}
+          onKeyPress={e => e.key === 'Enter' ? changeName() : null}
+          action={{
+            color: 'blue',
+            icon: 'check',
+            onClick: changeName
+          }}
+        />
       </div>
-      <button onClick={leaveRoom} className="button leaveButton">Leave Room</button>
+
+      <div>
+        <Button
+          content='Leave Room'
+          icon='sign-out'
+          labelPosition='right'
+          color='red'
+          onClick={leaveRoom}
+        />
+      </div>
     </div>
   )
 };

@@ -9,6 +9,7 @@ import Room from './components/Room/Room';
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import './components/breakpoints.css';
+import 'semantic-ui-css/semantic.min.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {

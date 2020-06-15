@@ -20,11 +20,11 @@
 } */
 
 .videoSearchContainer {
-  padding: 20px 10px;
+  padding: 20px;
 }
 .videoSearchContainer .inputButtonContainer {
   margin: 10px 0 30px 0 !important;
 }
-.searchInput {
+/* .searchInput {
   width: 50% !important;
-}
+} */

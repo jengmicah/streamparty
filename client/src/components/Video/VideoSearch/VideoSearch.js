@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import './VideoSearch.css';
 import { youtube_parser, validateYouTubeUrl } from '../VideoHelper';
 import VideoSearchResults from './VideoSearchResults/VideoSearchResults';
 import axios from 'axios';
 import _ from 'lodash';
+
+import { Input } from 'semantic-ui-react'
+
 require('dotenv').config()
 
 const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
@@ -34,7 +34,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     //     }
     // }, [searchInput]);
 
-    const handlePlay = (event) => {        
+    const handlePlay = (event) => {
         let trimInput = searchInput.trim();
         event.preventDefault();
         if (validateYouTubeUrl(trimInput)) {
@@ -89,19 +89,18 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
 
     return (
         <div className="videoSearchContainer">
-            <div className='inputButtonContainer'>
-                <input
-                    className='searchInput'
-                    type='text'
-                    value={searchInput}
-                    placeholder="Search a video or paste a YouTube link..."
-                    onChange={e => setSearchInput(e.target.value)}
-                    onKeyPress={e => e.key === 'Enter' ? handlePlay(e) : null}
-                />
-                <button className='videoNavButton' onClick={(e) => searchInput.trim() !== '' ? handlePlay(e) : null}>
-                    <FontAwesomeIcon className='videoNavIcon' icon="search" size="sm" />
-                </button>
-            </div>
+            <Input
+                fluid
+                size='large'
+                placeholder='Search a video or paste a YouTube link...'
+                value={searchInput}
+                onChange={e => setSearchInput(e.target.value)}
+                onKeyPress={e => e.key === 'Enter' ? handlePlay(e) : null}
+                action={{
+                    content: "Search",
+                    onClick: (e) => searchInput.trim() !== '' ? handlePlay(e) : null
+                }}
+            />
             <VideoSearchResults
                 searchResults={searchResults}
                 playVideoFromSearch={playVideoFromSearch}

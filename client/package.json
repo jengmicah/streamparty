@@ -27,9 +27,10 @@
     "react-tabs": "^3.1.1",
     "react-tooltip": "^4.2.6",
     "react-youtube": "^7.11.2",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
     "sentencer": "^0.2.1",
-    "socket.io-client": "^2.3.0",
-    "ui-avatars": "^1.0.0"
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

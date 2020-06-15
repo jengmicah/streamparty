@@ -29,13 +29,11 @@
   margin: 0;
 }
 .joinInnerContainer section input {
-  transition: 0.2s all;
-  border: 0;
-  border-radius: 30px;
-  padding: 12px 16px;
-  width: 100%;
+  border: 0 !important;
+  border-radius: 30px !important;
+  padding: 12px 16px !important;
+  width: 100% !important;
   color: rgba(0, 0, 0, 0.7);
-  font-size: 1em;
 }
 
 .heading {
@@ -45,30 +43,18 @@
   border-bottom: 2px solid #444;
 }
 
-.button {
+.button-join {
   color: #fff !important;
-  text-decoration: none;
-  background: #43a3f0;
-  padding: 15px 20px;
-  border-radius: 30px;
-  display: inline-block;
-  border: none;
-  width: 100%;
-  box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
-  cursor: pointer;
+  background: #43a3f0 !important;
+  padding: 15px 20px !important;
+  border-radius: 30px !important;
+  width: 80%;
+  box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2) !important;
   transition: all 0.2s;
-  /* margin-top: 16px; */
-  font-weight: 500;
-  font-size: 1em;
 }
 
-.button:hover {
-  /* transform: scale(0.97); */
+.button-join:hover {
   opacity: 0.9;
-}
-
-button:focus {
-  outline: 0;
 }
 
 .joinInnerContainer .inputButtonContainer {
@@ -80,6 +66,4 @@ button:focus {
 
 .mid {
   margin: 20px 0;
-  display: flex;
-  align-items: center;
 }

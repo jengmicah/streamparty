@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Icon, Input } from 'semantic-ui-react'
 
 import './ChatInput.css';
 
@@ -24,19 +25,20 @@ const ChatInput = ({ message, setMessage, sendMessage }) => {
     }
 
     return (
-        <div className='inputButtonContainer'>
-            <input
-                // autoFocus
+        <div>
+            <Input
+                fluid
+                size='large'
                 className='chatInput'
-                type='text'
-                placeholder="Type a message..."
+                icon
+                placeholder='Type a message...'
                 value={message}
                 onChange={e => handleInputChange(e)}
                 onKeyPress={e => e.key === 'Enter' ? handleInputSend(e) : null}
-            />
-            <button className='chatButton' onClick={(e) => handleInputSend(e)}>
-                <FontAwesomeIcon id='sendIcon' icon="paper-plane" size="2x" />
-            </button>
+            >
+                <input />
+                <Icon id='sendIcon' name='send' onClick={e => handleInputSend(e)} />
+            </Input>
         </div>
     )
 };

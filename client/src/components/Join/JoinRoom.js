@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Join.css';
 import Logo from '../Logo/Logo';
+import { Input, Button, Icon } from 'semantic-ui-react'
 
 const Sentencer = require('sentencer');
 
@@ -23,20 +23,14 @@ const JoinRoom = ({ history }) => {
                     <div className="mid">
                         <h2>Watch videos with friends and family from far away!</h2>
                     </div>
-                    <button
-                        className='button'
-                        onClick={joinRoom}>
-                        Create a New Room
-                    </button>
+                    <Button
+                        content='Create a New Room'
+                        // icon='sign-in'
+                        // labelPosition='right'
+                        className='button-join'
+                        onClick={joinRoom}
+                    />
                 </section>
-                {/* <p>or</p>
-                <h1 className='heading'>Browse Rooms</h1>
-                <button
-                    className='button'
-                    onClick={() => browseRooms()}
-                >
-                    Browse Rooms
-                </button> */}
             </div >
         </div >
     )
