@@ -25,7 +25,7 @@ input:focus {
 .videoList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   padding: 0;
   margin: 20px 0 0 0;
 }
@@ -36,7 +36,7 @@ input:focus {
   -moz-transition: all 0.2s ease-in;
   -o-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
-  margin: 0 8px 25px 8px;
+  margin: 0 6px 25px 6px;
   list-style: none;
 }
 
@@ -70,26 +70,17 @@ input:focus {
   justify-content: space-between;
   cursor: auto;
 }
-#verifiedIcon {
+.verifiedIcon i {
   color: #606060;
-  margin-left: 5px;
+}
+.verifiedIcon {
+  background: none !important;
+  padding: 0 0.5em !important;
 }
 .navIcons {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.navIcons div {
-  margin: 10px;
-  cursor: pointer;
-  color: #43a3f0;
-}
-.navIcons div:hover {
-  opacity: 0.9;
-}
-.navIcons span {
-  color: #555;
-  font-size: 17px;
 }
 .search-item-thumb {
   position: relative;
@@ -107,20 +98,12 @@ input:focus {
   opacity: 0;
   transition: all 0.2s ease;
 }
-.plusIcon {
-  color: #606060;
-  font-size: 17px;
-  transition: all 0.2s ease;
-  cursor: pointer;
+.videoIcon {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 0.5em !important;
 }
 .search-item-thumb img:hover {
   transform: scale(1.02);
-}
-.plusIcon:hover {
-  transform: scale(1.2);
-  color: #000;
-}
-.loading {
-  text-align: center;
-  margin-bottom: 10px;
 }

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Users.css';
 import { getAvatarUrl } from '../../../Helper';
 

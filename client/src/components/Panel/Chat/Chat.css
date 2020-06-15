@@ -11,7 +11,7 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 8px !important;
   cursor: pointer;
 }
 ::-webkit-scrollbar-track {

@@ -42,10 +42,10 @@ const Browse = ({ history }) => {
                                         </h3>
                                         <div className="search-item-channel-date">
                                             {room.currVideo.channel.username}
-                                            {
+                                            {/* {
                                                 room.currVideo.channel.verified &&
                                                 <FontAwesomeIcon id='verifiedIcon' icon="check-circle" size="sm" />
-                                            }
+                                            } */}
                                         </div>
                                     </div>
                                 </div>

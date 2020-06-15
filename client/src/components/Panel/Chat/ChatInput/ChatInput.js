@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Icon, Input } from 'semantic-ui-react'
 
 import './ChatInput.css';

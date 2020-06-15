@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import './Video.css';
 import VideoPlayer from './VideoPlayer/VideoPlayer';
 import VideoSearch from './VideoSearch/VideoSearch';
+import { Segment, Grid, Header, Icon, Divider, Search, Button } from 'semantic-ui-react'
 
 import { sckt } from '../Socket';
 import { insert } from './VideoHelper';
@@ -25,6 +26,12 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
                 });
             }
         }
+        sckt.socket.on("getSync", getSyncHandler);
+        return () => {
+            sckt.socket.off('getSync', getSyncHandler);
+        };
+    });
+    useEffect(() => {
         // Sync other user's videoProps to our state
         const startSyncHandler = (videoProps) => {
             // log("I'm syncing.", 'server');
@@ -65,12 +72,9 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
             }
         };
 
-        
-        sckt.socket.on("getSync", getSyncHandler);
         sckt.socket.on("startSync", startSyncHandler);
         sckt.socket.on("receiveVideoState", receiveVideoStateHandler);
         return () => {
-            sckt.socket.off('getSync', getSyncHandler);
             sckt.socket.off('startSync', startSyncHandler);
             sckt.socket.off('receiveVideoState', receiveVideoStateHandler);
         };
@@ -91,7 +95,7 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
             let player = playerRef.current.internalPlayer;
             if (playing !== undefined) {
                 if (playing) {
-                    if(seekTime) player.seekTo(seekTime);
+                    if (seekTime) player.seekTo(seekTime);
                     // If not already playing
                     if (lastStateYT !== 1 || lastStateYT !== 3)
                         player.playVideo();
@@ -141,6 +145,31 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
                 addVideoToQueue={addVideoToQueue}
                 playVideoFromSearch={playVideoFromSearch}
             />
+            <Segment placeholder>
+                <Grid columns={2} stackable textAlign='center'>
+                    <Divider vertical>Or</Divider>
+
+                    <Grid.Row verticalAlign='middle'>
+                        <Grid.Column>
+                            <Header icon>
+                                <Icon name='search' />
+                                Search for a video on YouTube
+                            </Header>
+                            <Button onClick={() => { document.getElementById("searchInput").focus(); }}>Search above!</Button>
+                        </Grid.Column>
+
+                        <Grid.Column>
+                            <Header icon>
+                                <Icon name='youtube' />
+                                Paste a YouTube video link
+                            </Header>
+                            <Button color='youtube' onClick={() => { window.open('https://youtube.com', '_blank'); }}>
+                                Open YouTube
+                            </Button>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </Segment>
         </div>
     );
 }

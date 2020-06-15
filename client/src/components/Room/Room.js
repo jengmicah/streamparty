@@ -20,27 +20,28 @@ const Room = ({ location, history, match }) => {
     const [room, setRoom] = useState('');
     const [videoProps, setVideoProps] = useState({
         queue: [
-            {
-                "video": {
-                    "id": "Y-JQ-RCyPpQ",
-                    "title": "Relaxing Bossa Nova & Jazz Music For Study - Smooth Jazz Music - Background Music",
-                    "url": "https://www.youtube.com/watch?v=Y-JQ-RCyPpQ",
-                    "upload_date": "1 year ago",
-                    "thumbnail": "https://i.ytimg.com/vi/Y-JQ-RCyPpQ/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLCnRdFecEZI55Bfh5oRhOQqs_lm_Q",
-                    "views": "14.6M views"
-                },
-                "channel": {
-                    "username": "Cafe Music BGM channel",
-                    "url": "https://youtube.com/channel/UCJhjE7wbdYAae1G25m0tHAA",
-                    "verified": true
-                }
-            }
+            // {
+            //     "video": {
+            //         "id": "Y-JQ-RCyPpQ",
+            //         "title": "Relaxing Bossa Nova & Jazz Music For Study - Smooth Jazz Music - Background Music",
+            //         "url": "https://www.youtube.com/watch?v=Y-JQ-RCyPpQ",
+            //         "upload_date": "1 year ago",
+            //         "thumbnail": "https://i.ytimg.com/vi/Y-JQ-RCyPpQ/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLCnRdFecEZI55Bfh5oRhOQqs_lm_Q",
+            //         "views": "14.6M views"
+            //     },
+            //     "channel": {
+            //         "username": "Cafe Music BGM channel",
+            //         "url": "https://youtube.com/channel/UCJhjE7wbdYAae1G25m0tHAA",
+            //         "verified": true
+            //     }
+            // }
         ],
         history: [],
         playing: true,
         seekTime: 0,
         lastStateYT: -1,
         receiving: false,
+        initVideo: false,
     });
     const [users, setUsers] = useState([]);
 
@@ -100,12 +101,14 @@ const Room = ({ location, history, match }) => {
     }
     const playVideoFromSearch = (searchItem) => {
         // Handle playing video immediately
+        const { initVideo, history } = videoProps;
+        if (!initVideo) updateVideoProps({ initVideo: true });
         loadVideo(searchItem, false);
         sendVideoState({
             eventName: "syncLoad",
-            eventParams: { searchItem, history: [searchItem, ...videoProps.history] }
+            eventParams: { searchItem, history: [searchItem, ...history] }
         });
-        updateVideoProps({ history: [searchItem, ...videoProps.history] });
+        updateVideoProps({ history: [searchItem, ...history] });
     }
     const log = (msg, type) => {
         let baseStyles = [

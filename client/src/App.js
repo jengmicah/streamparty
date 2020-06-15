@@ -11,51 +11,6 @@ import 'react-notifications-component/dist/theme.css'
 import './components/breakpoints.css';
 import 'semantic-ui-css/semantic.min.css';
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-    faPaperPlane,
-    faUsers,
-    faTimes,
-    faCircle,
-    faPlus,
-    faPlay,
-    faAngleDoubleLeft,
-    faAngleDoubleRight,
-    faCaretLeft,
-    faCaretRight,
-    faCheckCircle,
-    faComment,
-    faStream,
-    faCog,
-    faSearch,
-    faHistory,
-    faCopy,
-    faCheck,
-    faRandom
-} from '@fortawesome/free-solid-svg-icons'
-
-library.add(
-    faPaperPlane,
-    faUsers,
-    faTimes,
-    faCircle,
-    faPlus,
-    faPlay,
-    faAngleDoubleLeft,
-    faAngleDoubleRight,
-    faCaretLeft,
-    faCaretRight,
-    faCheckCircle,
-    faComment,
-    faStream,
-    faCog,
-    faSearch,
-    faHistory,
-    faCopy,
-    faCheck,
-    faRandom
-);
-
 const App = () => (
     <div>
         <ReactNotification />

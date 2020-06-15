@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Label, Icon, Button } from 'semantic-ui-react'
 
 const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
   return (
@@ -16,12 +16,15 @@ const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
             {searchItem.channel.username}
             {
               searchItem.channel.verified &&
-              <FontAwesomeIcon id='verifiedIcon' icon="check-circle" size="sm" />
+              <Label className="verifiedIcon">
+                <Icon name='check circle' />
+              </Label>
             }
           </div>
           <div className="search-item-channel-date">
             <div>{searchItem.video.views} • {searchItem.video.upload_date}</div>
-            <div><FontAwesomeIcon onClick={() => onVideoAddToQueue(searchItem)} className='videoIcons plusIcon' icon="plus" /></div>
+            <div><Button onClick={() => onVideoAddToQueue(searchItem)} className='videoIcon' icon='plus' size='big' /></div>
+
           </div>
         </div>
       </div>

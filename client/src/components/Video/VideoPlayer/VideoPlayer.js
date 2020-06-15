@@ -53,6 +53,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
     }
     const onYTEnded = () => {
         const { receiving, queue } = videoProps;
+        updateVideoProps({ lastStateYT: 0 });
         if (receiving) {
             updateVideoProps({ receiving: false });
         } else {
@@ -167,8 +168,8 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
         const { queue, history, receiving } = videoProps;
         if (receiving) {
             loadVideo(history[0], true);
-        } else {
-            loadFromQueue(queue, false);
+            // } else {
+            //     loadFromQueue(queue, false);
         }
     }
 
@@ -177,12 +178,11 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
         width: '100%',
         playerVars: {
             autoplay: 1,
-        },
-        host: `${window.location.protocol}//www.youtube.com`,
+        }
     };
 
     return (
-        <div id="videoPlayer">
+        <div id="videoPlayer" style={{ display: videoProps.initVideo ? 'block' : 'none' }}>
             <YouTube
                 ref={playerRef}
                 className='react-player'

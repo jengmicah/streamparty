@@ -1,6 +1,6 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './QueueItem.css';
+import { Label, Icon, Button } from 'semantic-ui-react'
 
 const QueueItem = ({ searchItem, handlePlayFromList, handleRemoveFromQueue, isQueue }) => {
   return (
@@ -18,12 +18,16 @@ const QueueItem = ({ searchItem, handlePlayFromList, handleRemoveFromQueue, isQu
               {searchItem.channel.username}
               {
                 searchItem.channel.verified &&
-                <FontAwesomeIcon id='verifiedIcon' icon="check-circle" size="sm" />
+                <Label className="verifiedIcon">
+                  <Icon name='check circle' />
+                </Label>
               }
             </div>
             {
               isQueue &&
-              <div><FontAwesomeIcon onClick={() => handleRemoveFromQueue(searchItem)} className='videoIcons plusIcon' icon="times" /></div>
+              <div>
+                <Button onClick={() => handleRemoveFromQueue(searchItem)} className='videoIcon' icon='times' size='big' />
+              </div>
             }
           </div>
         </div>

@@ -17,3 +17,11 @@
   top: 0;
   left: 0;
 }
+.videoContainer .ui.icon.header .icon {
+  margin-bottom: 1rem;
+}
+.videoContainer .ui.placeholder.segment {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
