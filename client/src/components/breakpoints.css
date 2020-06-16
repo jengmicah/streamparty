@@ -1,4 +1,4 @@
-@media (max-width: 720px) {
+@media (max-width: 767px) {
   body {
     overflow-x: hidden;
   }
@@ -6,6 +6,10 @@
   .panelContainer .ui.tab {
     width: 100%;
     height: 50vh;
+    margin-top: 20px;
+  }
+  .videoContainer .ui.placeholder.segment {
+    display: none;
   }
   .videoContainer {
     height: auto;

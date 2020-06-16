@@ -3,8 +3,8 @@ import Chat from './Chat/Chat';
 import Users from './Users/Users';
 import QueueHistory from './QueueHistory/QueueHistory';
 import Settings from './Settings/Settings';
-import ReactTooltip from "react-tooltip";
-import { Popup, Menu, Label, Tab, Icon } from 'semantic-ui-react'
+// import ReactTooltip from "react-tooltip";
+import { Menu, Tab, Icon } from 'semantic-ui-react'
 
 import './Panel.css';
 

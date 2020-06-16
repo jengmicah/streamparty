@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './Join.css';
 import Logo from '../Logo/Logo';
-import { Input, Button, Icon } from 'semantic-ui-react'
-
-const Sentencer = require('sentencer');
+import { Button } from 'semantic-ui-react'
+import { generateWords } from '../../utils/generateWords';
 
 const JoinRoom = ({ history }) => {
-    const [room, setRoom] = useState('');
+    // const [room, setRoom] = useState('');
 
     const joinRoom = () => {
-        const randomRoom = encodeURIComponent(Sentencer.make("{{ adjective }}-{{ noun }}"));
+        const randomRoom = encodeURIComponent(generateWords({ delimiter: '-', shouldCap: false }));
         history.push(`/room/${randomRoom}`);
     };
     // const browseRooms = () => {

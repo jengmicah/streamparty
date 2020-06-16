@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { sckt } from '../Socket';
+import React, { useState } from 'react';
 import Logo from '../Logo/Logo';
-import { Input, Button, Icon } from 'semantic-ui-react'
+import { Input, Button } from 'semantic-ui-react'
 
 import '../Join/Join.css';
 

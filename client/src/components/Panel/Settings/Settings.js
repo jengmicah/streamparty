@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Icon } from 'semantic-ui-react'
+import { Input, Button } from 'semantic-ui-react'
 import { sckt } from '../../Socket';
 import { store } from 'react-notifications-component';
 import './Settings.css';
 
 const Settings = ({ currUser, updateCurrUser, room, history, users }) => {
-  const [currName, setCurrName] = useState(currUser.name);
+  const [currName, setCurrName] = useState('');
   
   useEffect(() => {
     setCurrName(currUser.name);
@@ -42,7 +42,7 @@ const Settings = ({ currUser, updateCurrUser, room, history, users }) => {
   const changeName = () => {
     const trimmedName = currName.trim();
     // Check that name was changed
-    if (trimmedName && trimmedName != currUser.name) {
+    if (trimmedName && trimmedName !== currUser.name) {
       // Check that name is unique
       if (!users.find(x => x.name === trimmedName)) {
         store.addNotification({

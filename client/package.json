@@ -21,7 +21,6 @@
     "react-youtube": "^7.11.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
-    "sentencer": "^0.2.1",
     "socket.io-client": "^2.3.0"
   },
   "scripts": {

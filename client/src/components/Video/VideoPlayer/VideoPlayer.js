@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import YouTube from 'react-youtube';
 // import ReactPlayer from 'react-player';
-import { Embed } from 'semantic-ui-react'
+// import { Embed } from 'semantic-ui-react'
 
 import './VideoPlayer.css';
 
@@ -117,7 +117,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
                 clearTimeout(timer);
                 if (type !== 3) {
                     let timeout = setTimeout(function () {
-                        if (type === 1) {
+                        if (type === 1 && !sequence.includes(-1)) {
                             sendVideoState({
                                 eventName: 'syncPlay',
                                 eventParams: { seekTime }
@@ -166,7 +166,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
     }
     const onYTReady = (event) => {
         // log("STARTING", 'me');
-        const { queue, history, receiving } = videoProps;
+        const { history, receiving } = videoProps;
         if (receiving) {
             loadVideo(history[0], true);
             // } else {

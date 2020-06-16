@@ -2,12 +2,60 @@ import React, { useEffect } from "react";
 import './Video.css';
 import VideoPlayer from './VideoPlayer/VideoPlayer';
 import VideoSearch from './VideoSearch/VideoSearch';
-import { Segment, Grid, Header, Icon, Divider, Search, Button } from 'semantic-ui-react'
+import { Segment, Grid, Header, Icon, Divider, Button } from 'semantic-ui-react'
 
 import { sckt } from '../Socket';
 import { insert } from './VideoHelper';
 
 const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendVideoState, loadVideo, playVideoFromSearch }) => {
+    const loadFromQueue = (queue, sync = false) => {
+        let nextVideo = queue.shift(); // Remove from beginning of queue
+        if (nextVideo !== undefined) {
+            loadVideo(nextVideo, sync);
+            updateVideoProps({ queue });
+            updateVideoProps({ history: [nextVideo, ...videoProps.history] });
+        }
+    }
+    const modifyVideoState = (paramsToChange) => {
+        if (playerRef.current !== null && playerRef.current.internalPlayer !== null) {
+            const { lastStateYT } = videoProps;
+            const { playing, seekTime, playbackRate } = paramsToChange;
+            let player = playerRef.current.internalPlayer;
+            if (playing !== undefined) {
+                if (playing) {
+                    if (seekTime) player.seekTo(seekTime);
+                    // If not already playing
+                    if (lastStateYT !== 1 || lastStateYT !== 3)
+                        player.playVideo();
+                } else {
+                    // If not already paused
+                    if (lastStateYT !== 2)
+                        player.pauseVideo();
+                }
+            } else if (playbackRate !== undefined) {
+                player.setPlaybackRate(playbackRate);
+            }
+        }
+    }
+    const addVideoToQueue = (searchItem) => {
+        let { queue } = videoProps;
+        let updatedQueue = insert(queue, queue.length, searchItem)
+        sendVideoState({
+            eventName: "syncQueue",
+            eventParams: {
+                queue: updatedQueue,
+                type: "add"
+            }
+        });
+        updateVideoProps({ queue: updatedQueue });
+    }
+    // // Debugging
+    // useEffect(() => {
+    //     console.log("Queue: ", videoProps.queue);
+    // }, [videoProps.queue])
+    // useEffect(() => {
+    //     console.log("History: ", videoProps.history);
+    // }, [videoProps.history])
 
     useEffect(() => {
         // Send videoProps to new user
@@ -79,55 +127,6 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
             sckt.socket.off('receiveVideoState', receiveVideoStateHandler);
         };
     }, []);
-
-    const loadFromQueue = (queue, sync = false) => {
-        let nextVideo = queue.shift(); // Remove from beginning of queue
-        if (nextVideo !== undefined) {
-            loadVideo(nextVideo, sync);
-            updateVideoProps({ queue });
-            updateVideoProps({ history: [nextVideo, ...videoProps.history] });
-        }
-    }
-    const modifyVideoState = (paramsToChange) => {
-        if (playerRef.current !== null && playerRef.current.internalPlayer !== null) {
-            const { lastStateYT } = videoProps;
-            const { playing, seekTime, playbackRate } = paramsToChange;
-            let player = playerRef.current.internalPlayer;
-            if (playing !== undefined) {
-                if (playing) {
-                    if (seekTime) player.seekTo(seekTime);
-                    // If not already playing
-                    if (lastStateYT !== 1 || lastStateYT !== 3)
-                        player.playVideo();
-                } else {
-                    // If not already paused
-                    if (lastStateYT !== 2)
-                        player.pauseVideo();
-                }
-            } else if (playbackRate !== undefined) {
-                player.setPlaybackRate(playbackRate);
-            }
-        }
-    }
-    const addVideoToQueue = (searchItem) => {
-        let { queue } = videoProps;
-        let updatedQueue = insert(queue, queue.length, searchItem)
-        sendVideoState({
-            eventName: "syncQueue",
-            eventParams: {
-                queue: updatedQueue,
-                type: "add"
-            }
-        });
-        updateVideoProps({ queue: updatedQueue });
-    }
-    // // Debugging
-    // useEffect(() => {
-    //     console.log("Queue: ", videoProps.queue);
-    // }, [videoProps.queue])
-    // useEffect(() => {
-    //     console.log("History: ", videoProps.history);
-    // }, [videoProps.history])
 
 
     return (

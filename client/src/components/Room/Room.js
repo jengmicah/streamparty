@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import Video from '../Video/Video';
-import JoinUser from './JoinUser';
+// import JoinUser from './JoinUser';
 import { sckt } from '../Socket';
-import { store } from 'react-notifications-component';
+// import { store } from 'react-notifications-component';
 import { invertColor, getRandomColor } from '../../Helper';
 
 import './Room.css';
 import Panel from "../Panel/Panel";
-
-const Sentencer = require('sentencer');
+import { generateWords } from '../../utils/generateWords';
 
 const Room = ({ location, history, match }) => {
     const playerRef = useRef(null);
@@ -76,7 +75,8 @@ const Room = ({ location, history, match }) => {
     // Video.js
     const loadVideo = (searchItem, sync) => {
         if (playerRef.current != null && playerRef.current.internalPlayer != null && searchItem) {
-            const { playing, seekTime } = videoProps;
+            const { playing, seekTime, initVideo } = videoProps;
+            if (!initVideo) updateVideoProps({ initVideo: true });
             let player = playerRef.current.internalPlayer;
             let videoId = searchItem.video.id;
             if (sync) {
@@ -101,8 +101,7 @@ const Room = ({ location, history, match }) => {
     }
     const playVideoFromSearch = (searchItem) => {
         // Handle playing video immediately
-        const { initVideo, history } = videoProps;
-        if (!initVideo) updateVideoProps({ initVideo: true });
+        const { history } = videoProps;
         loadVideo(searchItem, false);
         sendVideoState({
             eventName: "syncLoad",
@@ -138,10 +137,6 @@ const Room = ({ location, history, match }) => {
         }
         console.log(`%c${msg}`, style);
     }
-    const cap = (s) => {
-        if (typeof s !== 'string') return ''
-        return s.charAt(0).toUpperCase() + s.slice(1)
-    }
     // From JoinRoom.js 
     useEffect(() => {
         const room = match.params.roomName.trim();
@@ -149,9 +144,7 @@ const Room = ({ location, history, match }) => {
             setRoom(room);
             let name = currUser.name;
             if (!name) { // If no name in localStorage
-                const adj = Sentencer.make("{{ adjective }}");
-                const noun = Sentencer.make("{{ noun }}");
-                name = `${cap(adj)} ${cap(noun)}`;
+                name = generateWords({ delimiter: ' ', shouldCap: true })
                 updateCurrUser({ name });
             }
             let colors = currUser.colors;

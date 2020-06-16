@@ -16,16 +16,13 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const [page, setPage] = useState(1);
     const baseURL = process.env.REACT_APP_YT_SCRAPER;
 
-    // Ping YT scraper without loading icon
-    useEffect(() => { videoSearch('') }, []);
-
     const handlePlay = (event) => {
         let trimInput = searchInput.trim();
         event.preventDefault();
         if (validateYouTubeUrl(trimInput)) {
             // Reset the color after playing
             let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
-            sendButtons.map(button => {
+            sendButtons.forEach(button => {
                 button.classList.remove('readyToPress');
                 button.classList.remove('validReadyToPress');
             });
@@ -37,7 +34,6 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
             search({ term: trimInput, page: 1 });
         }
     };
-
     const videoSearch = async (term, page = 1) => {
         axios.get(`${baseURL}/search`, {
             params: {
@@ -50,7 +46,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
             setPage(page);
             setLoading(false);
         });
-    }
+    };
     const videoShow = async (videoId) => {
         axios.get(`${baseURL}/watch`, {
             params: { videoId }
@@ -66,6 +62,9 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
         if (videoId === undefined) videoSearch(term, page)
         else videoShow(videoId);
     }, 5);
+
+    // Ping YT scraper without loading icon
+    useEffect(() => { videoSearch('') }, []);
 
     return (
         <div className="videoSearchContainer">

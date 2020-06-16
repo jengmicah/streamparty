@@ -4,7 +4,7 @@ import { Icon, Input } from 'semantic-ui-react'
 
 import './ChatInput.css';
 
-const ChatInput = ({ message, setMessage, sendMessage }) => {
+const ChatInput = React.memo(({ message, setMessage, sendMessage }) => {
 
     const handleInputChange = event => {
         let msg = event.target.value;
@@ -40,6 +40,6 @@ const ChatInput = ({ message, setMessage, sendMessage }) => {
             </Input>
         </div>
     )
-};
+});
 
 export default ChatInput;

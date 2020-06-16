@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import './Users.css';
 import { getAvatarUrl } from '../../../Helper';
@@ -15,7 +15,7 @@ const Users = ({ users }) => {
                     name,
                     background: colors.bg,
                     color: colors.txt,
-                  })}/>
+                  })} alt='avatar'/>
                   <span>{name}</span>
                 </div>
               ))}

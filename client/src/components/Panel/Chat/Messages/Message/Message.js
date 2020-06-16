@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import './Message.css';
 
@@ -23,7 +23,7 @@ const Message = ({ message: { user, text }, currUser, users }) => {
                         name: getNameById(currUser.id),
                         background: currUser.colors.bg,
                         color: currUser.colors.txt,
-                    })} />
+                    })} alt='avatar' />
                 </section>
             </div>
         ) : (
@@ -40,7 +40,7 @@ const Message = ({ message: { user, text }, currUser, users }) => {
                                     name: getNameById(user.id),
                                     background: user.colors.bg,
                                     color: user.colors.txt,
-                                })} />
+                                })} alt='avatar'/>
                             </section>
                             <div className='messageBox backgroundLight'>
                                 <p className='messageText colorDark'>{ReactEmoji.emojify(text)}</p>
