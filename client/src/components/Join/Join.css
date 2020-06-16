@@ -57,13 +57,6 @@
   opacity: 0.9;
 }
 
-.joinInnerContainer .inputButtonContainer {
-  padding: 0;
-}
-.joinInnerContainer .inputButtonContainer input {
-  background: #fff;
-}
-
 .mid {
   margin: 20px 0;
 }

@@ -47,7 +47,12 @@ input:focus {
 }
 
 .search-item-body {
-  padding: 0 5px;
+  padding: 5px 5px 0 5px;
+}
+.search-item-video-title,
+.search-item-channel-title,
+.search-item-channel-date {
+  font-family: "Roboto", Helvetica, sans-serif !important;
 }
 .search-item-video-title {
   cursor: pointer;

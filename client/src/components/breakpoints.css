@@ -31,9 +31,6 @@
   }
 }
 @media (max-width: 960px) {
-  .videoSearchContainer .inputButtonContainer {
-    margin: 0 20px 20px 20px !important;
-  }
   .list-group-item {
     flex: 0 1 calc(50% - 1em);
   }

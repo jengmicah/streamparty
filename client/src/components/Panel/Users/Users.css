@@ -47,10 +47,6 @@
   text-overflow: ellipsis;
 }
 
-.infoContainer div.inputButtonContainer {
-  margin-top: 0 !important;
-}
-
 .leaveButton {
   margin: 0 auto;
   background: #b53737;
