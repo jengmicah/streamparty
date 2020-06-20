@@ -182,39 +182,35 @@ const Room = ({ location, history, match }) => {
 
     return (
         <div className="outerContainer">
-            {room &&
-                <div className="outerContainer">
-                    <Transition visible={!isJoined} animation='fade' duration={500}>
-                        <Dimmer active={!isJoined}>
-                            <Loader>Joining Room...</Loader>
-                        </Dimmer>
-                    </Transition>
-                    <Video
-                        log={log}
-                        currUser={currUser}
-                        room={room}
-                        videoProps={videoProps}
-                        updateVideoProps={updateVideoProps}
-                        playerRef={playerRef}
-                        sendVideoState={sendVideoState}
-                        loadVideo={loadVideo}
-                        playVideoFromSearch={playVideoFromSearch}
-                    />
-                    <Panel
-                        currUser={currUser}
-                        updateCurrUser={updateCurrUser}
-                        room={room}
-                        history={history}
-                        videoProps={videoProps}
-                        updateVideoProps={updateVideoProps}
-                        playerRef={playerRef}
-                        sendVideoState={sendVideoState}
-                        playVideoFromSearch={playVideoFromSearch}
-                        users={users}
-                        setUsers={setUsers}
-                    />
-                </div>
-            }
+            <Transition visible={!isJoined} animation='fade' duration={500}>
+                <Dimmer active={!isJoined}>
+                    <Loader>Joining Room...</Loader>
+                </Dimmer>
+            </Transition>
+            <Video
+                log={log}
+                currUser={currUser}
+                room={room}
+                videoProps={videoProps}
+                updateVideoProps={updateVideoProps}
+                playerRef={playerRef}
+                sendVideoState={sendVideoState}
+                loadVideo={loadVideo}
+                playVideoFromSearch={playVideoFromSearch}
+            />
+            <Panel
+                currUser={currUser}
+                updateCurrUser={updateCurrUser}
+                room={room}
+                history={history}
+                videoProps={videoProps}
+                updateVideoProps={updateVideoProps}
+                playerRef={playerRef}
+                sendVideoState={sendVideoState}
+                playVideoFromSearch={playVideoFromSearch}
+                users={users}
+                setUsers={setUsers}
+            />
         </div>
     );
 }
