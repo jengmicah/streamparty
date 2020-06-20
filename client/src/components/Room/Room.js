@@ -162,7 +162,7 @@ const Room = ({ location, history, match }) => {
 
     return (
         <div>
-            <Transition visible={!isJoined} animation='scale' duration={500}>
+            <Transition visible={!isJoined} animation='fade' duration={500}>
                 <Dimmer active={!isJoined}>
                     <Loader>Joining Room...</Loader>
                 </Dimmer>
