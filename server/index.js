@@ -11,7 +11,7 @@ const {
     getOtherUserInRoom,
     getUserByName
 } = require('./users.js');
-// const { getActiveRooms } = require('./rooms.js');
+const { getActiveRooms } = require('./rooms.js');
 
 const PORT = process.env.PORT || 5000;
 const router = require('./router');
@@ -79,6 +79,10 @@ io.on('connection', (socket) => {
             io.to(user.room).emit('message', { user: { name: 'admin' }, text: `${oldName} changed their name to ${newName}` });
             io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
         }
+    });
+    socket.on('checkRoomExists', ({ room }, callback) => {
+        let rooms = getActiveRooms(io);
+        return callback(rooms.includes(room));
     });
     // socket.on('updateRoomData', ({ video }, callback) => {
     //     const currRoom = Object.keys(socket.rooms).filter(item => item != socket.id)[0];

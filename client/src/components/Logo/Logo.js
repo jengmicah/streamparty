@@ -5,7 +5,7 @@ import './Logo.css';
 const Logo = () => (
     <div className="logoContainer">
         <h1>
-            <span className="primaryColor">WATCH</span>
+            <span className="primaryColor">STREAM</span>
             <span className="secondaryColor">PARTY</span>
         </h1>
     </div>

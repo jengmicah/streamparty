@@ -1,6 +1,6 @@
-# Watch Party
+# Stream Party
 
-A simple online video synchronization platform to watch YouTube videos with your friends.
+An online video synchronization platform to watch YouTube videos with your friends and family.
 
 Written with React, Socket.io, and the YouTube Player API.
 
