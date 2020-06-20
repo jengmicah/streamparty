@@ -18,7 +18,9 @@
 .settingsContainer > div h3 {
   margin-bottom: 10px;
 }
-
+.settingsContainer > div input {
+  white-space: nowrap;
+}
 .leaveButton {
   margin: 0 auto;
   background: #b53737;
