@@ -17,8 +17,9 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const baseURL = process.env.REACT_APP_YT_SCRAPER;
 
     const handlePlay = (event) => {
-        let trimInput = searchInput.trim();
         event.preventDefault();
+        let trimInput = searchInput.trim();
+        if (trimInput === '') return;
         if (validateYouTubeUrl(trimInput)) {
             // Reset the color after playing
             let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './Users.css';
-import { getAvatarUrl } from '../../../Helper';
+import { getAvatarUrl } from '../../../utils/userInfo';
 
 const Users = ({ users }) => {
   return (

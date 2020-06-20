@@ -3,7 +3,7 @@ import Video from '../Video/Video';
 // import JoinUser from './JoinUser';
 import { sckt } from '../Socket';
 // import { store } from 'react-notifications-component';
-import { invertColor, getRandomColor } from '../../Helper';
+import { invertColor, getRandomColor } from '../../utils/userInfo';
 
 import './Room.css';
 import Panel from "../Panel/Panel";

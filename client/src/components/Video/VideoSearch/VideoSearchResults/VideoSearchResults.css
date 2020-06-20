@@ -27,7 +27,7 @@ input:focus {
   flex-wrap: wrap;
   justify-content: center;
   padding: 0;
-  margin: 20px 0 0 0;
+  margin: 0;
 }
 .list-group-item {
   flex: 0 1 calc(33% - 1em);

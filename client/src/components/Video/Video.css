@@ -8,10 +8,6 @@
   overflow:auto;
   word-break: break-word;
 }
-#videoPlayer {
-  position: relative;
-  padding-top: 56.25%;
-}
 .react-player {
   position: absolute;
   top: 0;

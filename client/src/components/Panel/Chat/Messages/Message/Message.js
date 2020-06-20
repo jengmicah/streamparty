@@ -3,7 +3,7 @@ import React from 'react';
 import './Message.css';
 
 import ReactEmoji from 'react-emoji';
-import { getAvatarUrl } from '../../../../../Helper';
+import { getAvatarUrl } from '../../../../../utils/userInfo';
 
 const Message = ({ message: { user, text }, currUser, users }) => {
     const getNameById = (id) => {
