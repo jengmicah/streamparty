@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import './Video.css';
-import VideoPlayer from './VideoPlayer/VideoPlayer';
+import YTPlayer from './YTPlayer/YTPlayer';
 import VideoSearch from './VideoSearch/VideoSearch';
 import { Segment, Grid, Header, Icon, Divider, Button } from 'semantic-ui-react'
 
@@ -131,7 +131,7 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
 
     return (
         <div className="videoContainer">
-            <VideoPlayer
+            <YTPlayer
                 log={log}
                 videoProps={videoProps}
                 sendVideoState={sendVideoState}

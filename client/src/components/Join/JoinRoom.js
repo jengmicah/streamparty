@@ -4,13 +4,16 @@ import Logo from '../Logo/Logo';
 import { Button, Transition } from 'semantic-ui-react'
 import { generateWords } from '../../utils/generateWords';
 
-const JoinRoom = ({ history }) => {
+const JoinRoom = ({ location, history }) => {
     const [mounted, setMounted] = useState(false);
     useEffect(() => setMounted(true), []);
 
     const joinRoom = () => {
         const randomRoom = encodeURIComponent(generateWords({ delimiter: '-', shouldCap: false }));
-        history.push(`/room/${randomRoom}`);
+        history.push({ 
+            pathname: `/room/${randomRoom}`,
+            state: { from: location }
+        });
     };
     // const browseRooms = () => {
     //     history.push(`/browse`);

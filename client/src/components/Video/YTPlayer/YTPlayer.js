@@ -3,9 +3,9 @@ import YouTube from 'react-youtube';
 // import ReactPlayer from 'react-player';
 // import { Embed } from 'semantic-ui-react'
 
-import './VideoPlayer.css';
+import './YTPlayer.css';
 
-const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, playerRef, loadVideo, loadFromQueue }) => {
+const YTPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, playerRef, loadVideo, loadFromQueue }) => {
 
     const onYTPlay = (seekTime) => {
         // const { receiving } = videoProps;
@@ -187,12 +187,7 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
             <YouTube
                 ref={playerRef}
                 className='react-player'
-                // videoId={videoProps.currVideoId}
                 opts={opts}
-                // onPlay={onPlay}
-                // onPause={onPause}
-                // onEnd={onEnd}
-                // onError={onError}
                 onReady={onYTReady}
                 onStateChange={onYTStateChange}
                 onPlaybackRateChange={onYTPlaybackRateChange}
@@ -201,4 +196,4 @@ const VideoPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, player
     );
 };
 
-export default VideoPlayer;
+export default YTPlayer;

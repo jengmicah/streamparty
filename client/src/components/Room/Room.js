@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Video from '../Video/Video';
 // import JoinUser from './JoinUser';
 import { sckt } from '../Socket';
-// import { store } from 'react-notifications-component';
+import { store } from 'react-notifications-component';
 import { invertColor, getRandomColor } from '../../utils/userInfo';
 
 import './Room.css';
@@ -29,8 +29,8 @@ const Room = ({ location, history, match }) => {
     });
     const [users, setUsers] = useState([]);
     const [isJoined, setIsJoined] = useState(false);
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => setMounted(true), []);
+    // const [mounted, setMounted] = useState(false);
+    // useEffect(() => setMounted(true), []);
 
     useEffect(() => {
         localStorage.setItem('name', JSON.stringify(currUser.name));
@@ -129,29 +129,49 @@ const Room = ({ location, history, match }) => {
     useEffect(() => {
         const room = match.params.roomName.trim();
         if (room.length > 0) {
-            setRoom(room);
-            let name = currUser.name;
-            if (!name) { // If no name in localStorage
-                name = generateWords({ delimiter: ' ', shouldCap: true })
-                updateCurrUser({ name });
-            }
-            let colors = currUser.colors;
-            // if (!colors) { // If no colors in localStorage
-            //     const bg = getRandomColor();
-            //     const txt = invertColor(bg);
-            //     colors = { bg, txt };
-            //     updateCurrUser({ colors });
-            // }
-            const bg = getRandomColor();
-            const txt = invertColor(bg);
-            colors = { bg, txt };
-            updateCurrUser({ colors });
+            sckt.socket.emit('checkRoomExists', { room }, (exists) => {
+                // We set location.state in JoinRoom.js
+                if (exists || location.state) {
+                    setRoom(room);
+                    let name = currUser.name;
+                    if (!name) { // If no name in localStorage
+                        name = generateWords({ delimiter: ' ', shouldCap: true })
+                        updateCurrUser({ name });
+                    }
+                    let colors = currUser.colors;
+                    // if (!colors) { // If no colors in localStorage
+                    //     const bg = getRandomColor();
+                    //     const txt = invertColor(bg);
+                    //     colors = { bg, txt };
+                    //     updateCurrUser({ colors });
+                    // }
+                    const bg = getRandomColor();
+                    const txt = invertColor(bg);
+                    colors = { bg, txt };
+                    updateCurrUser({ colors });
 
-            sckt.socket.emit('join', { name, room, colors }, ({ id }) => {
-                updateCurrUser({ id });
-                setTimeout(() => {
-                    setIsJoined(true);
-                }, 750);
+                    sckt.socket.emit('join', { name, room, colors }, ({ id }) => {
+                        updateCurrUser({ id });
+                        setTimeout(() => {
+                            setIsJoined(true);
+                        }, 750);
+                    });
+                } else {
+                    history.push('/');
+                    store.addNotification({
+                        title: "Oops!",
+                        message: `It seems like the room "${room}" doesn't exist. Go ahead and create a new room!`,
+                        type: "danger",
+                        insert: "top",
+                        container: "bottom-right",
+                        animationIn: ["animated", "fadeInUp"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 5000,
+                            onScreen: false
+                        }
+                    });
+                }
             });
         }
         // sckt.socket.emit('createRoom', { room }, () => {});
@@ -161,38 +181,40 @@ const Room = ({ location, history, match }) => {
     }, [location.pathname, history]);
 
     return (
-        <div>
-            <Transition visible={!isJoined} animation='fade' duration={500}>
-                <Dimmer active={!isJoined}>
-                    <Loader>Joining Room...</Loader>
-                </Dimmer>
-            </Transition>
-            <div className="outerContainer">
-                <Video
-                    log={log}
-                    currUser={currUser}
-                    room={room}
-                    videoProps={videoProps}
-                    updateVideoProps={updateVideoProps}
-                    playerRef={playerRef}
-                    sendVideoState={sendVideoState}
-                    loadVideo={loadVideo}
-                    playVideoFromSearch={playVideoFromSearch}
-                />
-                <Panel
-                    currUser={currUser}
-                    updateCurrUser={updateCurrUser}
-                    room={room}
-                    history={history}
-                    videoProps={videoProps}
-                    updateVideoProps={updateVideoProps}
-                    playerRef={playerRef}
-                    sendVideoState={sendVideoState}
-                    playVideoFromSearch={playVideoFromSearch}
-                    users={users}
-                    setUsers={setUsers}
-                />
-            </div>
+        <div className="outerContainer">
+            {room &&
+                <div className="outerContainer">
+                    <Transition visible={!isJoined} animation='fade' duration={500}>
+                        <Dimmer active={!isJoined}>
+                            <Loader>Joining Room...</Loader>
+                        </Dimmer>
+                    </Transition>
+                    <Video
+                        log={log}
+                        currUser={currUser}
+                        room={room}
+                        videoProps={videoProps}
+                        updateVideoProps={updateVideoProps}
+                        playerRef={playerRef}
+                        sendVideoState={sendVideoState}
+                        loadVideo={loadVideo}
+                        playVideoFromSearch={playVideoFromSearch}
+                    />
+                    <Panel
+                        currUser={currUser}
+                        updateCurrUser={updateCurrUser}
+                        room={room}
+                        history={history}
+                        videoProps={videoProps}
+                        updateVideoProps={updateVideoProps}
+                        playerRef={playerRef}
+                        sendVideoState={sendVideoState}
+                        playVideoFromSearch={playVideoFromSearch}
+                        users={users}
+                        setUsers={setUsers}
+                    />
+                </div>
+            }
         </div>
     );
 }
