@@ -8,6 +8,7 @@ import { invertColor, getRandomColor } from '../../utils/userInfo';
 import './Room.css';
 import Panel from "../Panel/Panel";
 import { generateWords } from '../../utils/generateWords';
+import { Dimmer, Loader, Transition } from 'semantic-ui-react'
 
 const Room = ({ location, history, match }) => {
     const playerRef = useRef(null);
@@ -27,6 +28,11 @@ const Room = ({ location, history, match }) => {
         initVideo: false,
     });
     const [users, setUsers] = useState([]);
+    const [isJoined, setIsJoined] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true)
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('name', JSON.stringify(currUser.name));
@@ -145,6 +151,9 @@ const Room = ({ location, history, match }) => {
 
             sckt.socket.emit('join', { name, room, colors }, ({ id }) => {
                 updateCurrUser({ id });
+                setTimeout(() => {
+                    setIsJoined(true);
+                }, 750);
             });
         }
         // sckt.socket.emit('createRoom', { room }, () => {});
@@ -155,35 +164,38 @@ const Room = ({ location, history, match }) => {
 
     return (
         <div>
-            <div>
-                <div className="outerContainer">
-                    <Video
-                        log={log}
-                        currUser={currUser}
-                        room={room}
-                        videoProps={videoProps}
-                        updateVideoProps={updateVideoProps}
-                        playerRef={playerRef}
-                        sendVideoState={sendVideoState}
-                        loadVideo={loadVideo}
-                        playVideoFromSearch={playVideoFromSearch}
-                    />
-                    <Panel
-                        currUser={currUser}
-                        updateCurrUser={updateCurrUser}
-                        room={room}
-                        history={history}
-                        videoProps={videoProps}
-                        updateVideoProps={updateVideoProps}
-                        playerRef={playerRef}
-                        sendVideoState={sendVideoState}
-                        playVideoFromSearch={playVideoFromSearch}
-                        users={users}
-                        setUsers={setUsers}
-                    />
-                </div>
+            <Transition visible={!isJoined} animation='scale' duration={500}>
+                <Dimmer active={!isJoined}>
+                    <Loader>Joining Room...</Loader>
+                </Dimmer>
+            </Transition>
+            <div className="outerContainer">
+                <Video
+                    log={log}
+                    currUser={currUser}
+                    room={room}
+                    videoProps={videoProps}
+                    updateVideoProps={updateVideoProps}
+                    playerRef={playerRef}
+                    sendVideoState={sendVideoState}
+                    loadVideo={loadVideo}
+                    playVideoFromSearch={playVideoFromSearch}
+                />
+                <Panel
+                    currUser={currUser}
+                    updateCurrUser={updateCurrUser}
+                    room={room}
+                    history={history}
+                    videoProps={videoProps}
+                    updateVideoProps={updateVideoProps}
+                    playerRef={playerRef}
+                    sendVideoState={sendVideoState}
+                    playVideoFromSearch={playVideoFromSearch}
+                    users={users}
+                    setUsers={setUsers}
+                />
             </div>
-        </div >
+        </div>
     );
 }
 
