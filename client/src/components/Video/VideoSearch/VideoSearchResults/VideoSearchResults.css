@@ -25,18 +25,17 @@ input:focus {
 .videoList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   padding: 0;
   margin: 0;
 }
 .list-group-item {
-  flex: 0 1 calc(33% - 1em);
+  flex: 0 1 calc(100% / 3 - 10px);
+  margin: 0 5px 25px 5px;
   border: none !important;
   -webkit-transition: all 0.2s ease-in;
   -moz-transition: all 0.2s ease-in;
   -o-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
-  margin: 0 6px 25px 6px;
   list-style: none;
 }
 

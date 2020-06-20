@@ -3,7 +3,7 @@ import VideoListItem from './VideoListItem';
 
 const VideoList = ({ onVideoPlay, onVideoAddToQueue, searchResults }) => {
   return (
-    <ul className="videoList col-md-4 abridged">
+    <ul className="videoList">
       {
         searchResults && searchResults.map((searchItem) => {
           return (

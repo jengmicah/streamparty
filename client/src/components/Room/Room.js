@@ -30,9 +30,7 @@ const Room = ({ location, history, match }) => {
     const [users, setUsers] = useState([]);
     const [isJoined, setIsJoined] = useState(false);
     const [mounted, setMounted] = useState(false);
-    useEffect(() => {
-        setMounted(true)
-    }, []);
+    useEffect(() => setMounted(true), []);
 
     useEffect(() => {
         localStorage.setItem('name', JSON.stringify(currUser.name));
