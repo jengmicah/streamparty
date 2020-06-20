@@ -5,7 +5,7 @@ An online video synchronization platform to watch YouTube videos with your frien
 Written with React, Socket.io, and the YouTube Player API.
 
 <p align="center">
-  <img src="https://github.com/jengmicah/video-sync/blob/master/images/demo.gif?raw=true" alt="demo gif">
+  <img src="https://github.com/jengmicah/streamparty/blob/master/images/demo.gif?raw=true" alt="demo gif">
 </p>
 
 ## Features
