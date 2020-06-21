@@ -33,15 +33,16 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
             let videoId = youtube_parser(trimInput);
             search({ videoId });
         } else {
-            // Search phrase on Youtube
+            // Search phrase on Youtube 
             search({ term: trimInput, page: 1 });
         }
     };
-    const videoSearch = async (term, page = 1) => {
+    const videoSearch = async (term, page = 1, limit = 9) => {
         axios.get(`${baseURL}/search`, {
             params: {
                 query: term,
-                page: page
+                page: page,
+                limit: limit
             }
         }).then(response => {
             setSearchResults(response.data.results);
@@ -62,8 +63,10 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const search = _.debounce(({ term, page, videoId }) => {
         setLoading(true);
         // console.log(term, page, videoId);
-        if (videoId === undefined) videoSearch(term, page)
-        else videoShow(videoId);
+        if (videoId === undefined) {
+            const limit = (window.matchMedia('(max-width: 960px)').matches) ? 8 : 9;
+            videoSearch(term, page, limit);
+        } else videoShow(videoId);
     }, 5);
 
     // Ping YT scraper without loading icon

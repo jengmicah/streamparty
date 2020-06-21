@@ -25,7 +25,7 @@ const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueu
                     <Button.Group>
                         <Button onClick={handlePrevPage} disabled={page - 1 < 1}>Prev</Button>
                         <Button.Or text={page} />
-                        <Button onClick={handleNextPage} disabled={searchResults.length < 9}>Next</Button>
+                        <Button onClick={handleNextPage} disabled={searchResults.length < 8}>Next</Button>
                     </Button.Group>
                 </div>
             }
