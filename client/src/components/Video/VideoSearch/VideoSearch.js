@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './VideoSearch.css';
 import { youtube_parser, validateYouTubeUrl } from '../VideoHelper';
 import VideoSearchResults from './VideoSearchResults/VideoSearchResults';
@@ -15,11 +15,13 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [page, setPage] = useState(1);
     const baseURL = process.env.REACT_APP_YT_SCRAPER;
+    const lastSearch = useRef('');
 
     const handlePlay = (event) => {
         event.preventDefault();
         let trimInput = searchInput.trim();
-        if (trimInput === '') return;
+        if (trimInput === '' || trimInput === lastSearch.current) return;
+        lastSearch.current = trimInput;
         if (validateYouTubeUrl(trimInput)) {
             // Reset the color after playing
             let sendButtons = Array.from(document.getElementsByClassName('videoNavIcon'));
