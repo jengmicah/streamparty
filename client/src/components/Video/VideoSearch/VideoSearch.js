@@ -64,7 +64,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
         setLoading(true);
         // console.log(term, page, videoId);
         if (videoId === undefined) {
-            const limit = (window.matchMedia('(max-width: 767px)').matches) ? 8 : 9;
+            const limit = (window.matchMedia('(max-width: 960px)').matches) ? 8 : 9;
             videoSearch(term, page, limit);
         } else videoShow(videoId);
     }, 5);
