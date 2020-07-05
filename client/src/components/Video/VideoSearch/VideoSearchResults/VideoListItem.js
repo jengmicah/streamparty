@@ -2,6 +2,12 @@ import React from 'react';
 import { Label, Icon, Button } from 'semantic-ui-react'
 
 const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
+  const changeQueueIcon = (target) => {
+    target.setAttribute("class", "check icon");
+    setTimeout(() => {
+      target.setAttribute("class", "plus icon");
+    }, 3000)
+  }
   return (
     <li className="list-group-item">
       <div className="search-item-container">
@@ -23,7 +29,7 @@ const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
           </div>
           <div className="search-item-channel-date">
             <div>{searchItem.video.views} • {searchItem.video.upload_date}</div>
-            <div><Button onClick={() => onVideoAddToQueue(searchItem)} className='videoIcon' icon='plus' size='big' /></div>
+            <div><Button onClick={(e) => { changeQueueIcon(e.target); onVideoAddToQueue(searchItem) }} className='videoIcon' icon='plus' size='big' /></div>
 
           </div>
         </div>
