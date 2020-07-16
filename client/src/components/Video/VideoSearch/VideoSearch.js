@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import './VideoSearch.css';
-import { youtube_parser, validateYouTubeUrl } from '../VideoHelper';
-import VideoSearchResults from './VideoSearchResults/VideoSearchResults';
 import axios from 'axios';
 import _ from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
+import { Input } from 'semantic-ui-react';
+import { validateYouTubeUrl, youtube_parser } from '../VideoHelper';
+import './VideoSearch.css';
+import VideoSearchResults from './VideoSearchResults/VideoSearchResults';
 
-import { Input } from 'semantic-ui-react'
 
 require('dotenv').config()
 
@@ -29,7 +29,6 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
                 button.classList.remove('readyToPress');
                 button.classList.remove('validReadyToPress');
             });
-            setSearchInput('')
             let videoId = youtube_parser(trimInput);
             search({ videoId });
         } else {
