@@ -1,12 +1,11 @@
 import React from "react";
+// import ReactTooltip from "react-tooltip";
+import { Icon, Menu, Tab } from 'semantic-ui-react';
 import Chat from './Chat/Chat';
-import Users from './Users/Users';
+import './Panel.scss';
 import QueueHistory from './QueueHistory/QueueHistory';
 import Settings from './Settings/Settings';
-// import ReactTooltip from "react-tooltip";
-import { Menu, Tab, Icon } from 'semantic-ui-react'
-
-import './Panel.css';
+import Users from './Users/Users';
 
 const Panel = ({
     currUser,
@@ -20,7 +19,7 @@ const Panel = ({
     playVideoFromSearch,
     users
 }) => {
-    
+
     const videoPanes = [
         {
             menuItem: { key: 'queue', content: 'Queue' },

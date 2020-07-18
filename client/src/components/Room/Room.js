@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import Video from '../Video/Video';
+import React, { useEffect, useRef, useState } from "react";
+import { store } from 'react-notifications-component';
+import { Dimmer, Loader, Transition } from 'semantic-ui-react';
+import { generateWords } from '../../utils/generateWords';
+import { getRandomColor, invertColor } from '../../utils/userInfo';
+import Panel from "../Panel/Panel";
 // import JoinUser from './JoinUser';
 import { sckt } from '../Socket';
-import { store } from 'react-notifications-component';
-import { invertColor, getRandomColor } from '../../utils/userInfo';
-
-import './Room.css';
-import Panel from "../Panel/Panel";
-import { generateWords } from '../../utils/generateWords';
-import { Dimmer, Loader, Transition } from 'semantic-ui-react'
+import Video from '../Video/Video';
+import './Room.scss';
 
 const Room = ({ location, history, match }) => {
     const playerRef = useRef(null);

@@ -1,0 +1,54 @@
+.panelContainer {
+  position: relative;
+  height: 100vh;
+  width: 25vw;
+  .ui.tabular.menu {
+    border: 0;
+    min-height: auto;
+    box-shadow: 1px 3px 10px 0px rgba(0, 0, 0, 0.1) !important;
+    position: relative;
+    z-index: 10;
+    .item {
+      width: 25%;
+      height: 8vh;
+      background: #43a3f0;
+      color: #fff;
+      border: 0;
+      border-radius: 0 !important;
+      justify-content: center;
+      &:hover {
+        background: #43a3f0;
+        color: #fff;
+        opacity: 0.9;
+      }
+    }
+    .active.item {
+      background: #fff;
+      color: #43a3f0;
+      border: 0 !important;
+      border-radius: 0 !important;
+      opacity: 1 !important;
+    }
+    &.label {
+      border-radius: 50%;
+    }
+  }
+  .ui.tab {
+    height: 92vh;
+    height: calc(100vh - 8vh);
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden;
+  }
+  .subTabs {
+    .ui.tabular.menu .item {
+      width: 50%;
+      height: 5vh;
+    }
+    .ui.tab {
+      height: 87vh;
+      height: calc(100vh - 8vh - 5vh);
+    }
+  }
+}

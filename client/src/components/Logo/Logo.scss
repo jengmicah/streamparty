@@ -1,0 +1,19 @@
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  h1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-weight: 900;
+    font-size: 3.5em;
+    margin: 0;
+    line-height: 0.8;
+  }
+}
+.primaryColor {
+  color: #3262d9;
+}
+.secondaryColor {
+  color: #43a3f0;
+}

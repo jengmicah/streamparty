@@ -1,7 +1,7 @@
 import React from 'react';
+import { Button } from 'semantic-ui-react';
 import VideoList from './VideoList';
-import './VideoSearchResults.css';
-import { Button } from 'semantic-ui-react'
+import './VideoSearchResults.scss';
 
 const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueue, page, search, searchInput, searching }) => {
     const handlePrevPage = () => {

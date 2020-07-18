@@ -40,12 +40,6 @@ input:focus {
   list-style: none;
 }
 
-.search-item-thumb img {
-  cursor: pointer;
-  width: 100%;
-  transition: all 0.2s ease;
-}
-
 .search-item-body {
   padding: 5px 5px 0 5px;
 }
@@ -57,7 +51,7 @@ input:focus {
 .search-item-video-title {
   cursor: pointer;
   font-weight: 600;
-  color: rgba(3, 3, 3);
+  color: rgb(3, 3, 3);
   margin: 8px 0 4px 0;
   font-size: 14px;
 }
@@ -75,12 +69,12 @@ input:focus {
   justify-content: space-between;
   cursor: auto;
 }
-.verifiedIcon i {
-  color: #606060;
-}
 .verifiedIcon {
   background: none !important;
   padding: 0 0.5em !important;
+  i {
+    color: #606060;
+  }
 }
 .navIcons {
   display: flex;
@@ -89,6 +83,14 @@ input:focus {
 }
 .search-item-thumb {
   position: relative;
+  img {
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
 }
 .thumb-overlay {
   display: flex;
@@ -108,7 +110,4 @@ input:focus {
   border: 0 !important;
   padding: 0 !important;
   margin: 0 0.5em !important;
-}
-.search-item-thumb img:hover {
-  transform: scale(1.02);
 }

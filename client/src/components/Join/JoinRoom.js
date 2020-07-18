@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import './Join.css';
-import Logo from '../Logo/Logo';
-import { Button, Transition } from 'semantic-ui-react'
+import React, { useEffect, useState } from 'react';
+import { Button, Transition } from 'semantic-ui-react';
 import { generateWords } from '../../utils/generateWords';
+import Logo from '../Logo/Logo';
+import './Join.scss';
 
 const JoinRoom = ({ location, history }) => {
     const [mounted, setMounted] = useState(false);
@@ -10,7 +10,7 @@ const JoinRoom = ({ location, history }) => {
 
     const joinRoom = () => {
         const randomRoom = encodeURIComponent(generateWords({ delimiter: '-', shouldCap: false }));
-        history.push({ 
+        history.push({
             pathname: `/room/${randomRoom}`,
             state: { from: location }
         });

@@ -1,8 +1,6 @@
 import React from 'react';
-
-import { Icon, Input } from 'semantic-ui-react'
-
-import './ChatInput.css';
+import { Icon, Input } from 'semantic-ui-react';
+import './ChatInput.scss';
 
 const ChatInput = React.memo(({ message, setMessage, sendMessage }) => {
 

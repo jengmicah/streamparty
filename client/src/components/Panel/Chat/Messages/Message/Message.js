@@ -1,9 +1,7 @@
 import React from 'react';
-
-import './Message.css';
-
 import ReactEmoji from 'react-emoji';
 import { getAvatarUrl } from '../../../../../utils/userInfo';
+import './Message.scss';
 
 const Message = ({ message: { user, text }, currUser, users }) => {
     const getNameById = (id) => {
@@ -40,7 +38,7 @@ const Message = ({ message: { user, text }, currUser, users }) => {
                                     name: getNameById(user.id),
                                     background: user.colors.bg,
                                     color: user.colors.txt,
-                                })} alt='avatar'/>
+                                })} alt='avatar' />
                             </section>
                             <div className='messageBox backgroundLight'>
                                 <p className='messageText colorDark'>{ReactEmoji.emojify(text)}</p>

@@ -1,6 +1,6 @@
 import React from 'react';
-import './QueueItem.css';
-import { Label, Icon, Button } from 'semantic-ui-react'
+import { Button, Icon, Label } from 'semantic-ui-react';
+import './QueueItem.scss';
 
 const QueueItem = ({ searchItem, handlePlayFromList, handleRemoveFromQueue, isQueue }) => {
   return (

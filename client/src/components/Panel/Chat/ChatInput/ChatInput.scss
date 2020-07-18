@@ -13,9 +13,9 @@
 #sendIcon {
   color: #bfbfbf;
   transition: all 0.1s;
-}
-#sendIcon.readyToPress {
-  color: #43a3f0 !important;
-  cursor: pointer !important;
-  pointer-events: all !important;
+  &.readyToPress {
+    color: #43a3f0 !important;
+    cursor: pointer !important;
+    pointer-events: all !important;
+  }
 }

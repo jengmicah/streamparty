@@ -19,21 +19,21 @@
   width: 30%;
   min-width: 200px;
   transition: 0.2s all;
-}
-.joinInnerContainer section {
-  padding: 0 7%;
-  color: #333;
-}
-.joinInnerContainer section h2,
-.joinInnerContainer section input {
-  margin: 0;
-}
-.joinInnerContainer section input {
-  border: 0 !important;
-  border-radius: 30px !important;
-  padding: 12px 16px !important;
-  width: 100% !important;
-  color: rgba(0, 0, 0, 0.7);
+  section {
+    padding: 0 7%;
+    color: #333;
+    h2,
+    input {
+      margin: 0;
+    }
+    input {
+      border: 0 !important;
+      border-radius: 30px !important;
+      padding: 12px 16px !important;
+      width: 100% !important;
+      color: rgba(0, 0, 0, 0.7);
+    }
+  }
 }
 
 .heading {
@@ -51,10 +51,9 @@
   width: 80%;
   box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2) !important;
   transition: all 0.2s;
-}
-
-.button-join:hover {
-  opacity: 0.9;
+  &:hover {
+    opacity: 0.9;
+  }
 }
 
 .mid {

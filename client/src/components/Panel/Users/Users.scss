@@ -30,21 +30,21 @@
   width: 100px;
   border-radius: 10px;
   overflow: hidden;
-}
-.activeItem img {
-  width: 100px;
-}
-.activeItem span {
-  position: absolute;
-  bottom: 0;
-  text-align: center;
-  width: 100%;
-  color: #fff;
-  padding: 3px 7px;
-  background: rgba(0,0,0,0.2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  img {
+    width: 100px;
+  }
+  span {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    padding: 3px 7px;
+    background: rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .leaveButton {
@@ -54,7 +54,7 @@
   color: #fff;
   padding: 15px 20px;
   width: fit-content;
-}
-.leaveButton:hover {
-  opacity: 0.9;
+  &:hover {
+    opacity: 0.9;
+  }
 }

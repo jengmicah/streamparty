@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import './Video.css';
-import YTPlayer from './YTPlayer/YTPlayer';
-import VideoSearch from './VideoSearch/VideoSearch';
-import { Segment, Grid, Header, Icon, Divider, Button } from 'semantic-ui-react'
-
+import { Button, Divider, Grid, Header, Icon, Segment } from 'semantic-ui-react';
 import { sckt } from '../Socket';
+import './Video.scss';
 import { insert } from './VideoHelper';
+import VideoSearch from './VideoSearch/VideoSearch';
+import YTPlayer from './YTPlayer/YTPlayer';
 
 const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendVideoState, loadVideo, playVideoFromSearch }) => {
     const loadFromQueue = (queue, sync = false) => {

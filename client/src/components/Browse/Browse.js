@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-
-import './Browse.css';
+import React, { useEffect, useState } from 'react';
 import { sckt } from '../Socket';
+import './Browse.scss';
 
 const Browse = ({ history }) => {
     const [room, setRoom] = useState('');

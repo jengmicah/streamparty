@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import Vimeo from '@u-wave/react-vimeo';
 import ReactPlayer from 'react-player';
-import './VideoPlayer.css';
+import './VideoPlayer.scss';
 
 const VideoPlayer = ({ currUrl, log, videoProps, sendVideoState, updateVideoProps, playerRef, loadVideo, loadFromQueue }) => {
 

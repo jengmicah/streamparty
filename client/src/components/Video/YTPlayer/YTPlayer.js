@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import YouTube from 'react-youtube';
 // import ReactPlayer from 'react-player';
 // import { Embed } from 'semantic-ui-react'
-
-import './YTPlayer.css';
+import './YTPlayer.scss';
 
 const YTPlayer = ({ log, videoProps, sendVideoState, updateVideoProps, playerRef, loadVideo, loadFromQueue }) => {
 

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Button } from 'semantic-ui-react'
-import { sckt } from '../../Socket';
+import React, { useEffect, useState } from 'react';
 import { store } from 'react-notifications-component';
-import './Settings.css';
+import { Button, Input } from 'semantic-ui-react';
+import { sckt } from '../../Socket';
+import './Settings.scss';
 
 const Settings = ({ currUser, updateCurrUser, room, history, users }) => {
   const [currName, setCurrName] = useState('');
-  
+
   useEffect(() => {
     setCurrName(currUser.name);
   }, [currUser.name]);

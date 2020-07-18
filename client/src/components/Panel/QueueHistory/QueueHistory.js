@@ -1,6 +1,5 @@
 import React from 'react';
-
-import './QueueHistory.css';
+import './QueueHistory.scss';
 import QueueList from './QueueList';
 
 const QueueHistory = ({ isQueue, videoProps, room, updateVideoProps, playerRef, sendVideoState, playVideoFromSearch }) => {

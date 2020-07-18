@@ -13,10 +13,9 @@
   float: left;
   word-wrap: break-word;
   margin: 0;
-}
-
-.messageText img {
-  vertical-align: middle;
+  img {
+    vertical-align: middle;
+  }
 }
 
 .messageContainer {
@@ -24,15 +23,15 @@
   justify-content: flex-end;
   padding: 0 5%;
   margin: 3px 0;
-}
-.messageContainer section {
-  margin: 0 4px;
-  display: flex;
-  align-items: flex-end;
-}
-.messageContainer section img {
-  /* width: 30px; */
-  border-radius: 50%;
+  section {
+    margin: 0 4px;
+    display: flex;
+    align-items: flex-end;
+    img {
+      /* width: 30px; */
+      border-radius: 50%;
+    }
+  }
 }
 
 .sentText {

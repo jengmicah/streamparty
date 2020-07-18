@@ -3,9 +3,8 @@ import _ from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { Input } from 'semantic-ui-react';
 import { validateYouTubeUrl, youtube_parser } from '../VideoHelper';
-import './VideoSearch.css';
+import './VideoSearch.scss';
 import VideoSearchResults from './VideoSearchResults/VideoSearchResults';
-
 
 require('dotenv').config()
 
@@ -14,7 +13,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch }) => {
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const [page, setPage] = useState(1);
-    const baseURL = process.env.REACT_APP_YT_SCRAPER;
+    const baseURL = process.env.REACT_APP_YT_API;
     const lastSearch = useRef('');
 
     const handlePlay = (event) => {
