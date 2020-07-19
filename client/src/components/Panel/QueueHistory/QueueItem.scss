@@ -1,4 +1,8 @@
 .single-col {
   display: block !important;
   flex: 1;
+  @media (max-width: 767px) {
+    display: flex !important;
+    width: 100%;
+  }
 }
