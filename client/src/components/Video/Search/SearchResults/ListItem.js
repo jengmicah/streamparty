@@ -1,7 +1,7 @@
 import React from 'react';
 import { Label, Icon, Button } from 'semantic-ui-react'
 
-const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
+const ListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
   const changeQueueIcon = (target) => {
     target.setAttribute("class", "check icon");
     setTimeout(() => {
@@ -38,4 +38,4 @@ const VideoListItem = ({ searchItem, onVideoPlay, onVideoAddToQueue }) => {
   );
 };
 
-export default VideoListItem;
+export default ListItem;

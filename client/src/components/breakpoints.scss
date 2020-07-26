@@ -23,9 +23,3 @@
     display: none;
   }
 }
-@media (max-width: 960px) {
-  .list-group-item {
-    /* 10px = 2 * LR margin of list-group-item */
-    flex: 0 1 calc(100% / 2 - 10px);
-  }
-}

@@ -1,13 +1,13 @@
 import React from 'react';
-import VideoListItem from './VideoListItem';
+import ListItem from './ListItem';
 
-const VideoList = ({ onVideoPlay, onVideoAddToQueue, searchResults }) => {
+const List = ({ onVideoPlay, onVideoAddToQueue, searchResults }) => {
   return (
     <ul className="videoList">
       {
         searchResults && searchResults.map((searchItem) => {
           return (
-            <VideoListItem
+            <ListItem
               onVideoPlay={onVideoPlay}
               onVideoAddToQueue={onVideoAddToQueue}
               key={searchItem.video.id}
@@ -19,4 +19,4 @@ const VideoList = ({ onVideoPlay, onVideoAddToQueue, searchResults }) => {
   );
 };
 
-export default VideoList;
+export default List;

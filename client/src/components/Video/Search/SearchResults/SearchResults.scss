@@ -38,6 +38,10 @@ input:focus {
   -o-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
   list-style: none;
+  @media (max-width: 960px) {
+    /* 10px = 2 * LR margin of list-group-item */
+    flex: 0 1 calc(100% / 2 - 10px);
+  }
 }
 
 .search-item-body {

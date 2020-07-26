@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
-import VideoList from './VideoList';
-import './VideoSearchResults.scss';
+import List from './List';
+import './SearchResults.scss';
 
-const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueue, page, search, searchInput, searching }) => {
+const SearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueue, page, search, searchInput, searching }) => {
     const handlePrevPage = () => {
         if (page - 1 >= 1) {
             search({ term: searchInput, page: page - 1 })
@@ -14,7 +14,7 @@ const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueu
     }
     return (
         <div>
-            <VideoList
+            <List
                 onVideoPlay={selectedVideo => playVideoFromSearch(selectedVideo)}
                 onVideoAddToQueue={selectedVideo => addVideoToQueue(selectedVideo)}
                 searchResults={searchResults}
@@ -33,4 +33,4 @@ const VideoSearchResults = ({ searchResults, playVideoFromSearch, addVideoToQueu
     );
 }
 
-export default VideoSearchResults;
+export default SearchResults;

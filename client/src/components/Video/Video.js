@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { Button, Divider, Grid, Header, Icon, Segment } from 'semantic-ui-react';
 import { sckt } from '../Socket';
 import './Video.scss';
-import { insert } from './VideoHelper';
-import VideoSearch from './VideoSearch/VideoSearch';
-import YTPlayer from './YTPlayer/YTPlayer';
+import { insert } from '../../utils/video';
+import VideoSearch from './Search/Search';
+import VideoPlayer from "./Player/Player";
 
 const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendVideoState, loadVideo, playVideoFromSearch }) => {
     const loadFromQueue = (queue, sync = false) => {
@@ -16,23 +16,15 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
         }
     }
     const modifyVideoState = (paramsToChange) => {
-        if (playerRef.current !== null && playerRef.current.internalPlayer !== null) {
-            const { lastStateYT } = videoProps;
+        if (playerRef.current !== null) {
             const { playing, seekTime, playbackRate } = paramsToChange;
-            let player = playerRef.current.internalPlayer;
             if (playing !== undefined) {
-                if (playing) {
-                    if (seekTime) player.seekTo(seekTime);
-                    // If not already playing
-                    if (lastStateYT !== 1 || lastStateYT !== 3)
-                        player.playVideo();
-                } else {
-                    // If not already paused
-                    if (lastStateYT !== 2)
-                        player.pauseVideo();
-                }
-            } else if (playbackRate !== undefined) {
-                player.setPlaybackRate(playbackRate);
+                updateVideoProps({ playing });
+                // } else if (playbackRate !== undefined) {
+                //     player.setPlaybackRate(playbackRate);
+            }
+            if (seekTime !== undefined) {
+                playerRef.current.seekTo(seekTime);
             }
         }
     }
@@ -59,18 +51,15 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
     useEffect(() => {
         // Send videoProps to new user
         const getSyncHandler = ({ id }) => {
-            // log("New user needs videoProps to sync.", 'server');
-            if (playerRef.current !== null && playerRef.current.internalPlayer !== null) {
-                let player = playerRef.current.internalPlayer;
-                player.getCurrentTime().then((currTime) => {
-                    let params = {
-                        id: id,
-                        ...videoProps,
-                        seekTime: currTime,
-                        receiving: true
-                    }
-                    sckt.socket.emit('sendSync', params, (error) => { });
-                });
+            log("New user needs videoProps to sync.", 'server');
+            if (playerRef.current !== null) {
+                let params = {
+                    id: id,
+                    ...videoProps,
+                    seekTime: playerRef.current.getCurrentTime(),
+                    receiving: true
+                }
+                sckt.socket.emit('sendSync', params, (error) => { });
             }
         }
         sckt.socket.on("getSync", getSyncHandler);
@@ -81,7 +70,7 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
     useEffect(() => {
         // Sync other user's videoProps to our state
         const startSyncHandler = (videoProps) => {
-            // log("I'm syncing.", 'server');
+            log("I'm syncing.", 'server');
             updateVideoProps({ ...videoProps });
             modifyVideoState({ ...videoProps });
             // loadVideo(videoProps.history[0], true);
@@ -92,13 +81,16 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
             updateVideoProps({ receiving: true });
             switch (eventName) {
                 case 'syncPlay':
+                    updateVideoProps({ playing: true });
+                    modifyVideoState({ playing: true });
+                    break;
                 case 'syncSeek':
-                    updateVideoProps({ playing: true, seekTime });
-                    modifyVideoState({ playing: true, seekTime });
+                    updateVideoProps({ seekTime });
+                    modifyVideoState({ seekTime });
                     break;
                 case 'syncPause':
-                    updateVideoProps({ playing: false });
-                    modifyVideoState({ playing: false });
+                    updateVideoProps({ playing: false, seekTime });
+                    modifyVideoState({ playing: false, seekTime });
                     break;
                 case 'syncRateChange':
                     updateVideoProps({ playbackRate });
@@ -127,11 +119,13 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
         };
     }, []);
 
+    // useEffect(() => {
+    //     console.log(videoProps.playing);
+    // }, [videoProps.playing])
 
     return (
         <div className="videoContainer">
-            <YTPlayer
-                log={log}
+            <VideoPlayer
                 videoProps={videoProps}
                 sendVideoState={sendVideoState}
                 updateVideoProps={updateVideoProps}
@@ -142,6 +136,7 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
             <VideoSearch
                 addVideoToQueue={addVideoToQueue}
                 playVideoFromSearch={playVideoFromSearch}
+                updateVideoProps={updateVideoProps}
             />
             <Segment placeholder>
                 <Grid columns={2} stackable textAlign='center'>
@@ -151,19 +146,20 @@ const Video = ({ log, name, room, videoProps, updateVideoProps, playerRef, sendV
                         <Grid.Column>
                             <Header icon>
                                 <Icon name='search' />
-                                Search for a video on YouTube
+                                Search for a YouTube video
                             </Header>
                             <Button onClick={() => { document.getElementById("searchInput").focus(); }}>Search above!</Button>
                         </Grid.Column>
 
                         <Grid.Column>
                             <Header icon>
-                                <Icon name='youtube' />
-                                Paste a YouTube video link
+                                <div className="actionIcons">
+                                    <Icon name='youtube' onClick={() => { window.open('https://youtube.com', '_blank'); }} />
+                                    <Icon name='vimeo' onClick={() => { window.open('https://vimeo.com/search', '_blank'); }} />
+                                    <Icon name='twitch' onClick={() => { window.open('https://twitch.tv', '_blank'); }} />
+                                </div>
+                                Paste a video link
                             </Header>
-                            <Button color='youtube' onClick={() => { window.open('https://youtube.com', '_blank'); }}>
-                                Open YouTube
-                            </Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>

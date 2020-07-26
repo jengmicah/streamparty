@@ -22,3 +22,20 @@
   top: 0;
   left: 0;
 }
+.actionIcons {
+  display: flex;
+  justify-content: center;
+  .icon {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    cursor: pointer;
+    &:hover {
+      color: #43a3f0;
+    }
+  }
+}
+.actionButtons {
+  .button {
+    margin-bottom: 10px;
+  }
+}

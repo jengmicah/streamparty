@@ -1,0 +1,150 @@
+.videoPlayerContainer {
+  position: relative;
+  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+}
+.videoPlayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.controlsContainer {
+  position: absolute;
+  // top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  // height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+
+  opacity: 0;
+  // position: relative;
+  // background: #666;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transition: opacity 0.3s ease;
+  margin: 5px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 10px 5px;
+  color: white;
+  line-height: 14px;
+  @media (max-width: 650px) {
+    font-size: 1em !important;
+  }
+  .timestamps {
+    margin: 0 5px;
+    cursor: default;
+    text-align: center;
+    width: fit-content;
+    &.total {
+      @media (max-width: 375px) {
+        display: none;
+      }
+    }
+  }
+
+  i {
+    cursor: pointer;
+    margin: 0 5px;
+    &:hover {
+      color: #ccc;
+    }
+    @media (max-width: 414px) {
+      font-size: 1em !important;
+    }
+  }
+}
+//   .playback {
+//     width: 36px;
+//     text-align: center;
+//     margin: 0 5px;
+//     .button {
+//       padding: 0;
+//       margin: 0;
+//       background: transparent;
+//       color: white;
+//     }
+//     &:hover {
+//       color: #ccc;
+//     }
+//   }
+// }
+// .popup {
+//   border: none !important;
+//   outline: none !important;
+//   padding: 0 !important;
+//   top: -5px !important;
+//   &:before {
+//     width: 0 !important;
+//   }
+//   .button {
+//     color: white;
+//     padding: 10px;
+//     background: #666 !important;
+//     border: none !important;
+//     outline: none !important;
+//     &:hover {
+//       color: #ccc;
+//     }
+
+//     &:active,
+//     &:focus {
+//       color: #aaa;
+//     }
+//   }
+// }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  margin-left: 37px;
+  margin-bottom: -10px;
+  .tooltiptext {
+    width: 70px;
+    background-color: #fff;
+    color: #43a3f0;
+    opacity: 1;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 50%;
+    margin-left: -60px;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #fff transparent transparent transparent;
+    }
+  }
+}
+
+.volumeSlider {
+  width: 100px;
+  margin: 0 5px;
+  @media (max-width: 375px) {
+    width: 40px;
+  }
+}
+
+.seekSlider {
+  flex-grow: 1;
+  margin: 0 5px;
+  position: relative;
+  cursor: pointer;
+}

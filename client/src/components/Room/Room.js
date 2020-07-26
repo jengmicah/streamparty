@@ -8,6 +8,7 @@ import Panel from "../Panel/Panel";
 import { sckt } from '../Socket';
 import Video from '../Video/Video';
 import './Room.scss';
+import { getVideoType } from '../../utils/video';
 
 const Room = ({ location, history, match }) => {
     const playerRef = useRef(null);
@@ -22,14 +23,12 @@ const Room = ({ location, history, match }) => {
         history: [],
         playing: true,
         seekTime: 0,
-        lastStateYT: -1,
         receiving: false,
         initVideo: false,
+        videoType: 'yt' // 'vimeo', 'twitch', 'soundcloud'
     });
     const [users, setUsers] = useState([]);
     const [isJoined, setIsJoined] = useState(false);
-    // const [mounted, setMounted] = useState(false);
-    // useEffect(() => setMounted(true), []);
 
     useEffect(() => {
         localStorage.setItem('name', JSON.stringify(currUser.name));
@@ -61,32 +60,29 @@ const Room = ({ location, history, match }) => {
 
     // Video.js
     const loadVideo = (searchItem, sync) => {
-        if (playerRef.current != null && playerRef.current.internalPlayer != null && searchItem) {
-            const { playing, seekTime, initVideo } = videoProps;
+        const { playing, seekTime, initVideo } = videoProps;
+        if ((playerRef.current !== null || !initVideo) && searchItem) {
             if (!initVideo) updateVideoProps({ initVideo: true });
-            let player = playerRef.current.internalPlayer;
-            let videoId = searchItem.video.id;
+            let videoUrl = searchItem.video.url;
             if (sync) {
-                if (playing) {
-                    player.loadVideoById({
-                        videoId: videoId,
-                        startSeconds: seekTime
-                    });
-                } else {
-                    player.loadVideoById({
-                        videoId: videoId,
-                        startSeconds: seekTime
-                    });
-                    player.pauseVideo();
-                    updateVideoProps({ receiving: false });
-                }
+                updateVideoProps({ url: videoUrl });
+                updateVideoProps({ playing });
+                updateVideoProps({ receiving: false });
+                playerRef.current.seekTo(seekTime, 'seconds');
             } else {
-                player.loadVideoById({ videoId });
+                updateVideoProps({ url: videoUrl });
+                updateVideoProps({ playing: true });
+                updateVideoProps({ receiving: false });
             }
             // sckt.socket.emit('updateRoomData', { video: searchItem }, (error) => { });
         }
     }
     const playVideoFromSearch = (searchItem) => {
+        const url = searchItem.video.url;
+        const videoType = getVideoType(url);
+        if (videoType !== null) {
+            updateVideoProps({ videoType });
+        }
         // Handle playing video immediately
         const { history } = videoProps;
         loadVideo(searchItem, false);
@@ -178,6 +174,10 @@ const Room = ({ location, history, match }) => {
         //     setUsers(users);
         // });
     }, [location.pathname, history]);
+
+    // useEffect(() => {
+    //     console.log(videoProps.playing);
+    // }, [videoProps.playing])
 
     return (
         <div className="outerContainer">

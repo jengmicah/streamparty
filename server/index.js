@@ -125,9 +125,9 @@ io.on('connection', (socket) => {
         let admin_msg;
         switch (eventName) {
             case 'syncPlay':
-                admin_msg = `${name} played the video at ${new Date(eventParams.seekTime * 1000).toISOString().substr(11, 8)}.`; break;
-            // case 'syncSeek':
-            //     admin_msg = `${name} jumped to ${new Date(eventParams.seekTime * 1000).toISOString().substr(11, 8)}.`; break;
+                admin_msg = `${name} played the video`; break;
+            case 'syncSeek':
+                admin_msg = `${name} jumped to ${new Date(eventParams.seekTime * 1000).toISOString().substr(11, 8)}.`; break;
             case 'syncPause':
                 admin_msg = `${name} paused the video.`; break;
             case 'videoStartBuffer':
