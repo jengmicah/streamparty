@@ -46,7 +46,7 @@ const Controls = forwardRef(
               name={playing ? 'pause' : 'play'}
             />
             {!['twitch'].includes(videoType) &&
-              <div className="timestamps elapsed" style={{ width: duration > 3600 ? '50px' : '35px' }}>
+              <div className="timestamps elapsed" style={{ width: duration > 3600 ? '50px' : '40px' }}>
                 <span>{seeking ? formatTimestamp(jumpedTime) : formatTimestamp(currentTime)}</span>
               </div>
             }
