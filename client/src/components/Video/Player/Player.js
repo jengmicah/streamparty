@@ -21,7 +21,7 @@ function iOS() {
 }
 
 function Player({ videoProps, sendVideoState, updateVideoProps, loadVideo, loadFromQueue, playerRef }) {
-    const [isVideoStarted, setIsVideoStarted] = useState(false);
+    // const [isVideoStarted, setIsVideoStarted] = useState(false);
     const [isVideoEnded, setIsVideoEnded] = useState(false);
     const [state, setState] = useState({
         pip: false,
@@ -199,12 +199,12 @@ function Player({ videoProps, sendVideoState, updateVideoProps, loadVideo, loadF
     }, [])
 
     const showControls = () => {
-        if (isVideoStarted) {
-            controlsRef.current.style.opacity = 1;
-            controlsRef.current.style.pointerEvents = "auto";
-            controlsRef.current.style.cursor = "auto";
-            playerContainerRef.current.style.cursor = "auto";
-        }
+        // if (isVideoStarted) {
+        controlsRef.current.style.opacity = 1;
+        controlsRef.current.style.pointerEvents = "auto";
+        controlsRef.current.style.cursor = "auto";
+        playerContainerRef.current.style.cursor = "auto";
+        // }
     }
     const hideControls = () => {
         controlsRef.current.style.opacity = 0;
@@ -213,7 +213,9 @@ function Player({ videoProps, sendVideoState, updateVideoProps, loadVideo, loadF
         playerContainerRef.current.style.cursor = "none";
     }
     const handleVideoClick = (e) => {
-        if (isVideoStarted && e.target === e.currentTarget) handlePlayPause()
+        if (e.target === e.currentTarget
+            // && isVideoStarted
+        ) handlePlayPause()
     }
     const onPlay = () => {
         setIsVideoEnded(false);
@@ -244,13 +246,13 @@ function Player({ videoProps, sendVideoState, updateVideoProps, loadVideo, loadF
     const onReady = () => {
         if (receiving) {
             loadVideo(history[0], true);
-            if (!playing) setIsVideoStarted(true);
-            else setIsVideoStarted(false);
+            // if (!playing) setIsVideoStarted(true);
+            // else setIsVideoStarted(false);
         }
     }
     const onStart = () => {
-        if (!receiving)
-            setIsVideoStarted(true);
+        // if (!receiving)
+        //     setIsVideoStarted(true);
     }
 
     const code = (e) => {
