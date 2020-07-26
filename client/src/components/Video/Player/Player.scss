@@ -44,8 +44,8 @@
     margin: 0 5px;
     cursor: default;
     text-align: center;
-    width: fit-content;
     &.total {
+      width: fit-content;
       @media (max-width: 375px) {
         display: none;
       }
