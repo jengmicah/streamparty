@@ -7,6 +7,19 @@ import './Player.scss';
 
 let count = 0;
 
+function iOS() {
+    return [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+    ].includes(navigator.platform)
+        // iPad on iOS 13 detection
+        || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
+
 function Player({ videoProps, sendVideoState, updateVideoProps, loadVideo, loadFromQueue, playerRef }) {
     const [isVideoStarted, setIsVideoStarted] = useState(false);
     const [isVideoEnded, setIsVideoEnded] = useState(false);
@@ -150,8 +163,9 @@ function Player({ videoProps, sendVideoState, updateVideoProps, loadVideo, loadF
         });
     };
 
-    const toggleFullScreen = () => screenful.toggle(playerContainerRef.current);
-
+    const toggleFullScreen = () => {
+        screenful.toggle(playerContainerRef.current);
+    }
     const handleMouseMove = () => {
         showControls();
         count = 0;
@@ -180,8 +194,10 @@ function Player({ videoProps, sendVideoState, updateVideoProps, loadVideo, loadF
     };
 
     useEffect(() => {
-        screenful.on('change', () => setState({ ...state, isFullscreen: screenful.isFullscreen }));
+        if (!iOS())
+            screenful.on('change', () => setState({ ...state, isFullscreen: screenful.isFullscreen }));
     }, [])
+
     const showControls = () => {
         if (isVideoStarted) {
             controlsRef.current.style.opacity = 1;
