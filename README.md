@@ -1,5 +1,7 @@
 # Stream Party
 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
 An online video synchronization platform to watch videos with your friends and family.
 
 Written with React, Socket.io, and Express.
