@@ -50,7 +50,6 @@ Written with React, Socket.io, and Express.
   - Install packages: `npm install`
   - Start the app: `npm start` (defaults to port `3000`)
   - Duplicate `.env.example` and rename to `.env`
-  - `client` defaults to port 3000
 - Update `.env` files in `/server` and `/client` with the correct URLs (i.e. `http://localhost:5000`, `http://localhost:3000`)
 - Video API used is hosted at `https://video-meta.herokuapp.com/`
   - Responds to multiple endpoints
