@@ -17,7 +17,7 @@ const VideoSearch = ({ addVideoToQueue, playVideoFromSearch, updateVideoProps })
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const [page, setPage] = useState(1);
-    const baseURL = process.env.REACT_APP_YT_API;
+    const baseURL = process.env.REACT_APP_VIDEO_API;
     const lastSearch = useRef('');
 
     const handlePlay = async (event) => {
